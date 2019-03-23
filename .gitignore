@@ -9,6 +9,8 @@
 
 #Ignore Config File
 GreyAnatomyFanSite/GreyAnatomyFanSite/Tools/PassConnection.cs
+GreyAnatomyFanSite/Tools/PassConnection.cs
+PassConnection.cs
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
