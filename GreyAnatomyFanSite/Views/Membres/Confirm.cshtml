@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<div class=" row">
+
+    <div class="col-lg-3">
+
+    </div>
+
+    @if (Model == null)
+    {
+        <div class=" col-lg-6">
+            <div class=" alert-danger">
+                <h2 class="MailSend">Echec de l'identification. Essayes de copier le lien directement dans ton navigateur.</h2>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class=" col-lg-6">
+            <div class=" alert-success">
+                <h2 class="MailSend">Merci @Model.Pseudo de t'être enregistré sur Grey-Anatomy-Fan.Fr</h2>
+                <p class="MailSend">Tu peux maintenant t'identifier et ainsi vivre ta passion de Grey's Anatomy parmi notre communauté.</p>
+            </div>
+        </div>
+    }
+</div>
+
+<div class=" row">
+    <div class="col-lg-5">
+
+    </div>
+    <div class="col-lg-3">
+        <div class="GoToLogin">
+            <a asp-area="" asp-controller="Membres" asp-action="Login"><img class="GoToLogin" src="~/images/Tools/login-logo.png" asp-append-version="true"></a>
+
+        </div>
+    </div>
+
+</div>

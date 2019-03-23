@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "S'enregistrer";
+}
+
+
+<div class="row">
+    <div class=" col-lg-3">
+
+    </div>
+    <div class="col-lg-6">
+
+        @if ((ViewBag.errors != null))
+        {
+            if ((ViewBag.errors as List<string>).Count > 0)
+            {
+                <div class="row">
+                    <div class="col-lg-12 alert alert-danger">
+                        <div class="Errors">
+                            @foreach (string e in (ViewBag.errors as List<string>))
+                            {
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @e
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+</div>
+<div class="row">
+    <div class=" col-lg-3">
+
+    </div>
+    <div class="col-lg-6">
+        <div class="Inscription">
+            <div class="row">
+                <h2 class="col-lg-12">Inscription</h2>
+            </div>
+
+
+            <form asp-controller="Membres" asp-action="RegisterPost" method="post">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" class="form-control" value="@Model.Pseudo" name="pseudo" placeholder="Votre Pseudo" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" class="form-control" value="@Model.Mail" name="mail" placeholder="Votre Email" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="password" class="form-control" value="@Model.Password" name="password" placeholder="Votre mot de passe (entre 8 et 15 caractères dont minimum 1 majuscule, 1 chiffre et 1 caractère spécial)" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="password" class="form-control" name="cPassword" placeholder="Confirmation du mot de passe" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button class="form-control btn btn-default" type="submit">S'inscrire</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

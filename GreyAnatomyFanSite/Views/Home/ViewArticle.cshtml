@@ -1,0 +1,48 @@
+﻿@using System.Globalization
+
+@{
+    ViewData["Title"] = Model.Titre;
+    ViewData["MetaKeywords"] = Model.Titre;
+    ViewData["MetaDescription"] = Model.Texte;
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10 thumbnail">
+        <div class="col-xs-4">
+            <div>
+                <img class="center-block img-responsive" src="~/@Model.Photo" />
+                <div class="row">
+                    <div class="col-xs-12 DateListeArticles">
+                        Posté le
+                        @Model.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                        <br>
+                        par @Model.Auteur.Pseudo
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+
+            <h2>
+                @Model.Titre
+            </h2>
+
+
+            <p>
+                @Html.Raw(Model.Texte.Replace(Environment.NewLine, "<br/>"))
+            </p>
+
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-xs-offset-9">
+                <div class="col-lg-6 margBtn">
+                    <div class="fb-share-button" data-href="https://www.greys-anatomy-fans.com/Home/ViewArticle/@Model.Id" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.greys-anatomy-fans.com%2FHome%2FViewArticle%2F @Model.Id &amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

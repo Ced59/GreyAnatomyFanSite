@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row">
+    <div class=" col-lg-3">
+
+    </div>
+    <div class="col-lg-6">
+
+        @if ((ViewBag.errors != null))
+        {
+            if ((ViewBag.errors as List<string>).Count > 0)
+            {
+                <div class="row">
+                    <div class="col-lg-12 alert alert-danger">
+                        <div class="Errors">
+                            @foreach (string e in (ViewBag.errors as List<string>))
+                            {
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @e
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        @if ((ViewBag.ChangePassOk != null))
+        {
+            <div class="row">
+                <div class="col-lg-12 alert alert-success">
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @ViewBag.ChangePassOk
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+
+</div>
+
+
+
+<div class=" row">
+    <div class=" col-lg-3">
+
+    </div>
+    <div class="col-lg-6">
+        <div class="Login">
+            <div class="row">
+                <h2 class="col-lg-12">Se connecter</h2>
+            </div>
+            <form asp-controller="Membres" asp-action="LoginPost">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" class="form-control" name="mail" value=@ViewBag.Mail placeholder="Votre Adresse Mail" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button class="form-control btn btn-default" type="submit">Se connecter</button>
+                    </div>
+                </div>
+            </form>
+
+            <a asp-area="" asp-controller="Membres" asp-action="ChangePassword">Mot de passe oublié?</a>
+
+        </div>
+    </div>
+</div>
+
+

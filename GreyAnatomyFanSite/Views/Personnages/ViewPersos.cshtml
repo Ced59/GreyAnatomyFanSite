@@ -1,0 +1,84 @@
+﻿@using GreyAnatomyFanSite.Models.Persos
+
+@{
+    ViewData["Title"] = "Liste des Personnages";
+    ViewData["MetaDescription"] = "Liste des personnages de la série Grey's Anatomy.";
+    int Id = 0;
+}
+
+
+@model List<Personnage>
+
+
+
+
+<section class="row">
+    <section class="col-lg-offset-2 col-lg-7">
+
+
+
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Liste des Personnages</h4>
+            </caption>
+
+            @if (Model.Count == 0)
+            {
+                <tbody>
+                    <tr>
+
+                        <td>
+                            Pas de personnage enregistré.
+                        </td>
+                    </tr>
+                </tbody>
+            }
+            else
+            {
+
+                <thead>
+                    <tr>
+                        <th class="col-xs-2">Id</th>
+                        <th class="col-xs-5">Nom du Personnage:</th>
+                        <th class="col-xs-5">Acteur:</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (Personnage p in Model)
+                    {
+                        Id++;
+                        <tr class="CentreTableau">
+
+                            <td>N°: @Id</td>
+
+                            <td>
+                                <img class="img-circle imgMini" src="~/@p.Photos[0].Url" alt="@p.Nom" />
+                                <span>     </span>
+                                <a asp-area="" asp-controller="Personnages" asp-action="ViewPersonnageID" asp-route-id="@p.Id">@p.Nom @p.Prenoms[0].Prenom</a>
+                            </td>
+                            <td><a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur"> @p.NomActeur @p.PrenomActeur</a></td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            }
+
+        </table>
+
+    </section>
+
+</section>
+
+<section class="row">
+    <div class="col-xs-offset-3 col-xs-7">
+        <h4>A Venir:</h4>
+        <ul>
+            <li>Ajout de tous les personnages</li>
+            <li>Tri des personnages selon plusieurs critères</li>
+            <li>Ect Ect...</li>
+        </ul>
+    </div>
+
+</section>

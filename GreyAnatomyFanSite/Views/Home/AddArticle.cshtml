@@ -1,0 +1,59 @@
+﻿@using GreyAnatomyFanSite.Models.Site
+
+@{
+
+    ViewData["Title"] = "Ecrire Article";
+
+}
+
+
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+        <div class="row">
+            <h2 class="col-lg-12">Ajouter un Article</h2>
+        </div>
+        <form asp-controller="Home" asp-action="AddArticlePost" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group">
+                    <label for="nom">Titre : </label>
+                    <input type="text" class="form-control" name="titre" placeholder="Titre" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="text">Texte : </label>
+                    <textarea type="text" class="form-control" name="text" placeholder="Texte de l'article"></textarea>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="category">Catégorie : </label>
+                    <select name="idCategory" class="form-control">
+
+                        @foreach (CategoryArticle c in Model)
+                        {
+                            <option value="@c.Id">@c.TitreCategory</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="media">Photo ou Vidéo : </label>
+                    <input type="file" class="form-control" name="media">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

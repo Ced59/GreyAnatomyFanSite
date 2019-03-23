@@ -1,0 +1,99 @@
+﻿body {
+    background-color: #E2EAF7;
+}
+
+.AvatarDescription
+{
+    width: 100%;
+}
+
+
+.imgMini {
+    width: 30px;
+}
+
+
+.LiensModif
+{
+    margin-top: 10px
+}
+
+.imgArticle img {
+    width: 100%;
+    margin: 5px;
+}
+
+.btn-articles{
+    margin: 5px;
+}
+
+.margBtn
+{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+
+.titrearticles {
+    color: royalblue;
+}
+
+
+.articles {
+    
+}
+
+.titreArticle {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px;
+    background-color: #BFCEE5;
+    color: #FFF
+}
+
+.DateListeArticles {
+    margin: 5px;
+    padding-top: 5px;
+}
+
+.navbar-default {
+    /* Couleur de fond de la barre de navigation */
+    background-color: #BFCEE5;
+    border-color: #E7E7E7;
+}
+
+
+    /* Couleur des titres affichés dans la barre */
+    .navbar-default .navbar-brand {
+        color: royalblue;
+    }
+
+        /* Couleur utilisée lors du passage de la souris sur un titre de la barre */
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: orangered;
+        }
+
+    /* Couleur utilisée pour les liens */
+    .navbar-default .navbar-nav > li > a {
+        color: royalblue;
+    }
+        /* Couleur utilisée pour les liens lorsque la souris passe dessus */
+        .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus {
+            color: orangered;
+        }
+
+    /* Couleur utilisée pour un menu dépliant lorsqu'il est ouvert */
+    .navbar-default .navbar-nav > .open > a,
+    .navbar-default .navbar-nav > .open > a:hover,
+    .navbar-default .navbar-nav > .open > a:focus {
+        color: #555;
+        background-color: #E2EAF7;
+    }
+
+.CentreTableau
+{
+    text-align: center;
+}

@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135612138-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-135612138-1');
+    </script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6133442493690802",
+            enable_page_level_ads: true
+        });
+    </script>
+
+
+    
+
+
+    <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="//smarticon.geotrust.com/si.js"></SCRIPT> @*Integration certificat SSL*@
+
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="viewport" content="width=device-width" />
+
+
+    <title>@ViewData["Title"]</title>
+
+    <meta name="keywords" content="Greys, Anatomy, Série, Fans, TF1, @ViewData["MetaKeywords"]" />
+    <meta name="description" content="@ViewData["MetaDescription"]" />
+
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/js/bootstrap.min.js" />
+    <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<body>
+
+
+
+    <div class="container">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Grey's Anatomy Fans</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Les Actus</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">La Série<span class="caret"></span></a>
+
+
+
+
+                            <ul class="dropdown-menu">
+
+                                <li><a asp-area="" asp-controller="Serie" asp-action="Index">La Série</a></li>
+                                <li><a asp-area="" asp-controller="Personnages" asp-action="Index">Les Personnages</a></li>
+                                <li><a asp-area="" asp-controller="Acteurs" asp-action="Index">Les Acteurs</a></li>
+                                <li><a asp-area="" asp-controller="Relations" asp-action="Index">Les Relations</a></li>
+                                <li><a asp-area="" asp-controller="Patients" asp-action="Index">Les Patients</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li><a asp-area="" asp-controller="Photos" asp-action="Home">Les Photos</a></li>
+                        <li><a asp-area="" asp-controller="Videos" asp-action="Home">Les Vidéos</a></li>
+
+                        @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration<span class="caret"></span></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Membres">Administration Membres</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Site">Administration Site</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Persos">Administration Persos</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Serie">Administration Série</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Articles">Articles</a></li>
+
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+
+
+
+                        @if (ViewBag.Logged == true)
+                        {
+                            <li><a asp-controller="Membres" asp-action="Show"> Bonjour @ViewBag.MessageBonjour</a></li>
+                            <li><a asp-controller="Membres" asp-action="LogOut"><span class=" glyphicon-log-out"></span>Log out</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Membres" asp-action="Register"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
+                            <li><a asp-area="" asp-controller="Membres" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <a asp-area="" asp-controller="Home" asp-action="Index"><img class="img-responsive center-block" src="~/images/SiteImg/bannieregreysanatomy.jpg" alt="Banniere" /></a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="pub_entete">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- PubEntete -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-6133442493690802"
+                     data-ad-slot="7161171851"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+
+
+
+
+
+        @RenderBody();
+
+
+
+        <footer class="panel-footer">
+            <div>
+                Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique
+            </div>
+        </footer>
+
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.2"></script>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+
+    </div>
+</body>
+</html>

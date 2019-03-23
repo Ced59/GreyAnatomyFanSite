@@ -1,0 +1,256 @@
+﻿@using GreyAnatomyFanSite.Models.Persos
+@using GreyAnatomyFanSite.Models.Site
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Grey's Anatomy";
+
+    List<Personnage> Annivs = new List<Personnage>();
+
+    foreach (Personnage p in Model.BirthDatesActeurs)
+    {
+        if (String.Format("{0:dd/MM}", p.DateNaissance) == String.Format("{0:dd/MM}", DateTime.Now))
+        {
+            Annivs.Add(p);
+        }
+    }
+}
+
+
+
+
+@if (Annivs.Count != 0)
+{
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 thumbnail">
+            @foreach (Personnage p in Annivs)
+            {
+                <img src="~/images/Emoticones/gateauAnniversaire.png" /><span class="CentreTableau">  Aujourd'hui nous fêtons les @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", p.DateNaissance)))) ans de @p.PrenomActeur @p.NomActeur incarnant @p.Prenoms[0].Prenom @p.Nom .</span><br>
+            }
+        </div>
+    </div>
+}
+
+
+<div class="col-lg-offset-1 col-lg-10 articles">
+    <div>
+
+        <h1 class="titrearticles">Actualités:</h1>
+
+        @foreach (Article a in Model.Articles)
+        {
+            <div class="row annonce thumbnail">
+                <div class="col-md-2">
+                    <div class="imgArticle">
+                        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Photo" /></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-lg-12 titreArticle">
+                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">@a.Titre</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @if (a.Texte.Length > 400)
+                            {
+                                @Html.Raw(a.Texte.Substring(0, 400).Replace(Environment.NewLine, "<br/>"))
+
+                                <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">(...) Voir la suite</a>
+
+
+                            }
+                            else
+                            {
+                                @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-default btn-articles" asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">Detail</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 DateListeArticles">
+                            Posté le
+                            @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container">
+        <div class=" col-lg-offset-3 col-lg-6">
+            <ul class="pagination">
+
+
+                @if (Model.PagePagination > 1)
+                {
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination - 1)">&laquo;</a></li>
+                }
+
+                @for (int i = 1; i <= Model.NbrePagePagination; i++)
+                {
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@i">@i</a></li>
+                }
+
+                @if (Model.PagePagination < Model.NbrePagePagination)
+                {
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination + 1)">&raquo;</a></li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4 thumbnail">
+        <p>
+            Ici se trouveront à terme les Actualités concernant la série!
+            <br>
+            En ce 13/03/2019, pour la première diffusion de la quinzième saison de la série sur TF1, je partage pour la première fois le lien de ce site.
+            <br>
+            Le développement est loin, très loin d'être terminé, mais vous, premiers visiteurs, pourrez vous faire une toute première idée de ce qu'il donnera!
+            <br>
+            L'enregistrement et le login sont fonctionnels, vous pouvez donc d'ores et déjà vous enregistrer afin de vivre avec moi les étapes de construction de ce site, qui est mon tout premier de cette importance!!
+            <br>
+            La liste des personnages est également accessible, ainsi que leur fiche individuelle (pas encore totalement terminée). Par contre seuls quelques personnages ont été entré pour le moment, mais celà viendra ;-)
+            <br>
+            Vous pouvez également me faire part de vos suggestions, remarques, signalement de bugs (beaucoup de pages n'ont pas été écrites donc l'erreur 404 est normale à ce stade) à mon adresse Mail c.caudron59@gmail.com, ou par message privé sur la page Facebook Greys Anatomy Series.
+            <br>
+            En vous souhaitant une bonne (petite) visite, en espérant à terme former une grande communauté autour de Grey's Anatomy, je vous souhaite une très bonne quinzième saison!!
+            <br>
+            Longue Vie à Grey's Anatomy!!!!
+        </p>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+        <h1>
+            Ce site Web est actuellement en cours de développement.
+        </h1>
+        <p>
+            Il n'est pour le moment qu'au tout début de son développement. Les fonctionnalités seront ajoutées petit à petit, ainsi qu'une refonte graphique totale.
+            <br />
+            Merci de votre compréhension.
+        </p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+        <ul>
+            <li>
+                <h3>
+                    Update 22/03/2019
+                </h3>
+                <ul>
+                    <li>Implémentation de la pagination des articles. </li>
+                    <li>Correction des problèmes de saut de lignes dans les articles</li>
+                    <li>Ajout de la fonctionnalité "Partager sur Facebook" dans les articles</li>
+                    <li>Limitation du nombre de caractères (400) dans la description des articles sur la page d'accueil</li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+        <ul>
+            <li>
+                <h3>
+                    Update 15/03/2019
+                </h3>
+                <ul>
+                    <li>Implémentation de l'ajout des articles et de leurs catégories. (coté Admin)</li>
+                    <li>Amélioration mineure de l'affichage des fiches membres</li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+        <ul>
+            <li>
+                <h3>
+                    Update 14/03/2019
+                </h3>
+                <ul>
+                    <li>Intégration du certificat SSL (chiffrage des données pour la sécurité)</li>
+                    <li>Correction divers problèmes d'affichages mineurs</li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+        <ul>
+            <li>
+                <h3>
+                    Update 13/03/2019
+                </h3>
+                <ul>
+                    <li>Ajout des personnages fonctionnel (coté Admin)</li>
+                    <li>Liste des personnages fonctionnelle</li>
+                    <li>Fonctionnalité permettant d'afficher sur la page d'accueil un message le jour de l'anniversaire des acteurs implémentée</li>
+                    <li>Amélioration du rendu mobile (Responsive Design)</li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+        <ul>
+            <li>
+                <h3>
+                    Update 06/03/2019
+                </h3>
+                <p>
+                    L'enregistrement et le login des membres sont fonctionnels.
+                    <br />
+                    Vous pouvez dès maintenant vous enregistrer et vous identifier.
+                </p>
+            </li>
+        </ul>
+
+
+    </div>
+</div>

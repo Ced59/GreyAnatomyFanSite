@@ -1,0 +1,130 @@
+﻿@using GreyAnatomyFanSite.Models.Site
+@using System.Globalization
+
+@{
+
+    ViewData["Title"] = "Administration Articles";
+    int Id = 0;
+    int Id2 = 0;
+}
+
+
+
+
+
+
+
+<section class="row">
+    <section class="col-lg-offset-2 col-lg-7">
+
+
+
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Liste des Catégories</h4>
+            </caption>
+
+            @if (Model.Categories.Count == 0)
+            {
+                <tbody>
+                    <tr>
+
+                        <td>
+                            Pas de catégorie enregistrée.
+                        </td>
+                    </tr>
+                </tbody>
+            }
+            else
+            {
+                <thead>
+                    <tr class="CentreTableau">
+                        <th class="col-xs-2">Id</th>
+                        <th class="col-xs-5">Catégorie:</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (CategoryArticle c in Model.Categories)
+                    {
+                        Id++;
+                        <tr class="CentreTableau">
+
+                            <td>N°: @Id</td>
+
+                      
+                            <td><a asp-area="" asp-controller="Home" asp-action="ModifCategory" asp-route-id="@c.Id">@c.TitreCategory</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            }
+
+        </table>
+
+
+        <a asp-area="" asp-controller="Home" asp-action="AddCategory">Ajouter une Catégorie</a>
+    </section>
+
+
+</section>
+
+
+<section class="row">
+    <section class="col-lg-offset-2 col-lg-7">
+
+
+
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Liste des Articles</h4>
+            </caption>
+
+            @if (Model.Articles.Count == 0)
+            {
+                <tbody>
+                    <tr>
+
+                        <td>
+                            Pas d'article enregistré.
+                        </td>
+                    </tr>
+                </tbody>
+            }
+            else
+            {
+                <thead>
+                    <tr class="CentreTableau">
+                        <th class="col-xs-1">Id</th>
+                        <th class="col-xs-3">Date de publication:</th>
+                        <th class="col-xs-4">Titre:</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (Article a in Model.Articles)
+                    {
+                        Id2++;
+                        <tr class="CentreTableau">
+
+                            <td>N°: @Id2</td>
+
+                            <td>Publié le @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+
+                            <td><a asp-area="" asp-controller="Home" asp-action="ModifArticle" asp-route-id="@a.Id">@a.Titre</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            }
+
+        </table>
+
+
+        <a asp-area="" asp-controller="Home" asp-action="AddArticle">Ajouter un Article</a>
+    </section>
+
+
+</section>

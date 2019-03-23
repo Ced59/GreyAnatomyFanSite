@@ -1,0 +1,26 @@
+﻿
+@using GreyAnatomyFanSite.Models
+
+
+@{
+    ViewData["Title"] = "Mail envoyé";
+}
+
+
+
+<div class=" row">
+
+    <div class="col-lg-3">
+
+    </div>
+
+    <div class=" col-lg-6">
+        <div class=" alert-success">
+            <h2 class="MailSend">Merci de vous être enregistré sur Grey-Anatomy-Fan.Fr</h2>
+            <p class="MailSend">Un Email de confirmation a été envoyé à @Model.Mail</p>
+            <p class="MailSend">Pour activer votre compte, merci de cliquer sur le lien contenu dans cet Email.</p>
+            <p class="MailSend">Pensez à vérifier vos Spams si vous n'avez pas reçu l'Email.</p>
+        </div>
+    </div>
+
+</div>
