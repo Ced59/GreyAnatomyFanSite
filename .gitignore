@@ -7,7 +7,7 @@
 *.userosscache
 *.sln.docstates
 
-# Ignore File Config
+#Ignore Config File
 GreyAnatomyFanSite/GreyAnatomyFanSite/Tools/PassConnection.cs
 
 # User-specific files (MonoDevelop/Xamarin Studio)
