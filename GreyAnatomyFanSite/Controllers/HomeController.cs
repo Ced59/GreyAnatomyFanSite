@@ -15,7 +15,7 @@ namespace GreyAnatomyFanSite.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index(int pagination)
+        public IActionResult Index(int pagination, int category)
         {
              
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -24,7 +24,9 @@ namespace GreyAnatomyFanSite.Controllers
             Personnage p = new Personnage();
             List<Personnage> Acteurs = p.GetAllPersos();
             Article a = new Article();
-            int NbreArticles = a.GetNbreArticles();
+            CategoryArticle ca = new CategoryArticle();
+
+            int NbreArticles = a.GetNbreArticles(category);
             int nbrePagesPagination;
 
             if (NbreArticles == 0)
@@ -50,7 +52,7 @@ namespace GreyAnatomyFanSite.Controllers
                 paginationGetArticles = pagination - 1;
             }
 
-            HomeViewModel viewModel = new HomeViewModel { BirthDatesActeurs = Acteurs, Articles = a.GetAllArticles(paginationGetArticles), NbrePagePagination = nbrePagesPagination, PagePagination = pagination};  
+            HomeViewModel viewModel = new HomeViewModel { BirthDatesActeurs = Acteurs, Articles = a.GetAllArticles(paginationGetArticles, category), NbrePagePagination = nbrePagesPagination, PagePagination = pagination, CategoryArticles = ca.GetAllCategory()};  
 
 
 
@@ -91,7 +93,7 @@ namespace GreyAnatomyFanSite.Controllers
                 Article a = new Article();
                 List<Article> articles = new List<Article>();
 
-                ArticlesCategoriesViewModel viewModel = new ArticlesCategoriesViewModel { Categories = c.GetAllCategory(), Articles = a.GetAllArticles(pagination) }; // Ajouter liste articles plus tard
+                ArticlesCategoriesViewModel viewModel = new ArticlesCategoriesViewModel { Categories = c.GetAllCategory(), Articles = a.GetAllArticles(pagination, null) }; // Ajouter liste articles plus tard
 
                 return View("ListArticles", viewModel);
             }
@@ -153,7 +155,7 @@ namespace GreyAnatomyFanSite.Controllers
             mediaArticle.AddMediaArticle();
 
 
-            ArticlesCategoriesViewModel viewModel = new ArticlesCategoriesViewModel { Categories = c.GetAllCategory(), Articles = a.GetAllArticles(null) };
+            ArticlesCategoriesViewModel viewModel = new ArticlesCategoriesViewModel { Categories = c.GetAllCategory(), Articles = a.GetAllArticles(null, null) };
 
             return View("ListArticles", viewModel);
 
