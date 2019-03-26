@@ -88,7 +88,7 @@ namespace GreyAnatomyFanSite.Models
                 command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = article.Id });
                 reader = (SqlDataReader)command.ExecuteReader();
                 reader.Read();
-                article.Photo = reader.GetString(1);
+                article.Media = reader.GetString(1);
                 reader.Close();
                 command.Dispose();
 
@@ -154,7 +154,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 request = " ";
             }
-            
+
             List<Article> articles = new List<Article>();
 
             IDbCommand command = new SqlCommand("SELECT * FROM Articles AS a INNER JOIN MediasArticles AS m ON a.Id = m.IdArticle" + request + "ORDER BY DatePubli DESC OFFSET @Pagination ROWS FETCH NEXT 10 ROWS ONLY", (SqlConnection)ConnectionSerie.Instance);
@@ -171,7 +171,18 @@ namespace GreyAnatomyFanSite.Models
                 CategoryArticle c = new CategoryArticle { Id = reader.GetInt32(3) };
                 Membres m = new Membres { IdMembre = reader.GetInt32(4) };
 
-                Article a = new Article { Id = reader.GetInt32(0), Titre = reader.GetString(1), Texte = reader.GetString(2), Categorie = c, Auteur = m, Date = reader.GetDateTime(5), Photo = reader.GetString(7) };
+                Article a = new Article { Id = reader.GetInt32(0), Titre = reader.GetString(1), Texte = reader.GetString(2), Categorie = c, Auteur = m, Date = reader.GetDateTime(5), Media = reader.GetString(7) };
+
+
+                if ((reader.GetString(7).Contains(".png") || reader.GetString(7).Contains(".jpg") || reader.GetString(7).Contains(".jpeg")))
+                {
+                    a.TypeMedia = "image";
+                }
+
+                if ((reader.GetString(7).Contains(".mp4") || reader.GetString(7).Contains(".avi") || reader.GetString(7).Contains(".mpg")))
+                {
+                    a.TypeMedia = "video";
+                }
 
                 articles.Add(a);
             }

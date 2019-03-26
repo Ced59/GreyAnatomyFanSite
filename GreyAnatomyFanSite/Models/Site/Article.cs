@@ -10,23 +10,23 @@ namespace GreyAnatomyFanSite.Models.Site
         private int id;
         private string titre;
         private string texte;
-        private string photo;
+        private string media;
         private Membres auteur;
         private List<Commentaire> commentaires;
         private DateTime date;
         private CategoryArticle categorie;
-        
+        private string typeMedia;
         
 
         public int Id { get => id; set => id = value; }
         public string Titre { get => titre; set => titre = value; }
         public string Texte { get => texte; set => texte = value; }
-        public string Photo { get => photo; set => photo = value; }
+        public string Media { get => media; set => media = value; }
         public Membres Auteur { get => auteur; set => auteur = value; }
         public List<Commentaire> Commentaires { get => commentaires; set => commentaires = value; }
         public DateTime Date { get => date; set => date = value; }
         public CategoryArticle Categorie { get => categorie; set => categorie = value; }
-        
+        public string TypeMedia { get => typeMedia; set => typeMedia = value; }
 
         public int GetNbreArticles(int? IdCategory)
         {
