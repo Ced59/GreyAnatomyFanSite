@@ -10,7 +10,19 @@
     <div class="col-md-offset-1 col-md-10 thumbnail">
         <div class="col-xs-4">
             <div>
-                <img class="center-block img-responsive" src="~/@Model.Photo" />
+
+                @if (Model.TypeMedia == "video")
+                {
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="~/@Model.Media"></iframe>
+                    </div>
+                }
+                else
+                {
+                    <img class="center-block img-responsive" src="~/@Model.Media" />
+                }
+
+
                 <div class="row">
                     <div class="col-xs-12 DateListeArticles">
                         Posté le

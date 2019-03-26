@@ -59,10 +59,20 @@
             <div class="row annonce thumbnail">
                 <div class="col-md-2">
 
-                    
+
 
                     <div class="imgArticle">
-                        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" /></a>
+
+                        @if (a.TypeMedia == "video")
+                        {
+                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/images/Tools/videosImg.jpg" /></a>
+                        }
+                        else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
+                        {
+                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" /></a>
+                        }
+
+
                     </div>
                 </div>
                 <div class="col-md-8">

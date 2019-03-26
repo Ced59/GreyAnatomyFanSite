@@ -89,6 +89,20 @@ namespace GreyAnatomyFanSite.Models
                 reader = (SqlDataReader)command.ExecuteReader();
                 reader.Read();
                 article.Media = reader.GetString(1);
+                if ((reader.GetString(1).Contains(".png") || reader.GetString(1).Contains(".jpg") || reader.GetString(1).Contains(".jpeg")))
+                {
+                    article.TypeMedia = "image";
+                }
+
+                else if ((reader.GetString(1).Contains(".mp4") || reader.GetString(1).Contains(".avi") || reader.GetString(1).Contains(".mpg")))
+                {
+                    article.TypeMedia = "video";
+                }
+
+                else
+                {
+                    article.TypeMedia = "autre";
+                }
                 reader.Close();
                 command.Dispose();
 
@@ -179,9 +193,14 @@ namespace GreyAnatomyFanSite.Models
                     a.TypeMedia = "image";
                 }
 
-                if ((reader.GetString(7).Contains(".mp4") || reader.GetString(7).Contains(".avi") || reader.GetString(7).Contains(".mpg")))
+                else if ((reader.GetString(7).Contains(".mp4") || reader.GetString(7).Contains(".avi") || reader.GetString(7).Contains(".mpg")))
                 {
                     a.TypeMedia = "video";
+                }
+
+                else
+                {
+                    a.TypeMedia = "autre";
                 }
 
                 articles.Add(a);
