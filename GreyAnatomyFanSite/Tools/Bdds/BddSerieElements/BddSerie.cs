@@ -107,32 +107,62 @@ namespace GreyAnatomyFanSite.Models
 
         #region GetNbreArticle
 
-        public int GetNbreArticles()
+        public int GetNbreArticles(int? IdCategory)
         {
-            IDbCommand command = new SqlCommand("SELECT COUNT (*) FROM Articles", (SqlConnection)ConnectionSerie.Instance);
-            ConnectionSerie.Instance.Open();
-            int NbreArticles = (int)command.ExecuteScalar();
-            command.Dispose();
-            ConnectionSerie.Instance.Close();
-            return NbreArticles;
+
+            if ((IdCategory == 0) || (IdCategory == null))
+            {
+                IDbCommand command = new SqlCommand("SELECT COUNT (*) FROM Articles", (SqlConnection)ConnectionSerie.Instance);
+                ConnectionSerie.Instance.Open();
+                int NbreArticles = (int)command.ExecuteScalar();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+                return NbreArticles;
+            }
+
+            else
+            {
+                IDbCommand command = new SqlCommand("SELECT COUNT (*) FROM Articles WHERE IdCategorie = @Id", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = IdCategory });
+                ConnectionSerie.Instance.Open();
+                int NbreArticles = (int)command.ExecuteScalar();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+                return NbreArticles;
+            }
+
         }
 
         #endregion
 
         #region Get All Articles
 
-        public List<Article> GetAllArticles(int? pagination)
+        public List<Article> GetAllArticles(int? pagination, int? category)
         {
             if (pagination == null)
             {
                 pagination = 0;
             }
 
+            string request;
+
+            if ((category != null) && (category != 0))
+            {
+                request = " WHERE IdCategorie = @IdCategorie ";
+            }
+            else
+            {
+                request = " ";
+            }
             
             List<Article> articles = new List<Article>();
 
-            IDbCommand command = new SqlCommand("SELECT * FROM Articles AS a INNER JOIN MediasArticles AS m ON a.Id = m.IdArticle ORDER BY DatePubli DESC OFFSET @Pagination ROWS FETCH NEXT 10 ROWS ONLY", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM Articles AS a INNER JOIN MediasArticles AS m ON a.Id = m.IdArticle" + request + "ORDER BY DatePubli DESC OFFSET @Pagination ROWS FETCH NEXT 10 ROWS ONLY", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@Pagination", SqlDbType.Int) { Value = (pagination * 10) });
+            if ((category != null) && (category != 0))
+            {
+                command.Parameters.Add(new SqlParameter("@IdCategorie", SqlDbType.Int) { Value = category });
+            }
             ConnectionSerie.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 

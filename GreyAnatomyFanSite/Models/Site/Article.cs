@@ -28,9 +28,9 @@ namespace GreyAnatomyFanSite.Models.Site
         public CategoryArticle Categorie { get => categorie; set => categorie = value; }
         
 
-        public int GetNbreArticles()
+        public int GetNbreArticles(int? IdCategory)
         {
-            return BddSerie.Instance.GetNbreArticles();
+            return BddSerie.Instance.GetNbreArticles(IdCategory);
         }
 
 
@@ -39,9 +39,9 @@ namespace GreyAnatomyFanSite.Models.Site
             return BddSerie.Instance.AddArticle(this);
         }
 
-        public List<Article> GetAllArticles(int? pagination)
+        public List<Article> GetAllArticles(int? pagination, int? category)
         {
-            return BddSerie.Instance.GetAllArticles(pagination);
+            return BddSerie.Instance.GetAllArticles(pagination, category);
         }
 
         public List<Article> GetArticlesByCategory()

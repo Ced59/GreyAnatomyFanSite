@@ -33,9 +33,26 @@
 
 
 <div class="col-lg-offset-1 col-lg-10 articles">
-    <div>
+    <div class="col-md-4 category">
 
         <h1 class="titrearticles">Actualités:</h1>
+        <form asp-controller="Home" asp-action="Index" method="get">
+            <label for="category">Trier les articles par catégorie : </label>
+
+            <select name="category" class="form-control">
+                <option value=0>Toutes</option>
+                @foreach (CategoryArticle c in Model.CategoryArticles)
+                {
+                    <option value=@c.Id>@c.TitreCategory</option>
+                }
+            </select>
+            <button class="form-control btn btn-default" type="submit">Trier</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+
+
 
         @foreach (Article a in Model.Articles)
         {

@@ -547,6 +547,7 @@ namespace GreyAnatomyFanSite.Controllers
             }
         }
 
+
         private void UserConnect(dynamic v)
         {
             bool? logged = Convert.ToBoolean(HttpContext.Session.GetString("logged"));
