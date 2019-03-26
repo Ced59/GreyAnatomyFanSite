@@ -22,7 +22,7 @@
     </script>
 
 
-    
+
 
 
     <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="//smarticon.geotrust.com/si.js"></SCRIPT> @*Integration certificat SSL*@
@@ -174,10 +174,11 @@
 
 
 
-        <footer class="panel-footer">
-            <div>
-                Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique
-            </div>
+        <footer class="panel-footer col-xs-12">
+
+            Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique<br>
+            <a asp-area="" asp-controller="Update" asp-action="Index">Updates du site</a>
+
         </footer>
 
         <div id="fb-root"></div>
