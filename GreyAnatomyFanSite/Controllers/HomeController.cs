@@ -81,8 +81,8 @@ namespace GreyAnatomyFanSite.Controllers
 
             foreach (Personnage p in Persos)
             {
-                a.Texte = a.Texte.Replace(p.Prenoms[0].Prenom, "<a href=\"https://http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Prenoms[0].Prenom + "</a>");
-                a.Texte = a.Texte.Replace(p.Nom, "<a href=\"https://http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
+                a.Texte = a.Texte.Replace(p.Prenoms[0].Prenom, "<a href=\"https://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Prenoms[0].Prenom + "</a>");
+                a.Texte = a.Texte.Replace(p.Nom, "<a href=\"https://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
             }
 
             return View("ViewArticle", a);
