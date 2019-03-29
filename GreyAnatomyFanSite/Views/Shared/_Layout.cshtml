@@ -54,7 +54,21 @@
     <title>@ViewData["Title"]</title>
 
     <meta name="keywords" content="Greys, Anatomy, Série, Fans, TF1, @ViewData["MetaKeywords"]" />
-    <meta name="description" content="@ViewData["MetaDescription"]" />
+
+
+    @if (Convert.ToString(ViewData["MetaDescription"]).Length > 150)
+    {
+        
+        <meta name="description" content="@Convert.ToString(ViewData["MetaDescription"]).Substring(0, 150)" />
+
+    }
+    else
+    {
+        <meta name="description" content="@ViewData["MetaDescription"]" />
+    }
+
+
+
 
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
