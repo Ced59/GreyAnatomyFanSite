@@ -9,232 +9,307 @@
 
 <url>
   <loc>http://www.greys-anatomy-fans.com/</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Serie</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Membres/Register</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Membres/Login</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/8</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/6</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/4</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/3</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/2</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Home/ViewArticle/1</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/?pagination=1</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.greys-anatomy-fans.com/?pagination=2</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://www.greys-anatomy-fans.com/?pagination=3</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <loc>http://www.greys-anatomy-fans.com/Update</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/23</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/2</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/24</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/3</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/25</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/4</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/26</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/5</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/27</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/6</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/28</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/7</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/29</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/8</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/30</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/9</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/31</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/10</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/32</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/11</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/33</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/12</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/35</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/14</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/36</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/15</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/37</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/16</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/38</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/17</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/39</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/18</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/40</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/19</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/41</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/20</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/42</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/21</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/43</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/22</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/44</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/23</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/45</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/24</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/46</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.greys-anatomy-fans.com/Acteurs/ViewActeurID/25</loc>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>http://www.greys-anatomy-fans.com/Membres/ChangePassword</loc>
-  <lastmod>2019-03-22T16:49:30+00:00</lastmod>
+  <lastmod>2019-03-26T19:59:30+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
