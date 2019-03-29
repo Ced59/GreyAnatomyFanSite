@@ -39,14 +39,14 @@
         <form asp-controller="Home" asp-action="Index" method="get">
             <label for="category">Trier les articles par catégorie : </label>
 
-            <select name="category" class="form-control">
+            <select name="category" class="form-control-sm">
                 <option value=0>Toutes</option>
                 @foreach (CategoryArticle c in Model.CategoryArticles)
                 {
                     <option value=@c.Id>@c.TitreCategory</option>
                 }
             </select>
-            <button class="form-control btn btn-default" type="submit">Trier</button>
+            <button class="form-control-sm btn btn-default" type="submit">Trier</button>
         </form>
     </div>
 

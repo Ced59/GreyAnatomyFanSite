@@ -11,6 +11,7 @@ using GreyAnatomyFanSite.ViewModels;
 using GreyAnatomyFanSite.Models.Site;
 using System.IO;
 
+
 namespace GreyAnatomyFanSite.Controllers
 {
     public class HomeController : Controller
@@ -72,6 +73,8 @@ namespace GreyAnatomyFanSite.Controllers
             Article a = new Article { Id = id };
 
             a = a.GetArticle();
+            
+            a.Texte = a.Texte.Replace(Environment.NewLine, "<br/>");
 
             return View("ViewArticle", a);
         }
