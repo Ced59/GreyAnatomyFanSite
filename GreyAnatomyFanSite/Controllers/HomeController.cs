@@ -76,6 +76,8 @@ namespace GreyAnatomyFanSite.Controllers
             
             a.Texte = a.Texte.Replace(Environment.NewLine, "<br/>");
 
+            ViewBag.MetaDescription = a.Texte;
+
             Personnage perso = new Personnage();
             List<Personnage> Persos = perso.GetAllPersos();
 
