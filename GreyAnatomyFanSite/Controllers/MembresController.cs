@@ -432,6 +432,14 @@ namespace GreyAnatomyFanSite.Controllers
                     return View("Login");
                 }
 
+                if (m.VerifStatut() == "Inactif")
+                {
+                    errors.Add("Vous devez confirmer votre adresse Mail pour vous connecter.");
+                    ViewBag.errors = errors;
+                    ViewBag.Mail = m.Mail;
+                    return View("Login");
+                }
+
                 else
                 {
                     HttpContext.Session.SetString("logged", "true");

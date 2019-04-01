@@ -85,6 +85,11 @@ namespace GreyAnatomyFanSite.Controllers
                 a.Texte = a.Texte.Replace(p.Nom, "<a href=\"https://www.greys-anatomy-fans.com/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
             }
 
+            a.Texte = a.Texte.Replace("Grey Sloan Memorial", "<a href=\"https://www.greys-anatomy-fans.com/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
+            a.Texte = a.Texte.Replace("Grey Sloan Memorial Hospital", "<a href=\"https://www.greys-anatomy-fans.com/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
+            a.Texte = a.Texte.Replace("Seattle Grace", "<a href=\"https://www.greys-anatomy-fans.com/Serie/Hospital/\">" + "Seattle Grace" + "</a>");
+
+
             return View("ViewArticle", a);
         }
 

@@ -77,6 +77,22 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
+        public string VerifStatut(Membres m)
+        {
+            IDbCommand command = new SqlCommand("SELECT Statut FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
+            command.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = m.Mail });
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            string statut = reader.GetString(0);
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return statut;
+        }
+
+
+
         public Membres GetMembreById(int id)
         {
             IDbCommand command = new SqlCommand("SELECT * FROM Membres WHERE Id = @Id", (SqlConnection)ConnectionUtilisateurs.Instance);

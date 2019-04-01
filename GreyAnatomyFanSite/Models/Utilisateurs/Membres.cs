@@ -52,6 +52,12 @@ namespace GreyAnatomyFanSite.Models
         public string NoUnique { get => noUnique; set => noUnique = value; }
         public int IdMembre { get => idMembre; set => idMembre = value; }
         public DateTime DateInscription { get => dateInscription; set => dateInscription = value; }
+        
+
+        public string VerifStatut()
+        {
+            return BddUtilisateurs.Instance.VerifStatut(this);
+        }
 
         public bool VerifPseudoExist()
         {
