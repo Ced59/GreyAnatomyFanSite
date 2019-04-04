@@ -1,8 +1,8 @@
 ﻿@using System.Globalization
 
 @{
-    ViewData["Title"] = Model.Titre;
-    ViewData["MetaKeywords"] = Model.Titre;
+    ViewData["Title"] = Model.Article.Titre;
+    ViewData["MetaKeywords"] = Model.Article.Titre;
     ViewData["MetaDescription"] = ViewBag.MetaDescription;
 }
 
@@ -11,24 +11,24 @@
         <div class="col-md-4">
             <div>
 
-                @if (Model.TypeMedia == "video")
+                @if (Model.Article.TypeMedia == "video")
                 {
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="~/@Model.Media"></iframe>
+                        <iframe class="embed-responsive-item" src="~/@Model.Article.Media"></iframe>
                     </div>
                 }
                 else
                 {
-                    <img class="center-block img-responsive" src="~/@Model.Media" />
+                    <img class="center-block img-responsive" src="~/@Model.Article.Media" />
                 }
 
 
                 <div class="row">
                     <div class="col-xs-12 DateListeArticles">
                         Posté le
-                        @Model.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                        @Model.Article.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
                         <br>
-                        par @Model.Auteur.Pseudo
+                        par @Model.Article.Auteur.Pseudo
                     </div>
                 </div>
             </div>
@@ -36,12 +36,12 @@
         <div class="col-md-8">
 
             <h2>
-                @Model.Titre
+                @Model.Article.Titre
             </h2>
 
 
             <p>
-                @Html.Raw(Model.Texte)
+                @Html.Raw(Model.Article.Texte)
             </p>
 
         </div>
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-md-offset-9 col-xs-offset-6">
                 <div class="col-lg-6 margBtn">
-                    <div class="fb-share-button" data-href="https://www.greys-anatomy-fans.com/Home/ViewArticle/@Model.Id" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.greys-anatomy-fans.com%2FHome%2FViewArticle%2F @Model.Id &amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
+                    <div class="fb-share-button" data-href="https://www.greys-anatomy-fans.com/Home/ViewArticle/@Model.Article.Id" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.greys-anatomy-fans.com%2FHome%2FViewArticle%2F @Model.Article.Id &amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
                 </div>
             </div>
         </div>

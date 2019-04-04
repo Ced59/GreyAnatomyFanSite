@@ -91,8 +91,12 @@ namespace GreyAnatomyFanSite.Controllers
             a.Texte = a.Texte.Replace("Grey Sloan Memorial Hospital", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Seattle Grace", "<a href=\"/Serie/Hospital/\">" + "Seattle Grace" + "</a>");
 
+            Membres m = new Membres();
 
-            return View("ViewArticle", a);
+            ArticleMembreViewModel viewModel = new ArticleMembreViewModel {Article = a, Membre = m};
+
+
+            return View("ViewArticle", viewModel);
         }
 
 

@@ -3,36 +3,71 @@
 
 @if (!ViewBag.logged)
 {
-    <div class=" row">
-        <div class=" col-lg-3">
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-8">
+            <div class="col-lg-6">
+                <div class="Login">
 
-        </div>
-        <div class="col-lg-6">
-            <div class="Login">
-                <div class="row">
                     <h4 class="col-lg-12 text-warning">Connectez-vous pour laisser un commentaire:</h4>
+
+                    <form asp-controller="Membres" asp-action="LoginPost" method="post" class="form-group-sm">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" name="mail" value=@ViewBag.Mail placeholder="Votre Adresse Mail" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button class="form-control btn btn-default" type="submit">Se connecter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <a asp-area="" asp-controller="Membres" asp-action="ChangePassword">Mot de passe oublié?</a>
+
                 </div>
-                <form asp-controller="Membres" asp-action="LoginPost" class="form-group-sm">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <input type="text" class="form-control" name="mail" value=@ViewBag.Mail placeholder="Votre Adresse Mail" />
-                        </div>
-                    </div>
+            </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="form-control btn btn-default" type="submit">Se connecter</button>
-                        </div>
-                    </div>
-                </form>
 
-                <a asp-area="" asp-controller="Membres" asp-action="ChangePassword">Mot de passe oublié?</a>
+            <div class="col-lg-6">
+                <div class="Inscription">
 
+                    <h4 class="text-warning col-lg-12">Pas encore membre?</h4>
+
+                    <form asp-controller="Membres" asp-action="RegisterPost" method="post" class="form-group-sm">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" value="@Model.Membre.Pseudo" name="pseudo" placeholder="Votre Pseudo" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" value="@Model.Membre.Mail" name="mail" placeholder="Votre Email" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="password" class="form-control" value="@Model.Membre.Password" name="password" placeholder="Votre mot de passe (entre 8 et 15 caractères dont minimum 1 majuscule, 1 chiffre et 1 caractère spécial)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="password" class="form-control" name="cPassword" placeholder="Confirmation du mot de passe" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button class="form-control btn btn-default" type="submit">S'inscrire</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
