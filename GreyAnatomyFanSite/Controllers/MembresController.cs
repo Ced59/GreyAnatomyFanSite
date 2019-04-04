@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Tools;
+using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,7 +91,7 @@ namespace GreyAnatomyFanSite.Controllers
                     return View("ModifAvatar");
                 }
                 string NumeroUnique = Guid.NewGuid().ToString("N");
-                
+
                 if (image.FileName.Contains(".png"))
                 {
                     var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Avatars", m.IdMembre.ToString() + "-" + NumeroUnique + ".png");
@@ -124,8 +125,8 @@ namespace GreyAnatomyFanSite.Controllers
                     HttpContext.Session.SetString("avatar", m.Avatar);
                 }
 
-                
-                
+
+
             }
 
             else
@@ -136,7 +137,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
 
-            
+
 
             UserConnect(ViewBag);
 
@@ -389,7 +390,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginPost(string mail, string password)
+        public IActionResult LoginPost(string mail, string password, string typePubli, int? idPubli)
         {
             List<string> errors = new List<string>();
 
@@ -408,6 +409,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 ViewBag.errors = errors;
                 ViewBag.Mail = mail;
+
+                if (typePubli == "article")
+                {
+                    return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                }
+
                 return View("Login");
             }
             else
@@ -419,6 +426,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Il n'y a pas d'utilisateur avec cette adresse mail / mot de passe.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -429,6 +442,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Il n'y a pas d'utilisateur avec cette adresse mail / mot de passe.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -437,6 +456,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Vous devez confirmer votre adresse Mail pour vous connecter.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -453,6 +478,14 @@ namespace GreyAnatomyFanSite.Controllers
                     option.Expires = DateTime.Now.AddDays(30);
                     option.HttpOnly = true;
                     Response.Cookies.Append("User", m.NoUnique, option);
+
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
+
 
                     return RedirectToRoute(new { controller = "Home", action = "Index" });
                 }

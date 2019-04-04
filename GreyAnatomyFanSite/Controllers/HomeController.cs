@@ -87,13 +87,15 @@ namespace GreyAnatomyFanSite.Controllers
                 a.Texte = a.Texte.Replace(p.Nom, "<a href=\"/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
             }
 
+            a.Texte = a.Texte.Replace("Grey Sloan", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial Hospital", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Seattle Grace", "<a href=\"/Serie/Hospital/\">" + "Seattle Grace" + "</a>");
 
+
             Membres m = new Membres();
 
-            ArticleMembreViewModel viewModel = new ArticleMembreViewModel {Article = a, Membre = m};
+            MembreLoginViewModel viewModel = new MembreLoginViewModel {Article = a, Membre = m};
 
 
             return View("ViewArticle", viewModel);

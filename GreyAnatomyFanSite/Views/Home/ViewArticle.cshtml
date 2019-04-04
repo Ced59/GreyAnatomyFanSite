@@ -4,6 +4,10 @@
     ViewData["Title"] = Model.Article.Titre;
     ViewData["MetaKeywords"] = Model.Article.Titre;
     ViewData["MetaDescription"] = ViewBag.MetaDescription;
+    ViewData["Commentaires"] = Model.Commentaires;
+    ViewData["MembreMail"] = Model.Membre.Mail;
+    ViewData["MembreStatut"] = Model.Membre.Statut;
+    ViewData["IdArticle"] = Model.Article.Id;
 }
 
 <div class="row">
@@ -60,9 +64,11 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-offset-1 col-md-10 thumbnail">
+    <div class="col-xs-offset-1 col-md-10">
         @{
-            await Html.RenderPartialAsync("~/Views/Shared/_CommentairesForm.cshtml");
+ 
+                await Html.RenderPartialAsync("~/Views/Shared/_ListCommentaires.cshtml", ViewBag.Mail, ViewBag.errors);
+   
         }
     </div>
 </div>

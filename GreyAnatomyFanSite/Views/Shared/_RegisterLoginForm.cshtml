@@ -10,18 +10,41 @@
 
                     <h4 class="col-lg-12 text-warning">Connectez-vous pour laisser un commentaire:</h4>
 
+                    @if ((ViewBag.errors != null))
+                    {
+                        if ((ViewBag.errors as List<string>).Count > 0)
+                        {
+                            <div class="row">
+                                <div class="col-lg-12 alert alert-danger">
+                                    <div class="Errors">
+                                        @foreach (string e in (ViewBag.errors as List<string>))
+                                        {
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    @e
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
                     <form asp-controller="Membres" asp-action="LoginPost" method="post" class="form-group-sm">
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" class="form-control" name="mail" value=@ViewBag.Mail placeholder="Votre Adresse Mail" />
+                                <input type="text" class="form-control" name="mail" value="@ViewBag.Mail" placeholder="Votre Adresse Mail" />
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
+                                <input type="hidden" name="typePubli" value="article" />
+                                <input type="hidden" name="idPubli" value="@ViewData["IdArticle"]" />
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <button class="form-control btn btn-default" type="submit">Se connecter</button>
@@ -43,17 +66,17 @@
                     <form asp-controller="Membres" asp-action="RegisterPost" method="post" class="form-group-sm">
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" class="form-control" value="@Model.Membre.Pseudo" name="pseudo" placeholder="Votre Pseudo" />
+                                <input type="text" class="form-control"  name="pseudo" placeholder="Votre Pseudo" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" class="form-control" value="@Model.Membre.Mail" name="mail" placeholder="Votre Email" />
+                                <input type="text" class="form-control"  name="mail" placeholder="Votre Email" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="password" class="form-control" value="@Model.Membre.Password" name="password" placeholder="Votre mot de passe (entre 8 et 15 caractères dont minimum 1 majuscule, 1 chiffre et 1 caractère spécial)" />
+                                <input type="password" class="form-control" name="password" placeholder="Votre mot de passe (entre 8 et 15 caractères dont minimum 1 majuscule, 1 chiffre et 1 caractère spécial)" />
                             </div>
                         </div>
                         <div class="row">
