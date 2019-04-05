@@ -8,6 +8,23 @@
     ViewData["MembreMail"] = Model.Membre.Mail;
     ViewData["MembreStatut"] = Model.Membre.Statut;
     ViewData["IdArticle"] = Model.Article.Id;
+    ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Home/ViewArticle/"+Model.Article.Id+"\" />";
+    ViewData["MetaFacebookType"] = "<meta property=\"og:type\" content=\"article\" />";
+    ViewData["MetaFacebookTitle"] = "<meta property=\"og:title\" content=\"" + Model.Article.Titre + "\" />";
+    ViewData["MetaFacebookDescription"] = "<meta property=\"og:description\" content=\"" + ViewBag.MetaDescription.Substring(0, 120) + "\" />";
+
+    if (Model.Article.TypeMedia == "video")
+    {
+
+        ViewData["MetaFacebookMedia"] = "<meta property=\"og:image\" content=\"https://www.greys-anatomy-fans.com/images/Tools/videosImg.jpg\" />";
+
+    }
+    else
+    {
+        ViewData["MetaFacebookMedia"] = "<meta property=\"og:image\" content=\"https://www.greys-anatomy-fans.com/"+ Model.Article.Media + "\" />";
+
+    }
+
 }
 
 <div class="row">
@@ -66,9 +83,9 @@
 <div class="row">
     <div class="col-xs-offset-1 col-md-10">
         @{
- 
-                await Html.RenderPartialAsync("~/Views/Shared/_ListCommentaires.cshtml", ViewBag.Mail, ViewBag.errors);
-   
+
+            await Html.RenderPartialAsync("~/Views/Shared/_ListCommentaires.cshtml", ViewBag.Mail, ViewBag.errors);
+
         }
     </div>
 </div>
