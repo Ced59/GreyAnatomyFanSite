@@ -14,6 +14,8 @@ namespace GreyAnatomyFanSite.Controllers
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             UserConnect(ViewBag);
+            ViewBag.NbrePagesVues = GetPageVues();
+
 
             return View();
         }
@@ -53,6 +55,12 @@ namespace GreyAnatomyFanSite.Controllers
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);
             return v.GetVisit(v);
+        }
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
     }
 }

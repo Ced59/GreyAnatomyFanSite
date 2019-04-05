@@ -20,6 +20,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
              
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Personnage p = new Personnage();
@@ -68,6 +69,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ViewArticle(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Article a = new Article { Id = id };
@@ -107,6 +109,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Articles(int? pagination)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             List<CategoryArticle> categories = new List<CategoryArticle>();
@@ -133,6 +136,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddArticle()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
@@ -154,6 +158,7 @@ namespace GreyAnatomyFanSite.Controllers
         public async Task<IActionResult> AddArticlePost(string titre, string text, int idCategory, IFormFile media)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             CategoryArticle c = new CategoryArticle { Id = idCategory };
@@ -190,6 +195,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddCategory()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             return View("AddCategory");
@@ -199,6 +205,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddCategoryPost(string nom)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (nom == null)
@@ -249,6 +256,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 v.Logged = false;
             }
+        }
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
 
         private int GetVisitIP()

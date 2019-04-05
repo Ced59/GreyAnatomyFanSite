@@ -30,7 +30,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
 
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres();
             return View(m);
@@ -39,7 +39,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult EditMembre()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -54,7 +54,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ModifAvatar()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -69,7 +69,7 @@ namespace GreyAnatomyFanSite.Controllers
         public async Task<IActionResult> ModifAvatarPost(IFormFile image)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Membres m = new Membres
@@ -152,7 +152,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Show()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -167,7 +167,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult RegisterPost(string pseudo, string mail, string password, string cPassword)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             List<string> errors = new List<string>();
 
@@ -293,7 +293,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Confirm(string id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres { NoUnique = id };
 
@@ -305,6 +305,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ReinitializeLostPassWord(string id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres { NoUnique = id };
 
@@ -326,7 +327,8 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult InitializeNewPassWordPost(string password, string cPassword)
         {
             List<string> errors = new List<string>();
-
+            ViewBag.NbrePagesVues = GetPageVues();
+            ViewBag.NbreVisitUnique = GetVisitIP();
 
             if (password == null)
             {
@@ -384,6 +386,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
 
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
 
             CookieUserExist(ViewBag);
 
@@ -394,6 +397,9 @@ namespace GreyAnatomyFanSite.Controllers
         [HttpPost]
         public IActionResult LoginPost(string mail, string password, string typePubli, int? idPubli)
         {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
             List<string> errors = new List<string>();
 
 
@@ -506,6 +512,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ChangePassword()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             CookieUserExist(ViewBag);
 
             return View("ForgotPassword");
@@ -515,6 +522,8 @@ namespace GreyAnatomyFanSite.Controllers
         [HttpPost]
         public IActionResult ChangePasswordPost(string mail)
         {
+            ViewBag.NbrePagesVues = GetPageVues();
+            ViewBag.NbreVisitUnique = GetVisitIP();
 
             List<string> errors = new List<string>();
 
@@ -590,6 +599,13 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Mail = "Votre Adresse Mail";
 
             }
+        }
+
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
 
 

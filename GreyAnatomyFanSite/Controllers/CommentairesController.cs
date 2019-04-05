@@ -20,7 +20,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddComment(string titre, string text, string typePubli, int idPubli)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Commentaire c = new Commentaire
@@ -102,6 +102,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 v.Logged = false;
             }
+        }
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
     }
 }

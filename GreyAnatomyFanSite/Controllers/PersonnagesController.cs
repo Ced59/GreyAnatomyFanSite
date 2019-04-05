@@ -14,6 +14,8 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Index()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
 
             UserConnect(ViewBag);
 
@@ -29,6 +31,8 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ViewPersonnageID(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
 
             UserConnect(ViewBag);
 
@@ -101,6 +105,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 v.Logged = false;
             }
+        }
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
     }
 }

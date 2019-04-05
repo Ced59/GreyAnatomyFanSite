@@ -36,6 +36,11 @@ namespace GreyAnatomyFanSite.Models
            return BddUtilisateurs.Instance.GetVisit(v);
         }
 
+        public int GetNbrePagesVues()
+        {
+            return BddUtilisateurs.Instance.GetNbrePagesVues();
+        }
+
 
 
 
@@ -72,7 +77,7 @@ namespace GreyAnatomyFanSite.Models
 
         //    Console.WriteLine($"Identification réussie en tant que {m.Statut}");
 
-            
+
 
 
         //}
