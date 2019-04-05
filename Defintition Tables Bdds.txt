@@ -132,9 +132,8 @@ CREATE TABLE [dbo].[Acteurs] (
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-CREATE TABLE [dbo].[Commentaires]
-(
-	[Id] INT NOT NULL PRIMARY KEY, 
+CREATE TABLE [dbo].[Commentaires](
+    [Id] INT IDENTITY (1, 1) NOT NULL, 
     [Titre] VARCHAR(250) NOT NULL, 
     [Texte] TEXT NOT NULL, 
     [Date] DATETIME NOT NULL, 
