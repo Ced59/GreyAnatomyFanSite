@@ -7,7 +7,8 @@
     ViewData["Commentaires"] = Model.Commentaires;
     ViewData["MembreMail"] = Model.Membre.Mail;
     ViewData["MembreStatut"] = Model.Membre.Statut;
-    ViewData["IdArticle"] = Model.Article.Id;
+    ViewData["IdPubli"] = Model.Article.Id;
+    ViewData["TypePubli"] = "article";
     ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Home/ViewArticle/"+Model.Article.Id+"\" />";
     ViewData["MetaFacebookType"] = "<meta property=\"og:type\" content=\"article\" />";
     ViewData["MetaFacebookTitle"] = "<meta property=\"og:title\" content=\"" + Model.Article.Titre + "\" />";

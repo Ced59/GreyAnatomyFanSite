@@ -31,26 +31,27 @@
                         }
                     }
 
-                    <form asp-controller="Membres" asp-action="LoginPost" method="post" class="form-group-sm">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <input type="text" class="form-control" name="mail" value="@ViewBag.Mail" placeholder="Votre Adresse Mail" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
-                                <input type="hidden" name="typePubli" value="article" />
-                                <input type="hidden" name="idPubli" value="@ViewData["IdArticle"]" />
-                            </div>
-                        </div>
+                            <form asp-controller="Membres" asp-action="LoginPost" method="post" class="form-group-sm">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <input type="text" class="form-control" name="mail" value="@ViewBag.Mail" placeholder="Votre Adresse Mail" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <input type="password" class="form-control" name="password" placeholder="Votre Mot de Passe" />
+                                        <input type="hidden" name="typePubli" value="@ViewData["TypePubli"]" />
+                                        <input type="hidden" name="idPubli" value="@ViewData["IdPubli"]" />
+                                    </div>
+                                </div> 
+                                
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <button class="form-control btn btn-default" type="submit">Se connecter</button>
-                            </div>
-                        </div>
-                    </form>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button class="form-control btn btn-default" type="submit">Se connecter</button>
+                                    </div>
+                                </div>
+                            </form>
 
                     <a asp-area="" asp-controller="Membres" asp-action="ChangePassword">Mot de passe oublié?</a>
 
@@ -104,17 +105,14 @@ else
             <form asp-controller="Commentaires" asp-action="AddComment" method="post" class="form-group">
 
                 <div class="form-group">
-
                     <input type="text" class="form-control" name="titre" placeholder="Titre" />
                 </div>
 
-
-
                 <div class="form-group">
-
                     <textarea type="text" class="form-control tailleTexArea" name="text" placeholder="Texte du commentaire"></textarea>
+                    <input type="hidden" name="typePubli" value="@ViewData["TypePubli"]" />
+                    <input type="hidden" name="idPubli" value="@ViewData["IdPubli"]" />
                 </div>
-
 
                 <div class="form-group">
                     <button class="form-control btn btn-default" type="submit">Enregistrer</button>

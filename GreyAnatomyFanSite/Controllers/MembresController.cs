@@ -277,9 +277,11 @@ namespace GreyAnatomyFanSite.Controllers
 
             m.AddMembre();
 
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddDays(30);
-            option.HttpOnly = true;
+            CookieOptions option = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(30),
+                HttpOnly = true
+            };
             Response.Cookies.Append("User", m.NoUnique, option);
 
             var request = Request;
@@ -474,9 +476,11 @@ namespace GreyAnatomyFanSite.Controllers
                     HttpContext.Session.SetString("avatar", m.Avatar);
                     HttpContext.Session.SetString("mail", m.Mail);
 
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddDays(30);
-                    option.HttpOnly = true;
+                    CookieOptions option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30),
+                        HttpOnly = true
+                    };
                     Response.Cookies.Append("User", m.NoUnique, option);
 
 

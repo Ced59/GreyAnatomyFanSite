@@ -30,6 +30,25 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
+        #region AddCommentaire
+
+        public void AddComment(Commentaire commentaire)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO Commentaires (Titre, Texte, Date, IdMembre, TypePubli, IdPubli) VALUES (@Titre, @Texte, @Date, @IdMembre, @TypePubli, @IdPubli)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = commentaire.Titre });
+            command.Parameters.Add(new SqlParameter("@Texte", SqlDbType.Text) { Value = commentaire.Text });
+            command.Parameters.Add(new SqlParameter("@Date", SqlDbType.DateTime) { Value = commentaire.Date });
+            command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = commentaire.IdMembre });
+            command.Parameters.Add(new SqlParameter("@TypePubli", SqlDbType.VarChar) { Value = commentaire.TypePubli });
+            command.Parameters.Add(new SqlParameter("@IdPubli", SqlDbType.Int) { Value = commentaire.IdPubli });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+        }
+
+        #endregion
 
         #region Add Category
 
@@ -45,6 +64,7 @@ namespace GreyAnatomyFanSite.Models
 
             return GetCategories();
         }
+
 
         #endregion
 
