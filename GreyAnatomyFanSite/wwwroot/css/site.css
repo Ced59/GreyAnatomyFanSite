@@ -2,8 +2,12 @@
     background-color: #E2EAF7;
 }
 
-.category
+.tailleTexArea
 {
+    min-height: 150px;
+}
+
+.category {
     margin-bottom: 5px;
 }
 

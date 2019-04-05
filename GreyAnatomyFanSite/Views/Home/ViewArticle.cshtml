@@ -11,7 +11,14 @@
     ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Home/ViewArticle/"+Model.Article.Id+"\" />";
     ViewData["MetaFacebookType"] = "<meta property=\"og:type\" content=\"article\" />";
     ViewData["MetaFacebookTitle"] = "<meta property=\"og:title\" content=\"" + Model.Article.Titre + "\" />";
-    ViewData["MetaFacebookDescription"] = "<meta property=\"og:description\" content=\"" + ViewBag.MetaDescription.Substring(0, 120) + "\" />";
+    if (ViewBag.MetaDescription.Length > 120)
+    {
+        ViewData["MetaFacebookDescription"] = "<meta property=\"og:description\" content=\"" + ViewBag.MetaDescription.Substring(0, 120) + "\" />";
+    }
+    else
+    {
+        ViewData["MetaFacebookDescription"] = "<meta property=\"og:description\" content=\"" + ViewBag.MetaDescription + "\" />";
+    }
 
     if (Model.Article.TypeMedia == "video")
     {
