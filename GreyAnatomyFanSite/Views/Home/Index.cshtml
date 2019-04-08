@@ -61,7 +61,7 @@
                     {
                         <option value=@c.Id>@c.TitreCategory</option>
                     }
-                    
+
                 }
             </select>
             <button class="form-control-sm btn btn-default" type="submit">Trier</button>
@@ -128,6 +128,11 @@
                             Posté le
                             @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
                         </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-md-12 DateListeArticles">
+                            Categorie: @a.Categorie.TitreCategory
+                        </p>
                     </div>
                 </div>
             </div>

@@ -41,13 +41,18 @@ namespace GreyAnatomyFanSite.Models.Site
 
         public List<Article> GetAllArticles(int? pagination, int? category)
         {
-            return BddSerie.Instance.GetAllArticles(pagination, category);
+            List<Article> articles = new List<Article>();             
+            articles = BddSerie.Instance.GetAllArticles(pagination, category);
+
+            foreach (Article a in articles)
+            {
+                a.Categorie = BddSerie.Instance.GetCategorieById(a.Categorie.Id);
+            }
+
+            return articles;
         }
 
-        public List<Article> GetArticlesByCategory()
-        {
-            return BddSerie.Instance.GetArticlesByCategorie();
-        }
+
 
         public Article GetArticle()
         {

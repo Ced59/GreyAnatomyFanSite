@@ -48,6 +48,20 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public CategoryArticle GetCategorieById(int id)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Categories WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            CategoryArticle c = new CategoryArticle { Id = id, TitreCategory = reader.GetString(1)};
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return c;
+        }
+
         #endregion
 
         #region Add Category
@@ -69,10 +83,6 @@ namespace GreyAnatomyFanSite.Models
         #endregion
 
 
-        public List<Article> GetArticlesByCategorie()
-        {
-            throw new NotImplementedException();
-        }
 
         public Article GetArticle(Article article, out int IdAuteur)
         {

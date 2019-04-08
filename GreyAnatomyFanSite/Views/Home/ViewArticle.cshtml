@@ -9,7 +9,7 @@
     ViewData["MembreStatut"] = Model.Membre.Statut;
     ViewData["IdPubli"] = Model.Article.Id;
     ViewData["TypePubli"] = "article";
-    ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Home/ViewArticle/"+Model.Article.Id+"\" />";
+    ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Home/ViewArticle/" + Model.Article.Id + "\" />";
     ViewData["MetaFacebookType"] = "<meta property=\"og:type\" content=\"article\" />";
     ViewData["MetaFacebookTitle"] = "<meta property=\"og:title\" content=\"" + Model.Article.Titre + "\" />";
     if (ViewBag.MetaDescription.Length > 120)
@@ -29,7 +29,7 @@
     }
     else
     {
-        ViewData["MetaFacebookMedia"] = "<meta property=\"og:image\" content=\"https://www.greys-anatomy-fans.com/"+ Model.Article.Media + "\" />";
+        ViewData["MetaFacebookMedia"] = "<meta property=\"og:image\" content=\"https://www.greys-anatomy-fans.com/" + Model.Article.Media + "\" />";
 
     }
 
@@ -53,12 +53,17 @@
 
 
                 <div class="row">
-                    <div class="col-xs-12 DateListeArticles">
+                    <p class="col-xs-12 DateListeArticles">
                         Posté le
                         @Model.Article.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
                         <br>
                         par @Model.Article.Auteur.Pseudo
-                    </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-xs-12 DateListeArticles">
+                        Categorie: @Model.Article.Categorie.TitreCategory
+                    </p>
                 </div>
             </div>
         </div>
