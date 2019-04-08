@@ -2,8 +2,22 @@
     background-color: #E2EAF7;
 }
 
-.category
+.miniTextItalic
 {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.pub_entete {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tailleTextArea {
+    min-height: 150px;
+}
+
+.category {
     margin-bottom: 5px;
 }
 
@@ -17,9 +31,13 @@
     width: 30px;
 }
 
-
-.LiensModif
+.imgMiniCommentaires
 {
+    width: 50px;
+}
+
+
+.LiensModif {
     margin-top: 10px
 }
 

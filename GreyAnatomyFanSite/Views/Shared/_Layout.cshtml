@@ -58,7 +58,7 @@
 
     @if (Convert.ToString(ViewData["MetaDescription"]).Length > 150)
     {
-        
+
         <meta name="description" content="@Convert.ToString(ViewData["MetaDescription"]).Substring(0, 150)" />
 
     }
@@ -67,7 +67,19 @@
         <meta name="description" content="@ViewData["MetaDescription"]" />
     }
 
+    @*Balises meta Facebook pour partage*@
 
+    @if ((string)ViewData["MetaFacebookUrl"] != "")
+    {
+        @Html.Raw(ViewData["MetaFacebookUrl"])
+        @Html.Raw(ViewData["MetaFacebookType"])
+        @Html.Raw(ViewData["MetaFacebookTitle"])
+        @Html.Raw(ViewData["MetaFacebookDescription"])
+        @Html.Raw(ViewData["MetaFacebookMedia"])
+
+    }
+
+    <meta property="fb:app_id" content="374777036701707" />
 
 
 
@@ -79,7 +91,7 @@
 </head>
 <body>
 
-
+   
 
     <div class="container">
 
@@ -191,6 +203,7 @@
         <footer class="panel-footer col-xs-12">
 
             Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique<br>
+            Nombre total de pages vues = @ViewBag.NbrePagesVues<br>
             <a asp-area="" asp-controller="Update" asp-action="Index">Updates du site</a>
 
         </footer>

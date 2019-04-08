@@ -30,6 +30,91 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
+        #region AddCommentaire
+
+        public void AddComment(Commentaire commentaire)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO Commentaires (Titre, Texte, Date, IdMembre, TypePubli, IdPubli) VALUES (@Titre, @Texte, @Date, @IdMembre, @TypePubli, @IdPubli)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = commentaire.Titre });
+            command.Parameters.Add(new SqlParameter("@Texte", SqlDbType.Text) { Value = commentaire.Text });
+            command.Parameters.Add(new SqlParameter("@Date", SqlDbType.DateTime) { Value = commentaire.Date });
+            command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = commentaire.IdMembre });
+            command.Parameters.Add(new SqlParameter("@TypePubli", SqlDbType.VarChar) { Value = commentaire.TypePubli });
+            command.Parameters.Add(new SqlParameter("@IdPubli", SqlDbType.Int) { Value = commentaire.IdPubli });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+        }
+
+        #endregion
+
+        #region GetComments
+
+        public List<Commentaire> GetComments(Commentaire commentaire)
+        {
+            List<Commentaire> Commentaires = new List<Commentaire>();
+            IDbCommand command = new SqlCommand("SELECT * FROM Commentaires WHERE TypePubli = @TypePubli AND IdPubli = @IdPubli ORDER BY Date DESC", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@TypePubli", SqlDbType.VarChar) { Value = commentaire.TypePubli });
+            command.Parameters.Add(new SqlParameter("@IdPubli", SqlDbType.Int) { Value = commentaire.IdPubli });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+            try
+            {
+
+
+                while (reader.Read())
+                {
+                    Commentaire c = new Commentaire { TypePubli = commentaire.TypePubli, IdPubli = commentaire.IdPubli };
+                    c.Titre = reader.GetString(1);
+                    c.Text = reader.GetString(2);
+                    c.Date = reader.GetDateTime(3);
+                    c.IdMembre = reader.GetInt32(4);
+                    Commentaires.Add(c);
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+
+                if (Commentaires.Count == 0)
+                {
+                    return null;
+                }
+                return Commentaires;
+
+            }
+            catch
+            {
+                reader.Close();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+                return null;
+            }
+        }
+
+        #endregion
+
+
+        #region GetCategory by Id
+
+        public CategoryArticle GetCategorieById(int id)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Categories WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            CategoryArticle c = new CategoryArticle { Id = id, TitreCategory = reader.GetString(1) };
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return c;
+        }
+
+        #endregion
+
 
         #region Add Category
 
@@ -46,13 +131,10 @@ namespace GreyAnatomyFanSite.Models
             return GetCategories();
         }
 
+
         #endregion
 
 
-        public List<Article> GetArticlesByCategorie()
-        {
-            throw new NotImplementedException();
-        }
 
         public Article GetArticle(Article article, out int IdAuteur)
         {

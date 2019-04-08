@@ -228,6 +228,27 @@ namespace GreyAnatomyFanSite.Models
         }
 
 
+
+        public int GetNbrePagesVues()
+        {
+            int NbrePagesVues = 0;
+
+            IDbCommand command = new SqlCommand("SELECT NbreVue FROM Visites", (SqlConnection)ConnectionUtilisateurs.Instance);
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            while (reader.Read())
+            {
+                NbrePagesVues = NbrePagesVues + reader.GetInt32(0);
+            }
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return NbrePagesVues;
+        }
+
+
+
+
         public int GetVisit(Visiteur v)
         {
             int IdIp = 0;

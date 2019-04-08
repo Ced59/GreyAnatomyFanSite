@@ -13,6 +13,8 @@ GreyAnatomyFanSite/Tools/PassConnection.cs
 GreyAnatomyFanSite/GreyAnatomyFanSite/PassConnection.cs
 GreyAnatomyFanSite/PassConnection.cs
 PassConnection.cs
+*.sln
+*.pubxml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -266,3 +268,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/GreyAnatomyFanSite/wwwroot/images/MediasArticles

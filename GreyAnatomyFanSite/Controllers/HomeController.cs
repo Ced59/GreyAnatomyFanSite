@@ -20,6 +20,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
              
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Personnage p = new Personnage();
@@ -68,6 +69,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ViewArticle(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Article a = new Article { Id = id };
@@ -87,12 +89,21 @@ namespace GreyAnatomyFanSite.Controllers
                 a.Texte = a.Texte.Replace(p.Nom, "<a href=\"/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
             }
 
+            a.Texte = a.Texte.Replace("Grey Sloan", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial Hospital", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Seattle Grace", "<a href=\"/Serie/Hospital/\">" + "Seattle Grace" + "</a>");
 
 
-            return View("ViewArticle", a);
+            Membres m = new Membres();
+
+            Commentaire c = new Commentaire { TypePubli = "article", IdPubli = id};
+            List<Commentaire> commentaires = c.GetComments();
+
+            MembreLoginViewModel viewModel = new MembreLoginViewModel {Article = a, Membre = m, Commentaires = commentaires };
+
+
+            return View("ViewArticle", viewModel);
         }
 
 
@@ -101,6 +112,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Articles(int? pagination)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             List<CategoryArticle> categories = new List<CategoryArticle>();
@@ -127,6 +139,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddArticle()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
@@ -148,6 +161,7 @@ namespace GreyAnatomyFanSite.Controllers
         public async Task<IActionResult> AddArticlePost(string titre, string text, int idCategory, IFormFile media)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             CategoryArticle c = new CategoryArticle { Id = idCategory };
@@ -184,6 +198,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddCategory()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             return View("AddCategory");
@@ -193,6 +208,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult AddCategoryPost(string nom)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (nom == null)
@@ -243,6 +259,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 v.Logged = false;
             }
+        }
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
 
         private int GetVisitIP()

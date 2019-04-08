@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Tools;
+using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
 
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres();
             return View(m);
@@ -38,7 +39,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult EditMembre()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -53,7 +54,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ModifAvatar()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -68,7 +69,7 @@ namespace GreyAnatomyFanSite.Controllers
         public async Task<IActionResult> ModifAvatarPost(IFormFile image)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             Membres m = new Membres
@@ -90,7 +91,7 @@ namespace GreyAnatomyFanSite.Controllers
                     return View("ModifAvatar");
                 }
                 string NumeroUnique = Guid.NewGuid().ToString("N");
-                
+
                 if (image.FileName.Contains(".png"))
                 {
                     var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Avatars", m.IdMembre.ToString() + "-" + NumeroUnique + ".png");
@@ -124,8 +125,8 @@ namespace GreyAnatomyFanSite.Controllers
                     HttpContext.Session.SetString("avatar", m.Avatar);
                 }
 
-                
-                
+
+
             }
 
             else
@@ -136,7 +137,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
 
-            
+
 
             UserConnect(ViewBag);
 
@@ -151,7 +152,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Show()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
             if (!ViewBag.logged)
@@ -166,7 +167,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult RegisterPost(string pseudo, string mail, string password, string cPassword)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             List<string> errors = new List<string>();
 
@@ -276,9 +277,11 @@ namespace GreyAnatomyFanSite.Controllers
 
             m.AddMembre();
 
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddDays(30);
-            option.HttpOnly = true;
+            CookieOptions option = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(30),
+                HttpOnly = true
+            };
             Response.Cookies.Append("User", m.NoUnique, option);
 
             var request = Request;
@@ -290,7 +293,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult Confirm(string id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
-
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres { NoUnique = id };
 
@@ -302,6 +305,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ReinitializeLostPassWord(string id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
 
             Membres m = new Membres { NoUnique = id };
 
@@ -323,7 +327,8 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult InitializeNewPassWordPost(string password, string cPassword)
         {
             List<string> errors = new List<string>();
-
+            ViewBag.NbrePagesVues = GetPageVues();
+            ViewBag.NbreVisitUnique = GetVisitIP();
 
             if (password == null)
             {
@@ -381,6 +386,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
 
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
 
             CookieUserExist(ViewBag);
 
@@ -389,8 +395,11 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginPost(string mail, string password)
+        public IActionResult LoginPost(string mail, string password, string typePubli, int? idPubli)
         {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
             List<string> errors = new List<string>();
 
 
@@ -408,6 +417,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 ViewBag.errors = errors;
                 ViewBag.Mail = mail;
+
+                if (typePubli == "article")
+                {
+                    return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                }
+
                 return View("Login");
             }
             else
@@ -419,6 +434,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Il n'y a pas d'utilisateur avec cette adresse mail / mot de passe.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -429,6 +450,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Il n'y a pas d'utilisateur avec cette adresse mail / mot de passe.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -437,6 +464,12 @@ namespace GreyAnatomyFanSite.Controllers
                     errors.Add("Vous devez confirmer votre adresse Mail pour vous connecter.");
                     ViewBag.errors = errors;
                     ViewBag.Mail = m.Mail;
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
                     return View("Login");
                 }
 
@@ -449,10 +482,20 @@ namespace GreyAnatomyFanSite.Controllers
                     HttpContext.Session.SetString("avatar", m.Avatar);
                     HttpContext.Session.SetString("mail", m.Mail);
 
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddDays(30);
-                    option.HttpOnly = true;
+                    CookieOptions option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30),
+                        HttpOnly = true
+                    };
                     Response.Cookies.Append("User", m.NoUnique, option);
+
+
+                    if (typePubli == "article")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
+                    }
+
+
 
                     return RedirectToRoute(new { controller = "Home", action = "Index" });
                 }
@@ -469,6 +512,7 @@ namespace GreyAnatomyFanSite.Controllers
         public IActionResult ChangePassword()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
             CookieUserExist(ViewBag);
 
             return View("ForgotPassword");
@@ -478,6 +522,8 @@ namespace GreyAnatomyFanSite.Controllers
         [HttpPost]
         public IActionResult ChangePasswordPost(string mail)
         {
+            ViewBag.NbrePagesVues = GetPageVues();
+            ViewBag.NbreVisitUnique = GetVisitIP();
 
             List<string> errors = new List<string>();
 
@@ -553,6 +599,13 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Mail = "Votre Adresse Mail";
 
             }
+        }
+
+
+        private int GetPageVues()
+        {
+            Visiteur v = new Visiteur();
+            return v.GetNbrePagesVues();
         }
 
 
