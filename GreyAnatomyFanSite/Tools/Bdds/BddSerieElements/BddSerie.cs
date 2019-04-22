@@ -50,6 +50,34 @@ namespace GreyAnatomyFanSite.Models
 
         #endregion
 
+
+        #region GetAllActeursNameFirstName
+
+        public List<Acteur> GetAllActeurs()
+        {
+            List<Acteur> acteurs = new List<Acteur>();
+            IDbCommand command = new SqlCommand("SELECT * FROM Acteurs", (SqlConnection)ConnectionSerie.Instance);
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Acteur a = new Acteur();
+                a.NomActeur = reader.GetString(3);
+                a.PrenomActeur = reader.GetString(4);
+                a.IdActeur = reader.GetInt32(0);
+                acteurs.Add(a);
+            }
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return acteurs;
+        }
+
+
+        #endregion
+
+
         #region GetComments
 
         public List<Commentaire> GetComments(Commentaire commentaire)
