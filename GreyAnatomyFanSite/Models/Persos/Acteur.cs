@@ -29,6 +29,11 @@ namespace GreyAnatomyFanSite.Models.Persos
         {
             return BddSerie.Instance.GetAllActeurs();
         }
+
+        public Acteur GetActeurById()
+        {
+            return BddSerie.Instance.GetActeurById(this);
+        }
     }
 }
 

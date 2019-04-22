@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,14 @@ namespace GreyAnatomyFanSite.Controllers
 
             UserConnect(ViewBag);
 
-            return View("ViewActeur");
+            Acteur a = new Acteur { IdActeur = id };
+            a = a.GetActeurById();
+            Personnage p = new Personnage { Id = a.IdPerso };
+            p = p.GetPersoID(a.IdPerso);
+
+            ActeurViewModel model = new ActeurViewModel { Acteur = a, Perso = p };
+
+            return View("ViewActeur", model);
         }
 
 

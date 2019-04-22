@@ -48,6 +48,25 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public Acteur GetActeurById(Acteur acteur)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Acteurs WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = acteur.IdActeur });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            acteur.NomActeur = reader.GetString(3);
+            acteur.PrenomActeur = reader.GetString(4);
+            acteur.IdPerso = reader.GetInt32(1);
+            acteur.DateNaissance = reader.GetDateTime(2);
+            acteur.BioActeur = reader.GetString(5);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return acteur;
+
+        }
+
         #endregion
 
 
