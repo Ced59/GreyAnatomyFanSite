@@ -89,6 +89,16 @@ namespace GreyAnatomyFanSite.Controllers
                 a.Texte = a.Texte.Replace(p.Nom, "<a href=\"/Personnages/ViewPersonnageID/" + p.Id + "\">" + p.Nom + "</a>");
             }
 
+            Acteur act = new Acteur();
+            List<Acteur> Acteurs = act.GetAllActeurs();
+
+            foreach (Acteur acteur in Acteurs)
+            {
+                a.Texte = a.Texte.Replace(acteur.NomActeur, "<a href=\"/Acteurs/ViewActeurID/" + acteur.IdActeur + "\">" + acteur.NomActeur + "</a>");
+                a.Texte = a.Texte.Replace(acteur.PrenomActeur, "<a href=\"/Acteurs/ViewActeurID/" + acteur.IdActeur + "\">" + acteur.PrenomActeur + "</a>");
+
+            }
+
             a.Texte = a.Texte.Replace("Grey Sloan", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");
             a.Texte = a.Texte.Replace("Grey Sloan Memorial Hospital", "<a href=\"/Serie/Hospital/\">" + "Grey Sloan Memorial Hospital" + "</a>");

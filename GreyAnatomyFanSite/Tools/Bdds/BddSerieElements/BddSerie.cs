@@ -48,7 +48,54 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public Acteur GetActeurById(Acteur acteur)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Acteurs WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = acteur.IdActeur });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            acteur.NomActeur = reader.GetString(3);
+            acteur.PrenomActeur = reader.GetString(4);
+            acteur.IdPerso = reader.GetInt32(1);
+            acteur.DateNaissance = reader.GetDateTime(2);
+            acteur.BioActeur = reader.GetString(5);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return acteur;
+
+        }
+
         #endregion
+
+
+        #region GetAllActeursNameFirstName
+
+        public List<Acteur> GetAllActeurs()
+        {
+            List<Acteur> acteurs = new List<Acteur>();
+            IDbCommand command = new SqlCommand("SELECT * FROM Acteurs", (SqlConnection)ConnectionSerie.Instance);
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Acteur a = new Acteur();
+                a.NomActeur = reader.GetString(3);
+                a.PrenomActeur = reader.GetString(4);
+                a.IdActeur = reader.GetInt32(0);
+                acteurs.Add(a);
+            }
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+            return acteurs;
+        }
+
+
+        #endregion
+
 
         #region GetComments
 

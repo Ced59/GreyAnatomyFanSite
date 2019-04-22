@@ -25,10 +25,17 @@
     }
 
 
+    int Age = DateTime.Now.Year - Model.DateNaissance.Year;
+    DateTime DateAnniv = new DateTime(DateTime.Now.Year, Model.DateNaissance.Month, Model.DateNaissance.Day);
+    if (DateAnniv > DateTime.Now)
+    {
+        Age--;
+    }
+
 
     ViewData["MetaKeywords"] = Model.Nom + ", " + prenoms + ", " + surnoms;
 
-   
+
 }
 
 
@@ -130,21 +137,24 @@
 
                         </td>
                     </tr>
+                    @if (Model.StatutVivant)
+                    {
+                        <tr>
+                            <td>Toujours Présent:</td>
+                            <td>
+                                @if (Model.StatutPresent)
+                                {
+                                    <span>Oui</span>
+                                }
+                                else
+                                {
+                                    <span>Non</span>
+                                }
 
-                    <tr>
-                        <td>Toujours Présent:</td>
-                        <td>
-                            @if (Model.StatutPresent)
-                            {
-                                <span>Oui</span>
-                            }
-                            else
-                            {
-                                <span>Non</span>
-                            }
+                            </td>
+                        </tr>
+                    }
 
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </section>
@@ -164,7 +174,7 @@
                     </tr>
                     <tr>
                         <td>Date de Naissance:  </td>
-                        <td>@String.Format("{0:dd/MM/yyyy}", Model.DateNaissance) - @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", Model.DateNaissance)))) ans</td>
+                        <td>@String.Format("{0:dd/MM/yyyy}", Model.DateNaissance) - @Age ans</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="CentreTableau"><a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@Model.IdActeur">Voir la fiche de l'acteur</a></td>
@@ -174,7 +184,7 @@
         </section>
     </section>
 
-    
+
 
 
 </div>
@@ -197,7 +207,7 @@
                     <td>En construction  </td>
                     <td>En construction</td>
                 </tr>
-                
+
             </tbody>
         </table>
     </section>
@@ -214,6 +224,6 @@
             <li>Et bien d'autres surprises...</li>
         </ul>
     </div>
-    
+
 </section>
 

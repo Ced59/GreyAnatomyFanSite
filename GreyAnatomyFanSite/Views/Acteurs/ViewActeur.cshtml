@@ -1,5 +1,132 @@
-﻿
+﻿@using GreyAnatomyFanSite.Models.Persos
 
-<div class="col-lg-offset-3 col-lg-6">
-    <span>En Construction</span>
+
+
+@{
+    ViewData["Title"] = Model.Acteur.NomActeur + " " + Model.Acteur.PrenomActeur;
+
+    ViewData["MetaDescription"] = Model.Acteur.BioActeur;
+
+
+    int Age = DateTime.Now.Year - Model.Acteur.DateNaissance.Year;
+    DateTime DateAnniv = new DateTime(DateTime.Now.Year, Model.Acteur.DateNaissance.Month, Model.Acteur.DateNaissance.Day);
+    if (DateAnniv > DateTime.Now)
+    {
+        Age--;
+    }
+
+
+    ViewData["MetaKeywords"] = Model.Acteur.NomActeur + ", " + Model.Acteur.PrenomActeur + ", " + Model.Perso.Nom;
+}
+
+<div class="row">
+    <h2 class="col-sm-offset-4 col-sm-4">
+        @Model.Acteur.NomActeur
+
+
+        @Model.Acteur.PrenomActeur 
+
+
+    </h2>
 </div>
+
+
+<div class="row">
+
+    <section class="col-sm-offset-2 col-sm-3">
+        <img src="~/@Model.Perso.Photos[0].Url" alt="@Model.Acteur.PrenomActeur" class="img-thumbnail img-circle">
+    </section>
+
+    <section class="col-sm-7">
+        <section class="col-sm-10">
+            <table class="table table-bordered table-striped">
+                <caption>
+                    <h4>Informations Biographiques</h4>
+                </caption>
+                <tbody>
+                    <tr>
+                        <td class="col-xs-5">Nom:  </td>
+                        <td>@Model.Acteur.NomActeur</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Prénom:  </span>
+                        </td>
+
+                        <td>
+                            @Model.Acteur.PrenomActeur; <br>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Date de Naissance:  </td>
+                        <td>@String.Format("{0:dd/MM/yyyy}", Model.Acteur.DateNaissance) - @Age ans</td>
+                    </tr>
+
+                    <tr>
+                        <td>Personnage dans Grey's Anatomy:  </td>
+                        <td>@Model.Perso.Nom  @Model.Perso.Prenoms[0].Prenom</td>
+                    </tr>
+
+                    <tr>
+                        <td>Toujours Présent:</td>
+                        <td>
+                            @if (Model.Perso.StatutPresent)
+                            {
+                                <span>Oui</span>
+                            }
+                            else
+                            {
+                                <span>Non</span>
+                            }
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+    </section>
+
+
+
+
+</div>
+
+
+<section class="row">
+    <section class="col-xs-offset-1 col-xs-10">
+        <table class="table table-bordered table-striped table-condensed">
+            <caption>
+                <h4>Liste des apparitions: </h4>
+            </caption>
+            <thead>
+                <tr>
+                    <th class="col-xs-5">Saisons</th>
+                    <th class="col-xs-5">Episodes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>En construction  </td>
+                    <td>En construction</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </section>
+</section>
+
+
+<section class="row">
+    <div class="col-xs-offset-3 col-xs-7">
+        <h4>A Venir:</h4>
+        <ul>
+            <li>Biographie de l'acteur</li>
+            <li>Liste des apparitions dans la série</li>
+            <li>Et bien d'autres surprises...</li>
+        </ul>
+    </div>
+
+</section>
+

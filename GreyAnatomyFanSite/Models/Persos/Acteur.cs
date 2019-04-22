@@ -25,9 +25,15 @@ namespace GreyAnatomyFanSite.Models.Persos
         public string Nationalite { get => nationalite; set => nationalite = value; }
         public string VilleNaissance { get => villeNaissance; set => villeNaissance = value; }
 
+        public List<Acteur> GetAllActeurs()
+        {
+            return BddSerie.Instance.GetAllActeurs();
+        }
 
-
-
+        public Acteur GetActeurById()
+        {
+            return BddSerie.Instance.GetActeurById(this);
+        }
     }
 }
 
