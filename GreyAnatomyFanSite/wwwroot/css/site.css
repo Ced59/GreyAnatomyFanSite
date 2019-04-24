@@ -17,6 +17,11 @@
     min-height: 150px;
 }
 
+.marginTop
+{
+    margin-top: 10px;
+}
+
 .category {
     margin-bottom: 5px;
 }
@@ -26,6 +31,10 @@
     width: 100%;
 }
 
+.miniImgArticles
+{
+    width: 80px;
+}
 
 .imgMini {
     width: 30px;

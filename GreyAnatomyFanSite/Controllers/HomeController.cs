@@ -110,7 +110,10 @@ namespace GreyAnatomyFanSite.Controllers
             Commentaire c = new Commentaire { TypePubli = "article", IdPubli = id};
             List<Commentaire> commentaires = c.GetComments();
 
-            MembreLoginViewModel viewModel = new MembreLoginViewModel {Article = a, Membre = m, Commentaires = commentaires };
+
+            List<Article> LastTenArticles = a.GetAllArticles(null, null);
+
+            MembreLoginViewModel viewModel = new MembreLoginViewModel {Article = a, Membre = m, Commentaires = commentaires, Articles = LastTenArticles };
 
 
             return View("ViewArticle", viewModel);

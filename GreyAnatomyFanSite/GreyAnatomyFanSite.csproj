@@ -20,4 +20,19 @@
     <None Include="wwwroot\sitemap.xml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\MediasArticles\1017-b745e1b5176b4d4eb886efca8080c0ed220px-Greys-Anatomy-Season-7-Promo-9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\MediasArticles\2019-231b7cf94349446e842b10394af76332AlexAndJo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\MediasArticles\2020-62e05076a9b24ed2a21114c7e7aafc31220px-Greys-Anatomy-Season-7-Promo-9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\MediasArticles\GreysAnatomySeason1.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
