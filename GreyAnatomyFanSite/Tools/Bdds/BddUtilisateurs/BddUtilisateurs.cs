@@ -42,6 +42,7 @@ namespace GreyAnatomyFanSite.Models
             ConnectionUtilisateurs.Instance.Close();
         }
 
+        
 
         public Membres GetMembreByNo(Membres m)
         {
@@ -246,6 +247,20 @@ namespace GreyAnatomyFanSite.Models
             return NbrePagesVues;
         }
 
+        public int GetIdIpByIp(string remoteIpAddress)
+        {
+            int IdIp = 0;
+            IDbCommand command = new SqlCommand("SELECT Id FROM IP WHERE IP = @IP", (SqlConnection)ConnectionUtilisateurs.Instance);
+            command.Parameters.Add(new SqlParameter("@IP", SqlDbType.VarChar) { Value = remoteIpAddress });
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            IdIp = reader.GetInt32(0);
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return IdIp;
+        }
 
 
 

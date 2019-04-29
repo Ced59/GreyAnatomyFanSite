@@ -28,6 +28,8 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             }
         }
 
+        
+
         public List<Answer> AddAnswer(Answer answer)
         {
             IDbCommand command = new SqlCommand("INSERT INTO Answers (Label, IdSurvey) VALUES (@Label, @IdSurvey)", (SqlConnection)ConnectionSurveys.Instance);
@@ -42,10 +44,61 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             
         }
 
-        public List<Survey> GetAllSurveys()
+        public bool VerifVoteMembre(int idMembre, int idSurvey)
         {
+            IDbCommand command = new SqlCommand("SELECT * FROM AnswerUsers WHERE IdSurvey = @IdSurvey AND IdMembre = @IdMembre", (SqlConnection)ConnectionSurveys.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = idSurvey });
+            command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = idMembre });
+            ConnectionSurveys.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            if (reader.Read())
+            {
+                reader.Close();
+                command.Dispose();
+                ConnectionSurveys.Instance.Close();
+                return true;
+            }
+            else
+            {
+                reader.Close();
+                command.Dispose();
+                ConnectionSurveys.Instance.Close();
+                return false;
+            }
+        }
+
+        public bool VerifVoteIdIp(int idIp, int idSurvey)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM AnswerUsers WHERE IdSurvey = @IdSurvey AND IdIp = @IdIp", (SqlConnection)ConnectionSurveys.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = idSurvey });
+            command.Parameters.Add(new SqlParameter("@IdIp", SqlDbType.Int) { Value = idIp });
+            ConnectionSurveys.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            if (reader.Read())
+            {
+                reader.Close();
+                command.Dispose();
+                ConnectionSurveys.Instance.Close();
+                return true;
+            }
+            else
+            {
+                reader.Close();
+                command.Dispose();
+                ConnectionSurveys.Instance.Close();
+                return false;
+            }
+        }
+
+        public List<Survey> GetAllSurveys(bool? Online)
+        {
+            string Request = " ";
+            if (Online != null)
+            {
+                Request = " WHERE Online = '1' ";
+            }
             List<Survey> surveys = new List<Survey>();
-            IDbCommand command = new SqlCommand("SELECT * FROM Surveys ORDER BY DateCreation DESC", (SqlConnection)ConnectionSurveys.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM Surveys" + Request + "ORDER BY DateCreation DESC", (SqlConnection)ConnectionSurveys.Instance);
             ConnectionSurveys.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
             while (reader.Read())
@@ -125,6 +178,31 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             return survey;
         }
 
+        public void SaveVoteMembre(AnswerByMembre answer)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO AnswerUsers (IdSurvey, IdMembre, IdAnswer) VALUES (@IdSurvey, @IdMembre, @IdAnswer)", (SqlConnection)ConnectionSurveys.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = answer.IdSurvey });
+            command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = answer.IdMembre });
+            command.Parameters.Add(new SqlParameter("@IdAnswer", SqlDbType.Int) { Value = answer.IdAnswer });
+            ConnectionSurveys.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSurveys.Instance.Close();
+
+        }
+
+        public void SaveVoteIdIp(AnswerByIp answer)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO AnswerUsers (IdSurvey, IdIp, IdAnswer) VALUES (@IdSurvey, @IdIp, @IdAnswer)", (SqlConnection)ConnectionSurveys.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = answer.IdSurvey });
+            command.Parameters.Add(new SqlParameter("@IdIp", SqlDbType.Int) { Value = answer.IdIp });
+            command.Parameters.Add(new SqlParameter("@IdAnswer", SqlDbType.Int) { Value = answer.IdAnswer });
+            ConnectionSurveys.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSurveys.Instance.Close();
+        }
+
 
         private List<Answer> GetAnswersById(int IdSurvey)
         {
@@ -142,6 +220,15 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             }
             reader.Close();
             command.Dispose();
+
+            foreach (Answer a in answers)
+            {
+                command = new SqlCommand("SELECT COUNT (*) FROM AnswerUsers WHERE IdAnswer = @IdAnswer", (SqlConnection)ConnectionSurveys.Instance);
+                command.Parameters.Add(new SqlParameter("@IdAnswer", SqlDbType.Int) { Value = a.Id });
+                a.NbreVote = (int)command.ExecuteScalar();
+            }
+            command.Dispose();
+
             return answers;
         }
     }

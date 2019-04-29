@@ -19,27 +19,11 @@ namespace GreyAnatomyFanSite.Controllers
             UserConnect(ViewBag);
 
             Survey s = new Survey();
-            List<Survey> surveys = s.GetAllSurveys();
+            List<Survey> surveys = s.GetAllSurveys(true);
 
             return View("Index", surveys);
         }
 
-        public IActionResult DisplaySurvey(int id)
-        {
-            ViewBag.NbreVisitUnique = GetVisitIP();
-            ViewBag.NbrePagesVues = GetPageVues();
-            UserConnect(ViewBag);
-
-
-            Survey s = new Survey { Id = id };
-            s = s.GetSurvey();
-
-            Membres m = new Membres(); //Récupérer le membre auteur du sondage
-            m = m.GetMembreById(s.IdCreateur);
-
-            SurveyViewModel viewModel = new SurveyViewModel { Survey = s, Membre = m };
-            return View("ViewSurvey", viewModel);
-        }
 
         public IActionResult Admin()
         {
@@ -48,7 +32,7 @@ namespace GreyAnatomyFanSite.Controllers
 
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -60,7 +44,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
             Survey s = new Survey();
-            List<Survey> surveys = s.GetAllSurveys();
+            List<Survey> surveys = s.GetAllSurveys(null);
 
             return View("SurveysAdmin", surveys);
         }
@@ -71,7 +55,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -81,7 +65,7 @@ namespace GreyAnatomyFanSite.Controllers
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
 
-            
+
 
             return View("AddSurvey");
         }
@@ -95,7 +79,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -121,7 +105,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -146,7 +130,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -169,7 +153,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -181,6 +165,7 @@ namespace GreyAnatomyFanSite.Controllers
 
             Survey s = new Survey { Id = idSurvey };
             s.ValidSurvey();
+            s = s.GetSurvey();
 
             return View("ViewSurvey", s);
         }
@@ -191,7 +176,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
 
-            if (!ViewBag.logged)
+            if (!ViewBag.Logged)
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
@@ -205,8 +190,97 @@ namespace GreyAnatomyFanSite.Controllers
             Answer a = new Answer { Id = id, IdSurvey = idSurvey };
             List<Answer> answers = a.DeleteAnswer();
             s = s.GetSurvey();
-            s.Answers = answers;          
+            s.Answers = answers;
             return View("AddSurvey", s);
+        }
+
+        public IActionResult DisplaySurvey(int id)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+
+            Survey s = new Survey { Id = id };
+            s = s.GetSurvey();
+
+            Membres m = new Membres(); //Récupérer le membre auteur du sondage
+            m = m.GetMembreById(s.IdCreateur);
+
+            SurveyViewModel viewModel = new SurveyViewModel { Survey = s, Membre = m };
+
+
+            bool DejaVote; // Vérifier si déjà voté
+            if (ViewBag.Logged) 
+            {
+                AnswerByMembre answer = new AnswerByMembre();
+                int IdMembre = Convert.ToInt32(ViewBag.Id);
+                DejaVote = answer.VerifVoteMembre(IdMembre, id);
+            }
+            else
+            {
+                Visiteur v = new Visiteur();
+                string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
+                AnswerByIp answer = new AnswerByIp();
+                DejaVote = answer.VerifVoteIp(v.GetIdIp(remoteIpAddress), id);
+            }
+
+            if (DejaVote)
+            {
+                List<Survey> surveys = s.GetAllSurveys(true);
+                SurveyResultViewModel result = new SurveyResultViewModel { Survey = s, Surveys = surveys, Membre = m};
+                return View("ResultSurvey", result);
+            }
+
+            return View("ViewSurvey", viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult Vote(int? vote, int idSurvey)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+
+            List<string> errors = new List<string>();
+
+            if (vote == null)
+            {
+                errors.Add("Vous devez cocher une case pour voter!");
+                ViewBag.errors = errors;
+                Survey survey = new Survey { Id = idSurvey };
+                survey = survey.GetSurvey();
+
+                Membres membre = new Membres(); //Récupérer le membre auteur du sondage
+                membre = membre.GetMembreById(survey.IdCreateur);
+                SurveyViewModel viewModel = new SurveyViewModel { Survey = survey, Membre = membre };
+
+                return View("ViewSurvey", viewModel);
+            }
+
+            if (ViewBag.Logged)
+            {
+                AnswerByMembre answer = new AnswerByMembre { IdMembre = Convert.ToInt32(ViewBag.Id), IdSurvey = idSurvey, IdAnswer = (int)vote };
+                answer.SaveVoteMembre();
+            }
+            else
+            {
+                Visiteur v = new Visiteur();
+                string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
+                AnswerByIp answer = new AnswerByIp { IdIp = v.GetIdIp(remoteIpAddress), IdAnswer = (int)vote, IdSurvey = idSurvey };
+                answer.SaveVoteIdIp();
+            }
+
+            Survey s = new Survey { Id = idSurvey };
+            s = s.GetSurvey();
+
+            Membres m = new Membres(); //Récupérer le membre auteur du sondage
+            m = m.GetMembreById(s.IdCreateur);
+            List<Survey> surveys = s.GetAllSurveys(true);
+            SurveyResultViewModel result = new SurveyResultViewModel { Survey = s, Surveys = surveys, Membre = m };
+            return View("ResultSurvey", result);
         }
 
 

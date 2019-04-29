@@ -41,46 +41,15 @@ namespace GreyAnatomyFanSite.Models
             return BddUtilisateurs.Instance.GetNbrePagesVues();
         }
 
-
-
-
-        //public void Login ()
-
-        //{
-        //    Membres m = null;
-
-        //    do
-        //    {
-        //        Console.WriteLine("Veuillez vous identifier");
-        //        Console.WriteLine("Entrez votre pseudo: ");
-        //        string Pseudo = VerifEntry.VerifPseudoExistLogin();
-        //        Console.WriteLine("Entrez votre mot de passe");
-        //        string Password = Console.ReadLine();
-        //        string HashPassword = Crypto.HashMdp(Password);
-        //        m = Bdd.Instance.ComparePassword(Pseudo, HashPassword);
-        //        if (m == null)
-        //        {
-        //            Console.WriteLine("Identification erronée! Veuillez rééssayer!");
-        //        }
-
-        //    } while (m == null);
-
-        //    if (m.Statut == "Modérateur")
-        //    {
-        //        Moderateur mod = new Moderateur(m.Pseudo, m.Avatar, m.Statut);
-        //    }
-        //    else if (m.Statut == "Administrateur")
-        //    {
-        //        Admin ad = new Admin(m.Pseudo, m.Avatar, m.Statut);
-        //    }
-
-
-        //    Console.WriteLine($"Identification réussie en tant que {m.Statut}");
+        public int GetIdIp(string remoteIpAddress)
+        {
+            return BddUtilisateurs.Instance.GetIdIpByIp(remoteIpAddress);
+        }
 
 
 
 
-        //}
+        
 
 
     }

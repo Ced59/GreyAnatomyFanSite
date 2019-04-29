@@ -29,6 +29,27 @@
                 @Model.Survey.Titre
             </h2>
 
+            @if ((ViewBag.errors != null))
+            {
+                if ((ViewBag.errors as List<string>).Count > 0)
+                {
+                    <div class="row">
+                        <div class="col-lg-12 alert alert-danger">
+                            <div class="Errors">
+                                @foreach (string e in (ViewBag.errors as List<string>))
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            @e
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
             <fieldset class="marginTop">
                 <form asp-controller="Surveys" asp-action="Vote" method="post">
                     @foreach (Answer a in Model.Survey.Answers)
@@ -38,6 +59,7 @@
                                 <input type="radio" name="vote" value="@a.Id" id="vote">
                                 @a.Label
                             </label>
+                            <input type="hidden" name="idSurvey" value="@Model.Survey.Id" />
                         </div>
                     }
 

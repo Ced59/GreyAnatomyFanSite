@@ -12,11 +12,13 @@ namespace GreyAnatomyFanSite.Models.Surveys
         private int idSurvey;
         private string label;
         private string image;
+        private int nbreVote;
 
         public int Id { get => id; set => id = value; }
         public int IdSurvey { get => idSurvey; set => idSurvey = value; }
         public string Label { get => label; set => label = value; }
         public string Image { get => image; set => image = value; }
+        public int NbreVote { get => nbreVote; set => nbreVote = value; }
 
         public List<Answer> AddAnswer()
         {

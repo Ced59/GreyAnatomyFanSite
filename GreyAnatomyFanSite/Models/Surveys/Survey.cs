@@ -38,9 +38,9 @@ namespace GreyAnatomyFanSite.Models.Surveys
         public DateTime DateCreation { get => dateCreation; set => dateCreation = value; }
 
 
-        public List<Survey> GetAllSurveys()
+        public List<Survey> GetAllSurveys(bool? online)
         {
-            return BddSurveys.Instance.GetAllSurveys();
+            return BddSurveys.Instance.GetAllSurveys(online);
         }
 
         public Survey AddAsk()
