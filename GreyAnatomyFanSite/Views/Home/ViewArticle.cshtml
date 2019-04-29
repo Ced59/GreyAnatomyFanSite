@@ -95,16 +95,6 @@
     </article>
 </div>
 
-<div class="row">
-    <div class="col-xs-offset-1 col-md-10">
-        @{
-
-            await Html.RenderPartialAsync("~/Views/Shared/_ListCommentaires.cshtml");
-
-        }
-    </div>
-</div>
-
 <legend class="col-xs-offset-1 col-md-10 marginTop">
     Liste des derniers articles:
 </legend>
@@ -115,7 +105,7 @@
     @foreach (Article a in Model.Articles)
     {
         <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="list-group-item">
-            
+
 
             <h4 class="list-group-item-heading">@a.Titre</h4>
 
@@ -145,4 +135,16 @@
     }
 
 </div>
+
+<div class="row">
+    <div class="col-xs-offset-1 col-md-10">
+        @{
+
+            await Html.RenderPartialAsync("~/Views/Shared/_ListCommentaires.cshtml");
+
+        }
+    </div>
+</div>
+
+
 

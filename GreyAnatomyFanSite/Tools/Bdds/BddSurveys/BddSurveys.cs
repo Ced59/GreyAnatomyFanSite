@@ -36,12 +36,40 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             ConnectionSurveys.Instance.Open();
             command.ExecuteNonQuery();
             command.Dispose();
-
-            return GetAnswersById(answer.IdSurvey);
+            List<Answer> answers = GetAnswersById(answer.IdSurvey);
+            ConnectionSurveys.Instance.Close();
+            return answers;
             
         }
 
-        public Survey GetTitle(Survey survey)
+        public List<Survey> GetAllSurveys()
+        {
+            List<Survey> surveys = new List<Survey>();
+            IDbCommand command = new SqlCommand("SELECT * FROM Surveys ORDER BY DateCreation DESC", (SqlConnection)ConnectionSurveys.Instance);
+            ConnectionSurveys.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            while (reader.Read())
+            {
+                Survey s = new Survey();
+                s.Titre = reader.GetString(1);
+                s.Id = reader.GetInt32(0);
+                s.IdCreateur = reader.GetInt32(2);
+                s.Online = ConvertIntBool.ConvertIntToBool(reader.GetInt32(3));
+                s.DateCreation = reader.GetDateTime(4);
+                surveys.Add(s);
+            }
+            reader.Close();
+            command.Dispose();
+
+            foreach (Survey s in surveys)
+            {
+                s.Answers = GetAnswersById(s.Id);
+            }
+            ConnectionSurveys.Instance.Close();
+            return surveys;
+        }
+
+        public Survey GetSurvey(Survey survey)
         {
             Survey s = new Survey();
             IDbCommand command = new SqlCommand("SELECT * FROM Surveys WHERE Id = @Id", (SqlConnection)ConnectionSurveys.Instance);
@@ -52,8 +80,10 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             s.Titre = reader.GetString(1);
             s.Id = reader.GetInt32(0);
             s.IdCreateur = reader.GetInt32(2);
+            s.DateCreation = reader.GetDateTime(4);
             reader.Close();
             command.Dispose();
+            s.Answers = GetAnswersById(s.Id);
             ConnectionSurveys.Instance.Close();
             return s;
 
@@ -61,8 +91,9 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
 
         public void Validation(Survey survey)
         {
-            IDbCommand command = new SqlCommand("UPDATE Surveys SET Online = '1' WHERE Id = @Id", (SqlConnection)ConnectionSurveys.Instance);
+            IDbCommand command = new SqlCommand("UPDATE Surveys SET Online = '1', DateCreation = @DateCreation WHERE Id = @Id", (SqlConnection)ConnectionSurveys.Instance);
             command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = survey.Id });
+            command.Parameters.Add(new SqlParameter("@DateCreation", SqlDbType.DateTime) { Value = DateTime.Now });
             ConnectionSurveys.Instance.Open();
             command.ExecuteNonQuery();
             command.Dispose();
@@ -76,15 +107,17 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             ConnectionSurveys.Instance.Open();
             command.ExecuteNonQuery();
             command.Dispose();
-
-            return GetAnswersById(answer.IdSurvey);
+            List<Answer> answers = GetAnswersById(answer.IdSurvey);
+            ConnectionSurveys.Instance.Close();
+            return answers;
         }
 
         public Survey AddSurvey(Survey survey)
         {
-            IDbCommand command = new SqlCommand("INSERT INTO Surveys (Titre, IdCreateur) OUTPUT INSERTED.ID VALUES (@Titre, @IdCreateur)", (SqlConnection)ConnectionSurveys.Instance);
+            IDbCommand command = new SqlCommand("INSERT INTO Surveys (Titre, IdCreateur, DateCreation) OUTPUT INSERTED.ID VALUES (@Titre, @IdCreateur, @DateCreation)", (SqlConnection)ConnectionSurveys.Instance);
             command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = survey.Titre });
             command.Parameters.Add(new SqlParameter("@IdCreateur", SqlDbType.Int) { Value = survey.IdCreateur });
+            command.Parameters.Add(new SqlParameter("@DateCreation", SqlDbType.DateTime) { Value = DateTime.Now });
             ConnectionSurveys.Instance.Open();
             survey.Id = (int)command.ExecuteScalar();
             command.Dispose();
@@ -109,7 +142,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             }
             reader.Close();
             command.Dispose();
-            ConnectionSurveys.Instance.Close();
             return answers;
         }
     }

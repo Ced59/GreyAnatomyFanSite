@@ -61,8 +61,18 @@
                 </div>
             </form>
 
+            <form asp-controller="Surveys" asp-action="Admin" method="post" class="alert-info">
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Revenir plus tard. Les modifications sont enregistrées!</label>
+                        <button class="form-control btn btn-warning" type="submit">Valider</button>
+                    </div>
+                </div>
+            </form>
+
             <form asp-controller="Surveys" asp-action="ValidSurvey" method="post" class="alert-danger">
-                
+
                 <div class="row">
                     <div class="form-group">
                         <label for="nom">Valider le sondage! Attention il ne pourra plus être modifié une fois en ligne! </label>

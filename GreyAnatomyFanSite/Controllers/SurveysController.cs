@@ -33,7 +33,11 @@ namespace GreyAnatomyFanSite.Controllers
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
 
-            return View("SurveysAdmin");
+
+            Survey s = new Survey();
+            List<Survey> surveys = s.GetAllSurveys();
+
+            return View("SurveysAdmin", surveys);
         }
 
         public IActionResult Add()
@@ -106,8 +110,31 @@ namespace GreyAnatomyFanSite.Controllers
             Answer a = new Answer { IdSurvey = idSurvey, Label = answer };
             List<Answer> answers = a.AddAnswer();
             Survey s = new Survey { Id = idSurvey };
-            s = s.GetTitre();
+            s = s.GetSurvey();
             s.Answers = answers;
+            return View("AddSurvey", s);
+        }
+
+        public IActionResult ModifSurvey(int id)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+            if (!ViewBag.logged)
+            {
+                return RedirectToRoute(new { controller = "Membres", action = "Login" });
+            }
+
+            if ((ViewBag.Statut != "Administrateur") && (ViewBag.Statut != "Coeur"))
+            {
+                return RedirectToRoute(new { controller = "Membres", action = "Login" });
+            }
+
+
+            Survey s = new Survey { Id = id };
+            s = s.GetSurvey();
+
             return View("AddSurvey", s);
         }
 
@@ -133,6 +160,28 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewSurvey", s);
         }
 
+        public IActionResult DisplaySurvey(int id)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+            if (!ViewBag.logged)
+            {
+                return RedirectToRoute(new { controller = "Membres", action = "Login" });
+            }
+
+            if ((ViewBag.Statut != "Administrateur") && (ViewBag.Statut != "Coeur"))
+            {
+                return RedirectToRoute(new { controller = "Membres", action = "Login" });
+            }
+
+            Survey s = new Survey { Id = id };
+            s = s.GetSurvey();
+
+            return View("ViewSurvey", s);
+        }
+
         public IActionResult DeleteAnswer(int id, int idSurvey)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -152,7 +201,7 @@ namespace GreyAnatomyFanSite.Controllers
             Survey s = new Survey { Id = idSurvey };
             Answer a = new Answer { Id = id, IdSurvey = idSurvey };
             List<Answer> answers = a.DeleteAnswer();
-            s = s.GetTitre();
+            s = s.GetSurvey();
             s.Answers = answers;          
             return View("AddSurvey", s);
         }
