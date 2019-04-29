@@ -1,0 +1,35 @@
+﻿@using GreyAnatomyFanSite.Models.Surveys
+@using System.Globalization
+
+
+
+<img class="center-block img-responsive" src="~/images/Tools/sondage.jpg" />
+
+<legend class="col-xs-offset-1 col-md-10 marginTop">
+    Liste des derniers sondages:
+</legend>
+
+
+@if (Model.Count == 0)
+{
+
+    <h1>Pas de sondage enregistré.</h1>
+
+}
+else
+{
+
+    <div class="list-group col-xs-offset-1 col-md-10">
+
+        @foreach (Survey s in Model)
+        {
+            <a asp-area="" asp-controller="Surveys" asp-action="DisplaySurvey" asp-route-id="@s.Id" class="list-group-item">
+                <h3 class="list-group-item-text">@s.Titre</h3>
+            </a>
+        }
+
+    </div>
+}
+
+
+

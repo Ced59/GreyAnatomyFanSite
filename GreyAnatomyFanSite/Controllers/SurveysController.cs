@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Surveys;
+using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,31 @@ namespace GreyAnatomyFanSite.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+            Survey s = new Survey();
+            List<Survey> surveys = s.GetAllSurveys();
+
+            return View("Index", surveys);
+        }
+
+        public IActionResult DisplaySurvey(int id)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+
+
+            Survey s = new Survey { Id = id };
+            s = s.GetSurvey();
+
+            Membres m = new Membres(); //Récupérer le membre auteur du sondage
+            m = m.GetMembreById(s.IdCreateur);
+
+            SurveyViewModel viewModel = new SurveyViewModel { Survey = s, Membre = m };
+            return View("ViewSurvey", viewModel);
         }
 
         public IActionResult Admin()
@@ -156,28 +181,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             Survey s = new Survey { Id = idSurvey };
             s.ValidSurvey();
-
-            return View("ViewSurvey", s);
-        }
-
-        public IActionResult DisplaySurvey(int id)
-        {
-            ViewBag.NbreVisitUnique = GetVisitIP();
-            ViewBag.NbrePagesVues = GetPageVues();
-            UserConnect(ViewBag);
-
-            if (!ViewBag.logged)
-            {
-                return RedirectToRoute(new { controller = "Membres", action = "Login" });
-            }
-
-            if ((ViewBag.Statut != "Administrateur") && (ViewBag.Statut != "Coeur"))
-            {
-                return RedirectToRoute(new { controller = "Membres", action = "Login" });
-            }
-
-            Survey s = new Survey { Id = id };
-            s = s.GetSurvey();
 
             return View("ViewSurvey", s);
         }

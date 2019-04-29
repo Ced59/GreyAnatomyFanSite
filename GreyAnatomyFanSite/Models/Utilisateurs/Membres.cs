@@ -100,19 +100,9 @@ namespace GreyAnatomyFanSite.Models
             return BddUtilisateurs.Instance.GetNoUniqueMembre(this);
         }
 
-        public void AddCommentaire()
+        public Membres GetMembreById(int id)
         {
-
-        }
-
-        public void EditInfo ()
-        {
-
-        }
-
-        public void EditOwnCommentaires()
-        {
-
+            return BddUtilisateurs.Instance.GetMembreById(id);
         }
 
         
