@@ -1,10 +1,10 @@
-﻿using GreyAnatomyFanSite.Interfaces;
+﻿
 using GreyAnatomyFanSite.Tools;
 using System;
 
 namespace GreyAnatomyFanSite.Models
 {
-    public class Membres : Visiteur , IMembres
+    public class Membres : Visiteur
     {
 
         private int idMembre;

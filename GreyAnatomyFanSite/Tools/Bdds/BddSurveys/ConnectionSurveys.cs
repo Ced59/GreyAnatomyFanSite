@@ -1,8 +1,12 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace GreyAnatomyFanSite.Tools.Bdds.BddSerie
+namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
 {
-    public class ConnectionSerie
+    public class ConnectionSurveys
     {
         private static SqlConnection _instance = null;
         private static readonly object _lock = new object();
@@ -15,7 +19,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSerie
                     if (_instance == null)
                     {
 
-                        _instance = new SqlConnection(PassConnection.ConnectionBddSerie());
+                        _instance = new SqlConnection(PassConnection.ConnectionBddSurveys());
 
                         try
                         {
@@ -24,7 +28,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSerie
                         }
                         catch (System.Data.SqlClient.SqlException)
                         {
-                            _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\GreyAnatomyFanSiteWebRelease\GreyAnatomyFanSite\BddsOffline\BddGreyFanSiteSerie.mdf;Integrated Security=True;Connect Timeout=30");
+                            _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\GreyAnatomyFanSiteWebRelease\GreyAnatomyFanSite\BddsOffline\Survey.mdf;Integrated Security=True;Connect Timeout=30");
 
                         }
 
@@ -34,7 +38,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSerie
                 }
             }
         }
-        private ConnectionSerie()
+        private ConnectionSurveys()
         {
 
         }
