@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Site;
+using GreyAnatomyFanSite.Tools;
 using GreyAnatomyFanSite.Tools.Bdds.BddSerie;
 
 namespace GreyAnatomyFanSite.Models
@@ -439,8 +440,8 @@ namespace GreyAnatomyFanSite.Models
 
         public void AddPerso(Personnage p)
         {
-            int present = ConvertBoolToInt(p.StatutPresent);
-            int vivant = ConvertBoolToInt(p.StatutVivant);
+            int present = ConvertIntBool.ConvertBoolToInt(p.StatutPresent);
+            int vivant = ConvertIntBool.ConvertBoolToInt(p.StatutVivant);
 
             IDbCommand command = new SqlCommand("INSERT INTO Persos (Nom, Role, Biographie, StatutVivant, StatutPresent) OUTPUT INSERTED.ID VALUES (@Nom, @Role, @Biographie, @StatutVivant, @StatutPresent)", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = p.Nom });
@@ -810,20 +811,6 @@ namespace GreyAnatomyFanSite.Models
         #endregion
 
 
-        #region Conversion Booléen en Int
-
-        private int ConvertBoolToInt(bool b)
-        {
-            if (b)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        #endregion
+        
     }
 }

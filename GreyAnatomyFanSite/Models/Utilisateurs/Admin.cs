@@ -1,6 +1,4 @@
-﻿using GreyAnatomyFanSite.Interfaces;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GreyAnatomyFanSite.Models
 {
-    public class Admin : Moderateur , IAdministrateurs
+    public class Admin : Moderateur 
     {
 
         public Admin()

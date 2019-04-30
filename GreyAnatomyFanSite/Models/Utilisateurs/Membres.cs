@@ -1,10 +1,10 @@
-﻿using GreyAnatomyFanSite.Interfaces;
+﻿
 using GreyAnatomyFanSite.Tools;
 using System;
 
 namespace GreyAnatomyFanSite.Models
 {
-    public class Membres : Visiteur , IMembres
+    public class Membres : Visiteur
     {
 
         private int idMembre;
@@ -100,19 +100,9 @@ namespace GreyAnatomyFanSite.Models
             return BddUtilisateurs.Instance.GetNoUniqueMembre(this);
         }
 
-        public void AddCommentaire()
+        public Membres GetMembreById(int id)
         {
-
-        }
-
-        public void EditInfo ()
-        {
-
-        }
-
-        public void EditOwnCommentaires()
-        {
-
+            return BddUtilisateurs.Instance.GetMembreById(id);
         }
 
         

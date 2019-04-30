@@ -1,0 +1,90 @@
+﻿@using GreyAnatomyFanSite.Models.Surveys
+
+@{
+
+    ViewData["Title"] = "Ajouter un sondage";
+
+}
+
+
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+        <div class="row">
+            <h2 class="col-lg-12">Ajouter un Sondage</h2>
+        </div>
+
+        @if (Model == null)
+        {
+            <form asp-controller="Surveys" asp-action="AddAsk" method="post">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Question : </label>
+                        <input type="text" class="form-control" name="ask" placeholder="Nouvelle question" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="row">
+                <h3 class="col-lg-12">@Model.Titre</h3>
+            </div>
+
+            @if (Model.Answers != null)
+            {
+                <dl>
+                    @foreach (Answer a in Model.Answers)
+                    {
+                        <dt>@a.Label</dt>
+                        <dd><a asp-area="" asp-controller="Surveys" asp-action="DeleteAnswer" asp-route-id="@a.Id" asp-route-idSurvey="@Model.Id">Supprimer la réponse</a></dd>
+                    }
+                </dl>
+            }
+
+            <form asp-controller="Surveys" asp-action="AddAnswer" method="post">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Ajouter une réponse : </label>
+                        <input type="text" class="form-control" name="answer" placeholder="Nouvelle réponse" />
+                        <input type="hidden" name="idSurvey" value="@Model.Id" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+
+            <form asp-controller="Surveys" asp-action="Admin" method="post" class="alert-info">
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Revenir plus tard. Les modifications sont enregistrées!</label>
+                        <button class="form-control btn btn-warning" type="submit">Valider</button>
+                    </div>
+                </div>
+            </form>
+
+            <form asp-controller="Surveys" asp-action="ValidSurvey" method="post" class="alert-danger">
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Valider le sondage! Attention il ne pourra plus être modifié une fois en ligne! </label>
+                        <input type="hidden" name="idSurvey" value="@Model.Id" />
+                        <button class="form-control btn btn-danger" type="submit">Valider</button>
+                    </div>
+                </div>
+            </form>
+
+        }
+
+
+
+    </div>
+</div>
