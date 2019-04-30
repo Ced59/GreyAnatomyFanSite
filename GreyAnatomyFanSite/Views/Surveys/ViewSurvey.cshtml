@@ -5,7 +5,7 @@
     ViewData["Title"] = Model.Survey.Titre;
     ViewData["MetaKeywords"] = "Sondage";
     ViewData["MetaDescription"] = Model.Survey.Titre + " Sondage";
-    ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Surveys/ViewSurvey/" + Model.Survey.Id + "\" />";
+    ViewData["MetaFacebookUrl"] = "<meta property=\"og:url\" content=\"https://www.greys-anatomy-fans.com/Surveys/DisplaySurvey/" + Model.Survey.Id + "\" />";
     ViewData["MetaFacebookType"] = "<meta property=\"og:type\" content=\"website\" />";
     ViewData["MetaFacebookTitle"] = "<meta property=\"og:title\" content=\"Sondage: "+ Model.Survey.Titre + "\" />";  
     ViewData["MetaFacebookDescription"] = "<meta property=\"og:description\" content=\"Venez répondre au nouveau sondage sur Grey's Anatomy!\" />";
@@ -78,7 +78,7 @@
         <div class="row">
             <div class="col-md-offset-9 col-xs-offset-6">
                 <div class="col-lg-6 margBtn">
-                    <div class="fb-share-button" data-href="https://www.greys-anatomy-fans.com/Surveys/ViewSurvey/@Model.Survey.Id" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.greys-anatomy-fans.com%2FSurveys%2FViewSurvey%2F @Model.Survey.Id &amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
+                    <div class="fb-share-button" data-href="https://www.greys-anatomy-fans.com/Surveys/DisplaySurvey/@Model.Survey.Id" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.greys-anatomy-fans.com%2FSurveys%2FDisplaySurvey%2F @Model.Survey.Id &amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
                 </div>
             </div>
         </div>
