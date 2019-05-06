@@ -29,7 +29,7 @@ namespace GreyAnatomyFanSite.Tools
                         }
                         catch (System.Data.SqlClient.SqlException)
                         {
-                            _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\GreyAnatomyFanSiteWebRelease\GreyAnatomyFanSite\BddsOffline\BddGreyFanSite.mdf;Integrated Security=True;Connect Timeout=30");
+                            _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projets Visual Studio\GreyAnatomyFanSiteWebRelease\GreyAnatomyFanSite\BddsOffline\BddGreyFanSite.mdf;Integrated Security=True;Connect Timeout=30");
 
                         }
 

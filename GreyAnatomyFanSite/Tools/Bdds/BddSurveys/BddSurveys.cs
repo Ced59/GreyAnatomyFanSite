@@ -117,9 +117,19 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             foreach (Survey s in surveys)
             {
                 s.Answers = GetAnswersById(s.Id);
+                s.CountVotes = GetCountVoteByIdSurvey(s.Id);
             }
             ConnectionSurveys.Instance.Close();
             return surveys;
+        }
+
+        private int GetCountVoteByIdSurvey(int id)
+        {
+            IDbCommand command = new SqlCommand("SELECT COUNT(*) FROM AnswerUsers WHERE IdSurvey = @IdSurvey", (SqlConnection)ConnectionSurveys.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = id });
+            int countVotes = (int)command.ExecuteScalar();
+            command.Dispose();
+            return countVotes;
         }
 
         public Survey GetSurvey(Survey survey)
@@ -137,6 +147,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             reader.Close();
             command.Dispose();
             s.Answers = GetAnswersById(s.Id);
+            s.CountVotes = GetCountVoteByIdSurvey(s.Id);
             ConnectionSurveys.Instance.Close();
             return s;
 
