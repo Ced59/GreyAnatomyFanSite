@@ -50,7 +50,7 @@
                 }
                 else
                 {
-                    <img class="center-block img-responsive" src="~/@Model.Article.Media" />
+                    <img class="center-block img-responsive" src="~/@Model.Article.Media" alt="@Model.Article.Titre"/>
                 }
 
 
@@ -71,9 +71,9 @@
         </div>
         <div class="col-md-8">
 
-            <h2>
+            <h1>
                 @Model.Article.Titre
-            </h2>
+            </h1>
 
 
             <p>
@@ -100,41 +100,52 @@
 </legend>
 
 
-<div class="list-group col-xs-offset-1 col-md-10">
+<ul class="media-list col-xs-offset-1 col-md-10">
 
     @foreach (Article a in Model.Articles)
     {
-        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="list-group-item">
+        <li class="media table-bordered">
+            <div class="media-left">
+
+                <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">
+                    @if (a.TypeMedia == "video")
+                    {
+                        <img src="~/images/Tools/videosImg.jpg" class="media-object miniImgArticles" alt="@a.Titre" />
+                    }
+                    else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
+                    {
+                        <img src="~/@a.Media" class="media-object miniImgArticles" alt="@a.Titre" />
+                    }
+
+                </a>
+
+            </div>
+
+            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="media-body thumbnail">
+
+                <h3 class="media-heading">
+                    @a.Titre
+                </h3>
 
 
-            <h4 class="list-group-item-heading">@a.Titre</h4>
+                <p>
+                    @if (a.Texte.Length > 150)
+                    {
+                        @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
 
-            @if (a.TypeMedia == "video")
-            {
-                <img src="~/images/Tools/videosImg.jpg" class="miniImgArticles list-group-item" />
-            }
-            else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
-            {
-                <img src="~/@a.Media" class="miniImgArticles list-group-item" />
-            }
+                    }
+                    else
+                    {
+                        @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
+                    }
+                </p>
 
-            <p class="list-group-item-text marginTop">
+                </a>
 
-                @if (a.Texte.Length > 150)
-                {
-                    @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
-
-                }
-                else
-                {
-                    @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
-                }
-
-            </p>
-        </a>
+</li>
     }
 
-</div>
+</ul>
 
 <div class="row">
     <div class="col-xs-offset-1 col-md-10">

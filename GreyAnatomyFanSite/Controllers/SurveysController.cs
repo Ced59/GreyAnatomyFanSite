@@ -65,8 +65,6 @@ namespace GreyAnatomyFanSite.Controllers
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
 
-
-
             return View("AddSurvey");
         }
 
@@ -97,6 +95,7 @@ namespace GreyAnatomyFanSite.Controllers
 
             return View("AddSurvey", s);
         }
+
 
         [HttpPost]
         public IActionResult AddAnswer(string answer, int idSurvey)
@@ -167,7 +166,13 @@ namespace GreyAnatomyFanSite.Controllers
             s.ValidSurvey();
             s = s.GetSurvey();
 
-            return View("ViewSurvey", s);
+
+            Membres m = new Membres(); //Récupérer le membre auteur du sondage
+            m = m.GetMembreById(s.IdCreateur);
+
+            SurveyViewModel viewModel = new SurveyViewModel { Survey = s, Membre = m };
+
+            return View("ViewSurvey", viewModel);
         }
 
         public IActionResult DeleteAnswer(int id, int idSurvey)
