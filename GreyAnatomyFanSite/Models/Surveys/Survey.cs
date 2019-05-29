@@ -17,6 +17,7 @@ namespace GreyAnatomyFanSite.Models.Surveys
         private int idCreateur;
         private bool online;
         private DateTime dateCreation;
+        private int countVotes;
 
 
         public int Id { get => id; set => id = value; }
@@ -37,6 +38,7 @@ namespace GreyAnatomyFanSite.Models.Surveys
 
         public DateTime DateCreation { get => dateCreation; set => dateCreation = value; }
 
+        public int CountVotes { get => countVotes; set => countVotes = value; }
 
         public List<Survey> GetAllSurveys(bool? online)
         {

@@ -22,6 +22,11 @@
     margin-top: 10px;
 }
 
+.margLeft
+{
+    margin-left: 10px;
+}
+
 .category {
     margin-bottom: 5px;
 }
@@ -33,7 +38,7 @@
 
 .miniImgArticles
 {
-    width: 80px;
+    width: 120px;
 }
 
 .imgMini {
