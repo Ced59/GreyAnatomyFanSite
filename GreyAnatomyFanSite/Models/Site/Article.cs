@@ -47,6 +47,8 @@ namespace GreyAnatomyFanSite.Models.Site
             foreach (Article a in articles)
             {
                 a.Categorie = BddSerie.Instance.GetCategorieById(a.Categorie.Id);
+                Commentaire c = new Commentaire { TypePubli = "Article", IdPubli = a.Id };
+                a.Commentaires = BddSerie.Instance.GetComments(c);
             }
 
             return articles;

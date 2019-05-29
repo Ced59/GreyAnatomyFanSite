@@ -134,6 +134,22 @@
                             Categorie: @a.Categorie.TitreCategory
                         </p>
                     </div>
+                    <div class="row">
+
+                        @if (a.Commentaires == null)
+                        {
+                            <p class="col-md-12 DateListeArticles">
+                                0 Commentaire
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="col-md-12 DateListeArticles">
+                                @a.Commentaires.Count Commentaires
+                            </p>
+                        }
+
+                    </div>
                 </div>
             </div>
         }

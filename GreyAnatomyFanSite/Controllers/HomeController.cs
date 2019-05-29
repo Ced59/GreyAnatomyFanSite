@@ -54,6 +54,8 @@ namespace GreyAnatomyFanSite.Controllers
                 paginationGetArticles = pagination - 1;
             }
 
+            
+
             HomeViewModel viewModel = new HomeViewModel { BirthDatesActeurs = Acteurs, Articles = a.GetAllArticles(paginationGetArticles, category), NbrePagePagination = nbrePagesPagination, PagePagination = pagination, CategoryArticles = ca.GetAllCategory(), ActiveCategory = category};  
 
 
