@@ -24,7 +24,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSerie
                         }
                         catch (System.Data.SqlClient.SqlException)
                         {
-                            _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projets Visual Studio\GreyAnatomyFanSiteWebRelease\GreyAnatomyFanSite\BddsOffline\BddGreyFanSiteSerie.mdf;Integrated Security=True;Connect Timeout=30");
+                            _instance = new SqlConnection(@"Data Source=226114-18021;Initial Catalog=db776017654;Integrated Security=True");
 
                         }
 
