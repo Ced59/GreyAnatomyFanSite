@@ -21,14 +21,14 @@
 
 @if (Annivs.Count != 0)
 {
-    <div class="row">
-        <div class="col-md-offset-2 col-md-8 thumbnail">
-            @foreach (Personnage p in Annivs)
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 thumbnail">
+        @foreach (Personnage p in Annivs)
             {
-                <img src="~/images/Emoticones/gateauAnniversaire.png" /><span class="CentreTableau">  Aujourd'hui nous fêtons les @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", p.DateNaissance)))) ans de @p.PrenomActeur @p.NomActeur incarnant @p.Prenoms[0].Prenom @p.Nom .</span><br>
+        <img src="~/images/Emoticones/gateauAnniversaire.png" /><span class="CentreTableau">  Aujourd'hui nous fêtons les @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", p.DateNaissance)))) ans de @p.PrenomActeur @p.NomActeur incarnant @p.Prenoms[0].Prenom @p.Nom .</span><br>
             }
-        </div>
     </div>
+</div>
 }
 
 
@@ -43,23 +43,23 @@
 
                 @if (Model.ActiveCategory == 0)
                 {
-                    <option value=0 selected>Toutes</option>
+                <option value=0 selected>Toutes</option>
                 }
                 else
                 {
-                    <option value=0>Toutes</option>
+                <option value=0>Toutes</option>
                 }
 
                 @foreach (CategoryArticle c in Model.CategoryArticles)
                 {
                     if (Model.ActiveCategory == c.Id)
                     {
-                        <option value=@c.Id selected>@c.TitreCategory</option>
+                <option value=@c.Id selected>@c.TitreCategory</option>
 
                     }
                     else
                     {
-                        <option value=@c.Id>@c.TitreCategory</option>
+                <option value=@c.Id>@c.TitreCategory</option>
                     }
 
                 }
@@ -74,104 +74,125 @@
 
         @foreach (Article a in Model.Articles)
         {
-            <div class="row annonce thumbnail borderArticle">
-                <div class="col-md-2">
+        <div class="row annonce thumbnail borderArticle">
+            <div class="col-md-2">
 
 
 
-                    <div class="imgArticle">
+                <div class="imgArticle">
 
-                        @if (a.TypeMedia == "video")
+                    @if (a.TypeMedia == "video")
                         {
-                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/images/Tools/videosImg.jpg" alt="@a.Titre" /></a>
+                    <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/images/Tools/videosImg.jpg" alt="@a.Titre" /></a>
                         }
                         else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
                         {
-                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" alt="@a.Titre" /></a>
+                    <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" alt="@a.Titre" /></a>
                         }
 
 
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-lg-12 titreArticle">
+                        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">@a.Titre</a>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-lg-12 titreArticle">
-                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">@a.Titre</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            @if (a.Texte.Length > 400)
+                <div class="row">
+                    <div class="col-xs-12">
+                        @if (a.Texte.Length > 400)
                             {
-                                @Html.Raw(a.Texte.Substring(0, 400).Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Substring(0, 400).Replace(Environment.NewLine, "<br/>"))
 
-                                <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">(...) Voir la suite</a>
+                        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">(...) Voir la suite</a>
 
 
                             }
                             else
                             {
-                                @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
                             }
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a class="btn btn-default btn-articles" asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">Detail</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 DateListeArticles">
-                            Posté le
-                            @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
-                        </div>
-                    </div>
-                    <div class="row">
-                        <p class="col-md-12 DateListeArticles">
-                            Categorie: @a.Categorie.TitreCategory
-                        </p>
-                    </div>
-                    <div class="row">
-
-                        @if (a.Commentaires == null)
-                        {
-                            <p class="col-md-12 DateListeArticles">
-                                0 Commentaire 
-                            </p>
-                        }
-                        else
-                        {
-                            <p class="col-md-12 DateListeArticles">
-                                @a.Commentaires.Count Commentaires
-                            </p>
-                        }
 
                     </div>
                 </div>
             </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a class="btn btn-default btn-articles" asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">Detail</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 DateListeArticles">
+                        Posté le
+                        @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-md-12 DateListeArticles">
+                        Categorie: @a.Categorie.TitreCategory
+                    </p>
+                </div>
+                <div class="row">
+
+                    @if (a.Commentaires == null)
+                        {
+                    <p class="col-md-12 DateListeArticles">
+                        0 Commentaire
+                    </p>
+                        }
+                        else
+                        {
+                    <p class="col-md-12 DateListeArticles">
+                        @a.Commentaires.Count Commentaires
+                    </p>
+                        }
+
+                </div>
+            </div>
+        </div>
         }
     </div>
     <div class="container">
-        <div class=" col-lg-offset-3 col-lg-6">
+        <div class=" col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8">
             <ul class="pagination">
 
 
                 @if (Model.PagePagination > 1)
                 {
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination - 1)">&laquo;</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination - 1)">&laquo;</a></li>
                 }
 
-                @for (int i = 1; i <= Model.NbrePagePagination; i++)
+                @if (Model.NbrePagePagination < 6)
                 {
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@i">@i</a></li>
+                    @for (int i = 1; i <= Model.NbrePagePagination; i++)
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@i">@i</a></li>
+                    }
                 }
+                else
+                {
+                    @if (Model.PagePagination < (Model.NbrePagePagination - 5))
+                    {
+                        @for (int i = Model.PagePagination + 1; i <= (Model.PagePagination + 5); i++)
+                        {
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@i">@i</a></li>
+                        }
+                    }
+                    else
+                    {
+                        @for (int i = (Model.NbrePagePagination - 5); i <= Model.NbrePagePagination; i++)
+                        {
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@i">@i</a></li>
+                        }
+                    }
+                }
+
 
                 @if (Model.PagePagination < Model.NbrePagePagination)
                 {
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination + 1)">&raquo;</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination + 1)">&raquo;</a></li>
                 }
 
             </ul>
