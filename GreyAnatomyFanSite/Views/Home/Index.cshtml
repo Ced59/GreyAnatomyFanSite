@@ -74,7 +74,7 @@
 
         @foreach (Article a in Model.Articles)
         {
-            <div class="row annonce thumbnail">
+            <div class="row annonce thumbnail borderArticle">
                 <div class="col-md-2">
 
 
@@ -83,11 +83,11 @@
 
                         @if (a.TypeMedia == "video")
                         {
-                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/images/Tools/videosImg.jpg" /></a>
+                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/images/Tools/videosImg.jpg" alt="@a.Titre" /></a>
                         }
                         else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
                         {
-                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" /></a>
+                            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id"><img src="~/@a.Media" alt="@a.Titre" /></a>
                         }
 
 

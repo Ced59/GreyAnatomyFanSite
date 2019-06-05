@@ -38,7 +38,7 @@
 }
 
 <div class="row">
-    <article class="col-xs-offset-1 col-md-10 thumbnail">
+    <article class="col-xs-offset-1 col-md-10 thumbnail borderArticle">
         <div class="col-md-4">
             <div>
 
@@ -104,8 +104,8 @@
 
     @foreach (Article a in Model.Articles)
     {
-        <li class="media table-bordered">
-            <div class="media-left">
+        <li class="media borderArticle">
+            <div class="media-left table-bordered">
 
                 <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">
                     @if (a.TypeMedia == "video")
