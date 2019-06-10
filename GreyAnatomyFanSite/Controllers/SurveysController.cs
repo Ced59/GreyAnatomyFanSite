@@ -229,7 +229,28 @@ namespace GreyAnatomyFanSite.Controllers
                 Visiteur v = new Visiteur();
                 string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
                 AnswerByIp answer = new AnswerByIp();
-                DejaVote = answer.VerifVoteIp(v.GetIdIp(remoteIpAddress), id);
+
+                bool VerifByIp = answer.VerifVoteIp(v.GetIdIp(remoteIpAddress), id);
+                bool VerifByCookie;
+
+                if (Request.Cookies["Survey" + id] == null)
+                {
+                    VerifByCookie = false;
+                }
+                else
+                {
+                    VerifByCookie = true;
+                }
+
+                if (VerifByIp && VerifByCookie)
+                {
+                    DejaVote = true;
+                }
+                else
+                {
+                    DejaVote = false;
+                }
+                
             }
 
             if (DejaVote)
@@ -244,6 +265,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
         [HttpPost]
+        [Route("[Controller]/Result")]
         public IActionResult Vote(int? vote, int idSurvey)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -278,6 +300,15 @@ namespace GreyAnatomyFanSite.Controllers
                 string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
                 AnswerByIp answer = new AnswerByIp { IdIp = v.GetIdIp(remoteIpAddress), IdAnswer = (int)vote, IdSurvey = idSurvey };
                 answer.SaveVoteIdIp();
+
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+
+                Response.Cookies.Append("Survey" + idSurvey, Convert.ToString(vote), option);
+
             }
 
             Survey s = new Survey { Id = idSurvey };
