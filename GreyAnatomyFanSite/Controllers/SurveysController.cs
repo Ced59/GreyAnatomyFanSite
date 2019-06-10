@@ -271,6 +271,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
 
             List<string> errors = new List<string>();
