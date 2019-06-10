@@ -15,6 +15,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             UserConnect(ViewBag);
             ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
 
 
             return View();
@@ -49,6 +50,27 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Logged = false;
             }
         }
+
+        private void ConsentCookie(dynamic c)
+        {
+            if (Request.Cookies["ConsentCookies"] == null)
+            {
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+                Response.Cookies.Append("ConsentCookies", "ok", option);
+
+                c.ConsentCookies = "non";
+            }
+
+            else
+            {
+                c.ConsentCookies = "ok";
+            }
+        }
+
 
         private int GetVisitIP()
         {

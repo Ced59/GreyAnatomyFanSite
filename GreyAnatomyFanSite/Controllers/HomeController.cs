@@ -18,10 +18,11 @@ namespace GreyAnatomyFanSite.Controllers
     {
         public IActionResult Index(int pagination, int category)
         {
-             
+
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
             Personnage p = new Personnage();
             List<Personnage> Acteurs = p.GetAllPersos();
@@ -39,12 +40,12 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 nbrePagesPagination = 0;
 
-                while ((NbreArticles) >0)
+                while ((NbreArticles) > 0)
                 {
                     nbrePagesPagination++;
                     NbreArticles = NbreArticles - 10;
                 }
-                
+
             }
 
             int? paginationGetArticles = null;
@@ -54,9 +55,9 @@ namespace GreyAnatomyFanSite.Controllers
                 paginationGetArticles = pagination - 1;
             }
 
-            
 
-            HomeViewModel viewModel = new HomeViewModel { BirthDatesActeurs = Acteurs, Articles = a.GetAllArticles(paginationGetArticles, category), NbrePagePagination = nbrePagesPagination, PagePagination = pagination, CategoryArticles = ca.GetAllCategory(), ActiveCategory = category};  
+
+            HomeViewModel viewModel = new HomeViewModel { BirthDatesActeurs = Acteurs, Articles = a.GetAllArticles(paginationGetArticles, category), NbrePagePagination = nbrePagesPagination, PagePagination = pagination, CategoryArticles = ca.GetAllCategory(), ActiveCategory = category };
 
 
 
@@ -73,11 +74,13 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
 
             Article a = new Article { Id = id };
 
             a = a.GetArticle();
-            
+
             a.Texte = a.Texte.Replace(Environment.NewLine, "<br/>");
 
             ViewBag.MetaDescription = a.Texte;
@@ -109,13 +112,13 @@ namespace GreyAnatomyFanSite.Controllers
 
             Membres m = new Membres();
 
-            Commentaire c = new Commentaire { TypePubli = "article", IdPubli = id};
+            Commentaire c = new Commentaire { TypePubli = "article", IdPubli = id };
             List<Commentaire> commentaires = c.GetComments();
 
 
             List<Article> LastTenArticles = a.GetAllArticles(null, null);
 
-            MembreLoginViewModel viewModel = new MembreLoginViewModel {Article = a, Membre = m, Commentaires = commentaires, Articles = LastTenArticles };
+            MembreLoginViewModel viewModel = new MembreLoginViewModel { Article = a, Membre = m, Commentaires = commentaires, Articles = LastTenArticles };
 
 
             return View("ViewArticle", viewModel);
@@ -129,6 +132,8 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
 
             List<CategoryArticle> categories = new List<CategoryArticle>();
 
@@ -275,6 +280,27 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Logged = false;
             }
         }
+
+        private void ConsentCookie(dynamic c)
+        {
+            if (Request.Cookies["ConsentCookies"] == null)
+            {
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+                Response.Cookies.Append("ConsentCookies", "ok", option);
+
+                c.ConsentCookies = "non";
+            }
+
+            else
+            {
+                c.ConsentCookies = "ok";
+            }
+        }
+
 
         private int GetPageVues()
         {

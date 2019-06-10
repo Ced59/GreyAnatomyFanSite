@@ -17,6 +17,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
             Survey s = new Survey();
             List<Survey> surveys = s.GetAllSurveys(true);
@@ -204,6 +205,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
 
             Survey s = new Survey { Id = id };
@@ -216,7 +218,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
             bool DejaVote; // Vérifier si déjà voté
-            if (ViewBag.Logged) 
+            if (ViewBag.Logged)
             {
                 AnswerByMembre answer = new AnswerByMembre();
                 int IdMembre = Convert.ToInt32(ViewBag.Id);
@@ -233,7 +235,7 @@ namespace GreyAnatomyFanSite.Controllers
             if (DejaVote)
             {
                 List<Survey> surveys = s.GetAllSurveys(true);
-                SurveyResultViewModel result = new SurveyResultViewModel { Survey = s, Surveys = surveys, Membre = m};
+                SurveyResultViewModel result = new SurveyResultViewModel { Survey = s, Surveys = surveys, Membre = m };
                 return View("ResultSurvey", result);
             }
 
@@ -350,5 +352,26 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Logged = false;
             }
         }
+
+        private void ConsentCookie(dynamic c)
+        {
+            if (Request.Cookies["ConsentCookies"] == null)
+            {
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+                Response.Cookies.Append("ConsentCookies", "ok", option);
+
+                c.ConsentCookies = "non";
+            }
+
+            else
+            {
+                c.ConsentCookies = "ok";
+            }
+        }
+
     }
 }

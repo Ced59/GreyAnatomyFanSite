@@ -19,6 +19,8 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
 
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
 
             return View("ViewActeur");
         }
@@ -29,6 +31,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
 
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
             Acteur a = new Acteur { IdActeur = id };
             a = a.GetActeurById();
@@ -103,6 +106,26 @@ namespace GreyAnatomyFanSite.Controllers
         {
             Visiteur v = new Visiteur();
             return v.GetNbrePagesVues();
+        }
+
+        private void ConsentCookie(dynamic c)
+        {
+            if (Request.Cookies["ConsentCookies"] == null)
+            {
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+                Response.Cookies.Append("ConsentCookies", "ok", option);
+
+                c.ConsentCookies = "non";
+            }
+
+            else
+            {
+                c.ConsentCookies = "ok";
+            }
         }
     }
 }
