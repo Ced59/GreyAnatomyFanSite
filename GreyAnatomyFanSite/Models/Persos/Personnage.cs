@@ -47,7 +47,17 @@ namespace GreyAnatomyFanSite.Models.Persos
             BddSerie.Instance.AddPerso(this);
         }
 
-        
+        public Personnage AddPrenom()
+        {
+            BddSerie.Instance.AddPrenom(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddNewPerso()
+        {
+            return BddSerie.Instance.AddNewPerso(this);
+        }
 
         public List<Personnage> GetAllPersos()
         {

@@ -1,8 +1,101 @@
-﻿@{
+﻿@using GreyAnatomyFanSite.Models.Persos
+
+@{
 
     ViewData["Title"] = "Ajouter Personnage";
 
 }
+
+
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+        <div class="row">
+            <h2 class="col-lg-12">Ajouter un Personnage</h2>
+        </div>
+
+        @if (Model == null)
+        {
+            <form asp-controller="Personnages" asp-action="AddPerso" method="post">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Nom : </label>
+                        <input type="text" class="form-control" name="name" placeholder="Nom" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Prénom d'usage : </label>
+                        <input type="text" class="form-control" name="firstname" placeholder="Prenom" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        }
+
+        else
+
+        {
+            <div class="row">
+                <h2 class="col-lg-12">@Model.Nom <span> </span>@Model.Prenoms[0].Prenom</h2>
+            </div>
+
+            <div class="row">
+                <h3>Liste des prénoms:</h3>
+            </div>
+
+            @if (Model.Prenoms == null)
+            {
+                <p>Pas de prénom enregistré</p>
+            }
+            else
+            {
+                <dl>
+                    @foreach (PrenomPerso p in Model.Prenoms)
+                    {
+                        <dt>@p.Prenom</dt>
+                        <dd><a asp-area="" asp-controller="Personnages" asp-action="DeletePrenom" asp-route-id="@p.Id">Supprimer le prénom</a></dd>
+                    }
+                </dl>
+
+                <form asp-controller="Personnages" asp-action="AddFirstName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            }
+
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <div class="row">

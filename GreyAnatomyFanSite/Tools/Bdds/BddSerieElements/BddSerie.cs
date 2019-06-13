@@ -68,6 +68,20 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public void AddPrenom(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = p.Prenoms[0].Prenom });
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+
+
+
         #endregion
 
 
@@ -438,6 +452,31 @@ namespace GreyAnatomyFanSite.Models
 
         #region Ajouter Perso
 
+        public Personnage AddNewPerso(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO Persos (Nom) OUTPUT INSERTED.ID VALUES (@Nom)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = p.Nom });
+            ConnectionSerie.Instance.Open();
+            p.Id = (int)command.ExecuteScalar();
+            command.Dispose();
+
+            foreach (PrenomPerso prenom in p.Prenoms)
+            {
+                command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) OUTPUT INSERTED.ID VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = prenom.Prenom });
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                prenom.Id = (int)command.ExecuteScalar();
+                command.Dispose();
+            }
+            ConnectionSerie.Instance.Close();
+
+            return p;
+        }
+
+
+
+
+
         public void AddPerso(Personnage p)
         {
             int present = ConvertIntBool.ConvertBoolToInt(p.StatutPresent);
@@ -521,26 +560,57 @@ namespace GreyAnatomyFanSite.Models
                 reader.Read();
                 p.Id = id;
                 p.Nom = reader.GetString(1);
-                p.Role = reader.GetString(4);
-                p.Biographie = reader.GetString(5);
 
-                if (reader.GetInt32(2) == 1)
+                try
                 {
-                    p.StatutVivant = true;
+                    p.Role = reader.GetString(4);
                 }
-                else
+                catch
+                {
+                    p.Role = null;
+                }
+                
+                try
+                {
+                    p.Biographie = reader.GetString(4);
+                }
+                catch
+                {
+                    p.Biographie = null;
+                }
+
+                try
+                {
+                    if (reader.GetInt32(2) == 1)
+                    {
+                        p.StatutVivant = true;
+                    }
+                    else
+                    {
+                        p.StatutVivant = false;
+                    }
+                }
+                catch
                 {
                     p.StatutVivant = false;
                 }
-
-                if (reader.GetInt32(3) == 1)
+                
+                try
                 {
-                    p.StatutPresent = true;
+                    if (reader.GetInt32(3) == 1)
+                    {
+                        p.StatutPresent = true;
+                    }
+                    else
+                    {
+                        p.StatutPresent = false;
+                    }
                 }
-                else
+                catch
                 {
                     p.StatutPresent = false;
                 }
+                
             }
             catch
             {
@@ -606,26 +676,40 @@ namespace GreyAnatomyFanSite.Models
             {
                 while (reader.Read())
                 {
-                    Personnage p = new Personnage { Id = reader.GetInt32(0), Nom = reader.GetString(1), Role = reader.GetString(4), Biographie = reader.GetString(5) };
-                    if (reader.GetInt32(2) == 1)
+                    Personnage p = new Personnage { Id = reader.GetInt32(0), Nom = reader.GetString(1) };
+
+                    try
                     {
-                        p.StatutVivant = true;
+                        if (reader.GetInt32(2) == 1)
+                        {
+                            p.StatutVivant = true;
+                        }
+                        else
+                        {
+                            p.StatutVivant = false;
+                        }
                     }
-                    else
+                    catch
                     {
                         p.StatutVivant = false;
                     }
 
-                    if (reader.GetInt32(3) == 1)
+                    try
                     {
-                        p.StatutPresent = true;
+                        if (reader.GetInt32(3) == 1)
+                        {
+                            p.StatutPresent = true;
+                        }
+                        else
+                        {
+                            p.StatutPresent = false;
+                        }
                     }
-                    else
+                    catch
                     {
                         p.StatutPresent = false;
                     }
-
-
+ 
                     l.Add(p);
                 }
 
@@ -794,12 +878,20 @@ namespace GreyAnatomyFanSite.Models
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
 
-            while (reader.Read())
+            try
             {
+                while (reader.Read())
+                {
 
-                PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(0) };
-                prenoms.Add(prenom);
+                    PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(0) };
+                    prenoms.Add(prenom);
+                }
             }
+            catch
+            {
+                prenoms = null;
+            }
+            
 
             reader.Close();
             command.Dispose();

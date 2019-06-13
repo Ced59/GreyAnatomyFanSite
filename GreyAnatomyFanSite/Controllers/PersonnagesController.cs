@@ -47,8 +47,63 @@ namespace GreyAnatomyFanSite.Controllers
 
 
 
+        public IActionResult AddPerso(string name, string firstname)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
 
 
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            List<PrenomPerso> Prenoms = new List<PrenomPerso>();
+
+            PrenomPerso prenomPerso = new PrenomPerso { Prenom = firstname };
+
+            Prenoms.Add(prenomPerso);
+
+            Personnage p = new Personnage { Nom = name, Prenoms = Prenoms };
+
+            p = p.AddNewPerso();
+
+            return View("AddPersos", p);
+        }
+
+        public IActionResult ModifPerso(int id)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = id };
+
+            p = p.GetPersoID(id);
+
+            return View("AddPersos", p);
+        }
+
+        public IActionResult AddFirstName(string firstname, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+
+            PrenomPerso prenom = new PrenomPerso { Prenom = firstname, IdPerso = idPerso };
+            List<PrenomPerso> prenoms = new List<PrenomPerso>();
+            prenoms.Add(prenom);
+            Personnage p = new Personnage {Id = idPerso, Prenoms = prenoms };
+            
+            p = p.AddPrenom();
+
+            return View("AddPersos", p);
+        }
 
 
 
