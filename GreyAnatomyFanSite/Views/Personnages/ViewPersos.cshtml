@@ -35,14 +35,14 @@
             }
             else
             {
-
                 <thead>
-                    <tr>
+                    <tr class="CentreTableau">
                         <th class="col-xs-2">Id</th>
                         <th class="col-xs-5">Nom du Personnage:</th>
                         <th class="col-xs-5">Acteur:</th>
                     </tr>
                 </thead>
+
                 <tbody>
 
                     @foreach (Personnage p in Model)
@@ -53,11 +53,35 @@
                             <td>N°: @Id</td>
 
                             <td>
-                                <img class="img-circle imgMini" src="~/@p.Photos[0].Url" alt="@p.Nom" />
-                                <span>     </span>
-                                <a asp-area="" asp-controller="Personnages" asp-action="ViewPersonnageID" asp-route-id="@p.Id">@p.Nom @p.Prenoms[0].Prenom</a>
+                                @if (p.Photos.Count != 0)
+                                {
+                                    <img src="~/@p.Photos[0].Url" class="img-circle imgMini" />
+                                }
+                                <span>    </span>
+                                <a asp-area="" asp-controller="Personnages" asp-action="ViewPersonnageID" asp-route-id="@p.Id">
+                                    @p.Nom
+
+                                    @if (p.Prenoms.Count != 0)
+                                    {
+                                        @p.Prenoms[0].Prenom
+
+                                    }
+                                </a>
+
+
                             </td>
-                            <td><a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur"> @p.NomActeur @p.PrenomActeur</a></td>
+                            <td>
+                                @if ((p.NomActeur != null) && (p.PrenomActeur != null))
+                                {
+                                    <a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur">@p.NomActeur @p.PrenomActeur</a>
+
+                                }
+                            </td>
+
+                            @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
+                            {
+                                <td><a asp-area="" asp-controller="Personnages" asp-action="ModifPerso" asp-route-id="@p.Id">Modifier</a></td>
+                            }
 
 
                         </tr>
@@ -67,9 +91,16 @@
 
         </table>
 
+        @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
+        {
+            <a asp-area="" asp-controller="Personnages" asp-action="AddPerso">Ajouter un personnage</a>
+        }
+
     </section>
 
+
 </section>
+
 
 <section class="row">
     <div class="col-xs-offset-3 col-xs-7">

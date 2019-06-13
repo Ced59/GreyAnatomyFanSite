@@ -68,6 +68,40 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+
+        public void DeletePrenom(int id)
+        {
+            IDbCommand command = new SqlCommand("DELETE FROM PrenomsPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void UpdateStatutPresent(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Persos SET StatutPresent = @StatutPresent WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@StatutPresent", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(p.StatutPresent) });
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void UpdateStatutVivant(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Persos SET StatutVivant = @StatutVivant WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@StatutVivant", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(p.StatutVivant) });
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+        }
+
         public void AddPrenom(Personnage p)
         {
             IDbCommand command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
@@ -79,7 +113,16 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
         }
 
-
+        public void AddSurnom(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = p.Surnoms[0].Surnom });
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
 
 
         #endregion
@@ -873,7 +916,7 @@ namespace GreyAnatomyFanSite.Models
         private List<PrenomPerso> GetPrenomPersos(Personnage p)
         {
             List<PrenomPerso> prenoms = new List<PrenomPerso>();
-            IDbCommand command = new SqlCommand("SELECT Prenom FROM PrenomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM PrenomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
@@ -883,7 +926,7 @@ namespace GreyAnatomyFanSite.Models
                 while (reader.Read())
                 {
 
-                    PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(0) };
+                    PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
                     prenoms.Add(prenom);
                 }
             }

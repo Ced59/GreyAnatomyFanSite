@@ -98,17 +98,105 @@ namespace GreyAnatomyFanSite.Controllers
             PrenomPerso prenom = new PrenomPerso { Prenom = firstname, IdPerso = idPerso };
             List<PrenomPerso> prenoms = new List<PrenomPerso>();
             prenoms.Add(prenom);
-            Personnage p = new Personnage {Id = idPerso, Prenoms = prenoms };
-            
-            p = p.AddPrenom();
+            Personnage p = new Personnage { Id = idPerso, Prenoms = prenoms };
+
+            p = p.AddSurnom();
+
+            return View("AddPersos", p);
+        }
+
+        public IActionResult DeletePrenom(int id, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+            p.DeletePrenom(id);
+            p = p.GetPersoID(idPerso);
+
+            return View("AddPersos", p);
+        }
+
+
+        public IActionResult AddSurName(string surname, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+
+            SurnomPerso surnom = new SurnomPerso { Surnom = surname, IdPerso = idPerso };
+            List<SurnomPerso> surnoms = new List<SurnomPerso>();
+            surnoms.Add(surnom);
+            Personnage p = new Personnage { Id = idPerso, Surnoms = surnoms };
+
+            p = p.AddSurnom();
+
+            return View("AddPersos", p);
+        }
+
+
+        public IActionResult StillAlive(string statutVivant, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+
+            if (statutVivant == "yes")
+            {
+                p.StatutVivant = true;
+            }
+            else
+            {
+                p.StatutVivant = false;
+            }
+
+            p = p.UpdateStatutVivant();
+
+            return View("AddPersos", p);
+        }
+
+
+        public IActionResult StillPresent(string statutPresent, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+
+            if (statutPresent == "yes")
+            {
+                p.StatutPresent = true;
+            }
+            else
+            {
+                p.StatutPresent = false;
+            }
+
+            p = p.UpdateStatutPresent();
 
             return View("AddPersos", p);
         }
 
 
 
-
-        private int GetVisitIP()
+            private int GetVisitIP()
         {
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);

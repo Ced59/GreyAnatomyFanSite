@@ -54,6 +54,13 @@ namespace GreyAnatomyFanSite.Models.Persos
             return BddSerie.Instance.GetPersoByID(this.Id);
         }
 
+        public Personnage AddSurnom()
+        {
+            BddSerie.Instance.AddSurnom(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
         public Personnage AddNewPerso()
         {
             return BddSerie.Instance.AddNewPerso(this);
@@ -67,6 +74,25 @@ namespace GreyAnatomyFanSite.Models.Persos
         public Personnage GetPersoID(int id)
         {
             return BddSerie.Instance.GetPersoByID(id);
+        }
+
+        public void DeletePrenom(int id)
+        {
+            BddSerie.Instance.DeletePrenom(id);
+        }
+
+        public Personnage UpdateStatutVivant()
+        {
+            BddSerie.Instance.UpdateStatutVivant(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage UpdateStatutPresent()
+        {
+            BddSerie.Instance.UpdateStatutPresent(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
         }
     }
 }
