@@ -59,23 +59,23 @@
     @if (Convert.ToString(ViewData["MetaDescription"]).Length > 150)
     {
 
-    <meta name="description" content="@Convert.ToString(ViewData["MetaDescription"]).Substring(0, 150)" />
+        <meta name="description" content="@Convert.ToString(ViewData["MetaDescription"]).Substring(0, 150)" />
 
     }
     else
     {
-    <meta name="description" content="@ViewData["MetaDescription"]" />
+        <meta name="description" content="@ViewData["MetaDescription"]" />
     }
 
     @*Balises meta Facebook pour partage*@
 
     @if ((string)ViewData["MetaFacebookUrl"] != "")
     {
-    @Html.Raw(ViewData["MetaFacebookUrl"])
-    @Html.Raw(ViewData["MetaFacebookType"])
-    @Html.Raw(ViewData["MetaFacebookTitle"])
-    @Html.Raw(ViewData["MetaFacebookDescription"])
-    @Html.Raw(ViewData["MetaFacebookMedia"])
+        @Html.Raw(ViewData["MetaFacebookUrl"])
+        @Html.Raw(ViewData["MetaFacebookType"])
+        @Html.Raw(ViewData["MetaFacebookTitle"])
+        @Html.Raw(ViewData["MetaFacebookDescription"])
+        @Html.Raw(ViewData["MetaFacebookMedia"])
 
     }
 
@@ -145,20 +145,20 @@
 
                         @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
                         {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration<span class="caret"></span></a>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration<span class="caret"></span></a>
 
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="" asp-controller="Administration" asp-action="Membres">Administration Membres</a></li>
-                                <li><a asp-area="" asp-controller="Administration" asp-action="Site">Administration Site</a></li>
-                                <li><a asp-area="" asp-controller="Administration" asp-action="Persos">Administration Persos</a></li>
-                                <li><a asp-area="" asp-controller="Administration" asp-action="Serie">Administration Série</a></li>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Articles">Articles</a></li>
-                                <li><a asp-area="" asp-controller="Surveys" asp-action="Admin">Sondages</a></li>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Membres">Administration Membres</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Site">Administration Site</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Persos">Administration Persos</a></li>
+                                    <li><a asp-area="" asp-controller="Administration" asp-action="Serie">Administration Série</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Articles">Articles</a></li>
+                                    <li><a asp-area="" asp-controller="Surveys" asp-action="Admin">Sondages</a></li>
 
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         }
                     </ul>
 
@@ -169,13 +169,13 @@
 
                         @if (ViewBag.Logged == true)
                         {
-                        <li><a asp-controller="Membres" asp-action="Show"> Bonjour @ViewBag.MessageBonjour</a></li>
-                        <li><a asp-controller="Membres" asp-action="LogOut"><span class=" glyphicon-log-out"></span>Log out</a></li>
+                            <li><a asp-controller="Membres" asp-action="Show"> Bonjour @ViewBag.MessageBonjour</a></li>
+                            <li><a asp-controller="Membres" asp-action="LogOut"><span class=" glyphicon-log-out"></span>Log out</a></li>
                         }
                         else
                         {
-                        <li><a asp-area="" asp-controller="Membres" asp-action="Register"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
-                        <li><a asp-area="" asp-controller="Membres" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                            <li><a asp-area="" asp-controller="Membres" asp-action="Register"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
+                            <li><a asp-area="" asp-controller="Membres" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
 
                         }
 
@@ -195,17 +195,17 @@
         @if (ViewBag.ConsentCookies != "ok")
         {
 
-        <div class="container">
-            <br />
-            <div class="alert alert-dismissable alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div class="container">
+                <br />
+                <div class="alert alert-dismissable alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
-                <p>Nous utilisons les cookies afin de fournir les services et fonctionnalités proposés sur notre site et afin d’améliorer l’expérience de nos utilisateurs. Les cookies sont des données qui sont téléchargés ou stockés sur votre ordinateur ou sur tout autre appareil. En poursuivant votre navigation, vous acceptez le dépôt de cookies de Grey's Anatomy Fans ainsi que provenant de tiers.</p>
-                <a class="marginTop" href="javascript:OpenPopup('LearnMoreCookies.html','','fullscreen=yes')">En savoir plus</a>
-                <p><button id="myButton" type="button" class="btn btn-primary marginTop">Fermer</button></p>
+                    <p>Nous utilisons les cookies afin de fournir les services et fonctionnalités proposés sur notre site et afin d’améliorer l’expérience de nos utilisateurs. Les cookies sont des données qui sont téléchargés ou stockés sur votre ordinateur ou sur tout autre appareil. En poursuivant votre navigation, vous acceptez le dépôt de cookies de Grey's Anatomy Fans ainsi que provenant de tiers.</p>
+                    <a class="marginTop" href="javascript:OpenPopup('LearnMoreCookies.html','','fullscreen=yes')">En savoir plus</a>
+                    <p><button id="myButton" type="button" class="btn btn-primary marginTop">Fermer</button></p>
 
-            </div> <!-- Fin du bandeau d'alerte -->
-        </div>
+                </div> <!-- Fin du bandeau d'alerte -->
+            </div>
 
         }
 
@@ -238,9 +238,7 @@
 
             Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique<br>
             <div class="marginTop2">Nombre total de pages vues = @ViewBag.NbrePagesVues </div><br>
-            
-                <a asp-area="" asp-controller="Update" asp-action="Index" class="marginTop2">Updates du site</a>
-            <br>
+            <a asp-area="" asp-controller="Update" asp-action="Index" class="marginTop2">Updates du site</a><br>
             <a class="marginTop2" href="~/LearnMoreCookies.html">Politique sur la confidentialité et les cookies</a><br>
             <div class="marginTop2">Ce site ne contient aucun lien de streaming ou de direct download pointant vers les épisodes de Grey's Anatomy.</div>
 
