@@ -79,6 +79,67 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
         }
 
+        public void DeleteSurnom(int id)
+        {
+            IDbCommand command = new SqlCommand("DELETE FROM SurnomsPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void AddPhotos(Personnage p)
+        {
+            IDbCommand command = new SqlCommand();
+            ConnectionSerie.Instance.Open();
+
+            foreach (PhotoPerso photo in p.Photos)
+            {
+                command = new SqlCommand("UPDATE PhotosPersos SET Image = @Image, PhotoPrincipale = @Photoprincipale, IdPerso = @IdPerso WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Image", SqlDbType.VarChar) { Value = photo.Url });
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(photo.PhotoPrincipale) });
+                command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = photo.Id });
+
+
+
+                command.ExecuteNonQuery();
+                command.Dispose();
+            }
+
+            foreach (PhotoPerso photo in p.Photos)
+            {
+                command = new SqlCommand("SELECT Id FROM PhotosPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = photo.Id });
+
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    command.Dispose();
+
+                    command = new SqlCommand("INSERT INTO PhotosPersos (IdPerso, Image, PhotoPrincipale) VALUES (@IdPerso, @Image, @PhotoPrincipale)", (SqlConnection)ConnectionSerie.Instance);
+                    command.Parameters.Add(new SqlParameter("@Image", SqlDbType.VarChar) { Value = photo.Url });
+                    command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                    command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(photo.PhotoPrincipale) });
+
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                }
+
+                else
+                {
+                    reader.Close();
+                    command.Dispose();
+                }
+            }
+
+
+            ConnectionSerie.Instance.Close();
+        }
+
         public void UpdateStatutPresent(Personnage p)
         {
             IDbCommand command = new SqlCommand("UPDATE Persos SET StatutPresent = @StatutPresent WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
@@ -115,8 +176,8 @@ namespace GreyAnatomyFanSite.Models
 
         public void AddSurnom(Personnage p)
         {
-            IDbCommand command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
-            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = p.Surnoms[0].Surnom });
+            IDbCommand command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Surnom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Surnom", SqlDbType.VarChar) { Value = p.Surnoms[0].Surnom });
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             ConnectionSerie.Instance.Open();
             command.ExecuteNonQuery();
@@ -612,7 +673,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.Role = null;
                 }
-                
+
                 try
                 {
                     p.Biographie = reader.GetString(4);
@@ -637,7 +698,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.StatutVivant = false;
                 }
-                
+
                 try
                 {
                     if (reader.GetInt32(3) == 1)
@@ -653,7 +714,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.StatutPresent = false;
                 }
-                
+
             }
             catch
             {
@@ -752,7 +813,7 @@ namespace GreyAnatomyFanSite.Models
                     {
                         p.StatutPresent = false;
                     }
- 
+
                     l.Add(p);
                 }
 
@@ -843,7 +904,7 @@ namespace GreyAnatomyFanSite.Models
         {
             List<PhotoPerso> photos = new List<PhotoPerso>();
 
-            IDbCommand command = new SqlCommand("SELECT Image, PhotoPrincipale FROM PhotosPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM PhotosPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
@@ -852,15 +913,7 @@ namespace GreyAnatomyFanSite.Models
                 while (reader.Read())
                 {
 
-                    PhotoPerso photo = new PhotoPerso { Url = reader.GetString(0) };
-                    if (reader.GetInt32(1) == 1)
-                    {
-                        photo.PhotoPrincipale = true;
-                    }
-                    else
-                    {
-                        photo.PhotoPrincipale = false;
-                    }
+                    PhotoPerso photo = new PhotoPerso { Url = reader.GetString(2), Id= reader.GetInt32(0), IdPerso = p.Id, PhotoPrincipale = ConvertIntBool.ConvertIntToBool(reader.GetInt32(3)) };
 
                     photos.Add(photo);
                 }
@@ -883,7 +936,7 @@ namespace GreyAnatomyFanSite.Models
         private List<SurnomPerso> GetSurnomsPersos(Personnage p)
         {
             List<SurnomPerso> surnoms = new List<SurnomPerso>();
-            IDbCommand command = new SqlCommand("SELECT Surnom FROM SurnomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM SurnomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
@@ -892,7 +945,7 @@ namespace GreyAnatomyFanSite.Models
                 while (reader.Read())
                 {
 
-                    SurnomPerso surnom = new SurnomPerso { Surnom = reader.GetString(0) };
+                    SurnomPerso surnom = new SurnomPerso { Surnom = reader.GetString(1), Id = reader.GetInt32(0) };
                     surnoms.Add(surnom);
                 }
             }
@@ -934,7 +987,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 prenoms = null;
             }
-            
+
 
             reader.Close();
             command.Dispose();
@@ -946,6 +999,6 @@ namespace GreyAnatomyFanSite.Models
         #endregion
 
 
-        
+
     }
 }

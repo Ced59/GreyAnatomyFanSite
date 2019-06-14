@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
@@ -45,6 +46,17 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewPersonnageID", p);
         }
 
+        public IActionResult AddNewPerso()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            return View("AddPersos");
+        }
 
 
         public IActionResult AddPerso(string name, string firstname)
@@ -100,7 +112,7 @@ namespace GreyAnatomyFanSite.Controllers
             prenoms.Add(prenom);
             Personnage p = new Personnage { Id = idPerso, Prenoms = prenoms };
 
-            p = p.AddSurnom();
+            p = p.AddPrenom();
 
             return View("AddPersos", p);
         }
@@ -138,6 +150,23 @@ namespace GreyAnatomyFanSite.Controllers
             Personnage p = new Personnage { Id = idPerso, Surnoms = surnoms };
 
             p = p.AddSurnom();
+
+            return View("AddPersos", p);
+        }
+
+
+        public IActionResult DeleteSurnom(int id, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+            p.DeleteSurnom(id);
+            p = p.GetPersoID(idPerso);
 
             return View("AddPersos", p);
         }
@@ -193,6 +222,82 @@ namespace GreyAnatomyFanSite.Controllers
 
             return View("AddPersos", p);
         }
+
+
+        public async Task<IActionResult> AddPrincPhoto(IFormFile image, int idPerso, string photoPrincipale)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+            p = p.GetPersoID(idPerso);
+
+            if (photoPrincipale == "yes")
+            {
+                foreach (PhotoPerso photo in p.Photos)
+                {
+                    photo.PhotoPrincipale = false;
+                }
+            }
+
+
+            if (image.FileName.Contains(".png") || image.FileName.Contains(".jpg"))
+            {
+                if (image.Length > 1000000)
+                {
+                    ViewBag.errors = "Le fichier doit avoir une taille maximale de 1Mo.";
+                    return View("AddPersos", p);
+                }
+                string NumeroUnique = Guid.NewGuid().ToString("N").Substring(1,10);
+
+                if (image.FileName.Contains(".png"))
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/PhotosPersos", p.Id.ToString() + "-" + p.Nom.ToString() + "-" + p.Prenoms[0].Prenom.ToString() + "-" + NumeroUnique + ".png");
+                    var stream = new FileStream(path, FileMode.Create);
+                    await image.CopyToAsync(stream);
+                    PhotoPerso photo = new PhotoPerso
+                    {
+                        Url = "images/PhotosPersos/" + p.Id.ToString() + "-" + p.Nom.ToString() + "-" + p.Prenoms[0].Prenom.ToString() + "-" + NumeroUnique + ".png",
+                        IdPerso = p.Id,
+                        PhotoPrincipale = true
+                    };
+
+                    p.Photos.Add(photo);
+                }
+
+                if (image.FileName.Contains(".jpg"))
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/PhotosPersos", p.Id.ToString() + "-" + p.Nom.ToString() + "-" + p.Prenoms[0].Prenom.ToString() + "-" + NumeroUnique + ".jpg");
+                    var stream = new FileStream(path, FileMode.Create);
+                    await image.CopyToAsync(stream);
+                    PhotoPerso photo = new PhotoPerso
+                    {
+                        Url = "images/PhotosPersos/" + p.Id.ToString() + "-" + p.Nom.ToString() + "-" + p.Prenoms[0].Prenom.ToString() + "-" + NumeroUnique + ".jpg",
+                        IdPerso = p.Id,
+                        PhotoPrincipale = true
+                    };
+
+                    p.Photos.Add(photo);
+                }
+            }
+            else
+            {
+                ViewBag.errors = "Seuls les fichiers .jpg ou .png sont accceptés";
+                return View("AddPersos", p);
+            }
+
+
+            p = p.AddPhotos();
+
+            return View("AddPersos", p);
+        }
+
+
+
 
 
 

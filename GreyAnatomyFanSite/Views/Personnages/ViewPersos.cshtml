@@ -55,7 +55,17 @@
                             <td>
                                 @if (p.Photos.Count != 0)
                                 {
-                                    <img src="~/@p.Photos[0].Url" class="img-circle imgMini" />
+                                    string urlPrincipale = "";
+                                    foreach (PhotoPerso photo in p.Photos)
+                                    {
+                                        if (photo.PhotoPrincipale)
+                                        {
+                                            urlPrincipale = photo.Url;
+                                        }
+                                    }
+
+
+                                    <img src="~/@urlPrincipale" class="img-circle imgMini" />
                                 }
                                 <span>    </span>
                                 <a asp-area="" asp-controller="Personnages" asp-action="ViewPersonnageID" asp-route-id="@p.Id">
@@ -93,7 +103,7 @@
 
         @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
         {
-            <a asp-area="" asp-controller="Personnages" asp-action="AddPerso">Ajouter un personnage</a>
+            <a asp-area="" asp-controller="Personnages" asp-action="AddNewPerso">Ajouter un personnage</a>
         }
 
     </section>

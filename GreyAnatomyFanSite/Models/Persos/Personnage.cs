@@ -81,6 +81,11 @@ namespace GreyAnatomyFanSite.Models.Persos
             BddSerie.Instance.DeletePrenom(id);
         }
 
+        public void DeleteSurnom(int id)
+        {
+            BddSerie.Instance.DeleteSurnom(id);
+        }
+
         public Personnage UpdateStatutVivant()
         {
             BddSerie.Instance.UpdateStatutVivant(this);
@@ -91,6 +96,13 @@ namespace GreyAnatomyFanSite.Models.Persos
         public Personnage UpdateStatutPresent()
         {
             BddSerie.Instance.UpdateStatutPresent(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddPhotos()
+        {
+            BddSerie.Instance.AddPhotos(this);
 
             return BddSerie.Instance.GetPersoByID(this.Id);
         }
