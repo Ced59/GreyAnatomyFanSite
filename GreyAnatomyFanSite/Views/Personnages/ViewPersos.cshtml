@@ -69,21 +69,22 @@
                                 }
                                 <span>    </span>
                                 <a asp-area="" asp-controller="Personnages" asp-action="ViewPersonnageID" asp-route-id="@p.Id">
-                                    @p.Nom
 
                                     @if (p.Prenoms.Count != 0)
                                     {
                                         @p.Prenoms[0].Prenom
 
                                     }
+
+                                    @p.Nom
                                 </a>
 
 
                             </td>
                             <td>
-                                @if ((p.NomActeur != null) && (p.PrenomActeur != null))
+                                @if ((p.NomActeur != null) && (p.PrenomsActeur.Count != 0))
                                 {
-                                    <a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur">@p.NomActeur @p.PrenomActeur</a>
+                                <a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur">@p.PrenomsActeur[0].Prenom @p.NomActeur</a>
 
                                 }
                             </td>

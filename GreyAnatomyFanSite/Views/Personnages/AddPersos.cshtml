@@ -41,15 +41,17 @@
         {
             <div class="row">
                 <h2 class="col-lg-12">
-                    @Model.Nom <span> </span>
+
                     @if (Model.Prenoms.Count == 0)
                     {
-                        <span>(Prénom à renseigner)</span>
+                        <span>(Prénom à renseigner)</span><span> </span>
                     }
                     else
                     {
-                        @Model.Prenoms[0].Prenom
+                        @Model.Prenoms[0].Prenom<span> </span>
                     }
+
+                    @Model.Nom
                 </h2>
             </div>
 
@@ -151,9 +153,25 @@
 
 
 
-            @if (Model.Prenoms == null)
+            @if ((Model.Prenoms == null) || (Model.Prenoms.Count == 0))
             {
                 <p>Pas de prénom enregistré</p>
+
+                <form asp-controller="Personnages" asp-action="AddFirstName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau Prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
             }
             else
             {
@@ -185,9 +203,25 @@
                 <h3>Liste des surnoms:</h3>
             </div>
 
-            @if (Model.Surnoms == null)
+            @if ((Model.Surnoms == null) || (Model.Surnoms.Count == 0))
             {
                 <p>Pas de surnom enregistré</p>
+
+                <form asp-controller="Personnages" asp-action="AddSurName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un surnom : </label>
+                            <input type="text" class="form-control" name="surname" placeholder="Nouveau Surnom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
             }
             else
             {
@@ -308,6 +342,129 @@
                 </form>
             }
 
+
+            <h2>Acteur :</h2>
+
+            @if (Model.NomActeur == null)
+            {
+                <p>Pas de nom d'acteur enregistré</p>
+                <form asp-controller="Personnages" asp-action="AddActor" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Nom : </label>
+                            <input type="text" class="form-control" name="name" placeholder="Nom" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Prénom d'usage : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="row">
+                    <h2 class="col-lg-12">
+
+                        @if (Model.PrenomsActeur.Count == 0)
+                        {
+                            <span>(Prénom à renseigner)</span> <span> </span>
+
+                        }
+                        else
+                        {
+                            @Model.PrenomsActeur[0].Prenom <span> </span>
+                        }
+
+                        @Model.NomActeur
+                    </h2>
+                </div>
+
+                <dl>
+                    @foreach (PrenomActeur p in Model.PrenomsActeur)
+                    {
+                        <dt>@p.Prenom</dt>
+                        <dd><a asp-area="" asp-controller="Personnages" asp-action="DeletePrenomActeur" asp-route-id="@p.Id" asp-route-idPerso="@Model.Id">Supprimer le prénom</a></dd>
+                    }
+                </dl>
+
+                <form asp-controller="Personnages" asp-action="AddActorFirstName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un Prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau Prénom" />
+                            <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+                <h3>Date de naissance : </h3>
+
+                @if (Model.DateNaissance != Convert.ToDateTime("01/01/0001"))
+                {
+
+                    <h4>@String.Format("{0:dd/MM/yyyy}", Model.DateNaissance)</h4>
+
+
+                    <form asp-controller="Personnages" asp-action="ModifBirthDate" method="post">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="naissanceActeur">Modifier la date de naissance : </label>
+                                <input type="date" class="form-control" name="dateNaissance" id="datepicker" />
+                                <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+
+                }
+                else
+                {
+                    <h4>Veuillez renseigner une date de naissance.</h4>
+
+                    <form asp-controller="Personnages" asp-action="AddBirthDate" method="post">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="naissanceActeur">Date de naissance de l'Acteur : </label>
+                                <input type="date" class="form-control" name="dateNaissance" id="datepicker" />
+                                <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+
+                }
+
+            }
+
         }
 
 
@@ -320,171 +477,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-<div class="row">
-    <div class="col-lg-offset-3 col-lg-6">
-        <div class="row">
-            <h2 class="col-lg-12">Ajouter Personnage</h2>
-        </div>
-        <form asp-controller="Administration" asp-action="AddPersoPost" method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="nom">Nom : </label>
-                    <input type="text" class="form-control" name="nom" placeholder="Nom" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="prenom">Prénom : </label>
-                    <input type="text" class="form-control" name="prenom" placeholder="Prénom" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="prenom2">Prénom 2 : </label>
-                    <input type="text" class="form-control" name="prenom2" placeholder="Prénom 2 (facultatif)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="prenom3">Prénom 3 : </label>
-                    <input type="text" class="form-control" name="prenom3" placeholder="Prénom 3 (facultatif)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="surnom">Surnom : </label>
-                    <input type="text" class="form-control" name="surnom" placeholder="Surnom (facultatif)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="surnom2">Surnom 2 : </label>
-                    <input type="text" class="form-control" name="surnom2" placeholder="Surnom 2 (facultatif)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="surnom3">Surnom 3 : </label>
-                    <input type="text" class="form-control" name="surnom3" placeholder="Surnom 3 (facultatif)" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="biographie">Biographie du Personnage : </label>
-                    <textarea type="text" class="form-control tailleTextArea" name="bio" placeholder="Biographie du Personnage"></textarea>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="nomActeur">Nom de l'acteur : </label>
-                    <input type="text" class="form-control" name="nomActeur" placeholder="Nom de l'Acteur" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="prenomActeur">Prénom de l'acteur : </label>
-                    <input type="text" class="form-control" name="prenomActeur" placeholder="Prénom de l'Acteur" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="bioActeur">Biographie de l'acteur : </label>
-                    <textarea type="text" class="form-control tailleTextArea" name="bioActeur" placeholder="Biographie de l'Acteur"></textarea>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="naissanceActeur">Date de naissance de l'Acteur : </label>
-                    <input type="date" class="form-control" name="dateNaissance" id="datepicker" />
-                </div>
-            </div>
-
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="role">Rôle : </label>
-                    <select name="role" class="form-control">
-                        <option></option>
-                        <option value="Medecin">Médecin</option>
-                        <option value="Infirmier">Infirmier(e)</option>
-                        <option value="Patient">Patient</option>
-                        <option value="Exterieur">Exterieur</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <label for="statutvVivant">Toujours Vivant ? </label>
-                </div>
-                <div class="col-lg-4">
-                    <label for="statutVivant" class="radio">
-                        <input id="statutVivant" type="radio" value="yes" name="statutVivant">Oui
-                    </label>
-
-                </div>
-                <div class="col-lg-4">
-                    <label for="statutVivant" class="radio">
-                        <input id="statutVivant" type="radio" value="no" name="statutVivant">Non
-                    </label>
-
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <label for="statutvVivant">Toujours Présent ? </label>
-                </div>
-                <div class="col-lg-4">
-                    <label for="statutPresent" class="radio">
-                        <input id="statutPresent" type="radio" value="yes" name="statutPresent">Oui
-                    </label>
-
-                </div>
-                <div class="col-lg-4">
-                    <label for="statutPresent" class="radio">
-                        <input id="statutPresent" type="radio" value="no" name="statutPresent">Non
-                    </label>
-
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label for="photo">Photo principale : </label>
-                    <input type="file" class="form-control" name="image">
-                </div>
-            </div>
-
-            <br />
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <button class="form-control btn btn-default" type="submit">Enregistrer</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
 <script>
     $(function () {

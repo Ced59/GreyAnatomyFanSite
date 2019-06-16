@@ -100,7 +100,7 @@ namespace GreyAnatomyFanSite.Controllers
             foreach (Acteur acteur in Acteurs)
             {
                 a.Texte = a.Texte.Replace(acteur.NomActeur, "<a href=\"/Acteurs/ViewActeurID/" + acteur.IdActeur + "\">" + acteur.NomActeur + "</a>");
-                a.Texte = a.Texte.Replace(acteur.PrenomActeur, "<a href=\"/Acteurs/ViewActeurID/" + acteur.IdActeur + "\">" + acteur.PrenomActeur + "</a>");
+                a.Texte = a.Texte.Replace(acteur.PrenomsActeur[0].Prenom, "<a href=\"/Acteurs/ViewActeurID/" + acteur.IdActeur + "\">" + acteur.PrenomsActeur[0].Prenom + "</a>");
 
             }
 

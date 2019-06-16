@@ -59,6 +59,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        [HttpPost]
         public IActionResult AddPerso(string name, string firstname)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -81,6 +82,7 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
+        
         public IActionResult ModifPerso(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -97,6 +99,7 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
+        [HttpPost]
         public IActionResult AddFirstName(string firstname, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -117,6 +120,30 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
+        [HttpPost]
+        public IActionResult AddActorFirstName(string firstname, int idActeur, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+
+            PrenomActeur prenom = new PrenomActeur { Prenom = firstname, IdActeur = idActeur };
+            List<PrenomActeur> prenoms = new List<PrenomActeur>();
+            prenoms.Add(prenom);
+            Acteur a = new Acteur { PrenomsActeur = prenoms, IdActeur = idActeur };
+            Personnage p = new Personnage();
+
+            p = p.AddPrenomActeur(a, idPerso);
+
+            return View("AddPersos", p);
+        }
+
+
+        
         public IActionResult DeletePrenom(int id, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -134,6 +161,25 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        
+        public IActionResult DeletePrenomActeur(int id, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { Id = idPerso };
+            p.DeletePrenomActeur(id);
+            p = p.GetPersoID(idPerso);
+
+            return View("AddPersos", p);
+        }
+
+
+        [HttpPost]
         public IActionResult AddSurName(string surname, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -155,6 +201,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        
         public IActionResult DeleteSurnom(int id, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -172,6 +219,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        [HttpPost]
         public IActionResult StillAlive(string statutVivant, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -198,6 +246,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        [HttpPost]
         public IActionResult StillPresent(string statutPresent, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -224,6 +273,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        [HttpPost]
         public async Task<IActionResult> AddPrincPhoto(IFormFile image, int idPerso, string photoPrincipale)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -252,7 +302,7 @@ namespace GreyAnatomyFanSite.Controllers
                     ViewBag.errors = "Le fichier doit avoir une taille maximale de 1Mo.";
                     return View("AddPersos", p);
                 }
-                string NumeroUnique = Guid.NewGuid().ToString("N").Substring(1,10);
+                string NumeroUnique = Guid.NewGuid().ToString("N").Substring(1, 10);
 
                 if (image.FileName.Contains(".png"))
                 {
@@ -297,11 +347,70 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult AddActor(string name, string firstname, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            List<PrenomActeur> Prenoms = new List<PrenomActeur>();
+
+            PrenomActeur prenomPerso = new PrenomActeur { Prenom = firstname };
+
+            Prenoms.Add(prenomPerso);
+
+            Personnage p = new Personnage { NomActeur = name, PrenomsActeur = Prenoms, IdPerso = idPerso };
+
+            p = p.AddNewActor();
+
+            return View("AddPersos", p);
+        }
+
+
+        public IActionResult AddBirthDate(DateTime dateNaissance, int idActeur, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { IdActeur = idActeur, DateNaissance = dateNaissance, Id = idPerso };
+
+            p = p.AddBirthdate();
+
+            return View("AddPersos", p);
+        }
+
+
+
+        public IActionResult ModifBirthDate(DateTime dateNaissance, int idActeur, int idPerso)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+
+
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Personnage p = new Personnage { IdActeur = idActeur, DateNaissance = dateNaissance, Id = idPerso };
+
+            p = p.ModifBirthdate();
+
+            return View("AddPersos", p);
+        }
 
 
 
 
-            private int GetVisitIP()
+
+
+        private int GetVisitIP()
         {
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);

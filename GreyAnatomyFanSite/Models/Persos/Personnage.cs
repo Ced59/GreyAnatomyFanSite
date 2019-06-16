@@ -42,10 +42,10 @@ namespace GreyAnatomyFanSite.Models.Persos
         public List<PhotoPerso> Photos { get => photos; set => photos = value; }
         public string Biographie { get => biographie; set => biographie = value; }
 
-        public void AddPerso()
-        {
-            BddSerie.Instance.AddPerso(this);
-        }
+        //public void AddPerso()
+        //{
+        //    BddSerie.Instance.AddPerso(this);
+        //}
 
         public Personnage AddPrenom()
         {
@@ -103,6 +103,40 @@ namespace GreyAnatomyFanSite.Models.Persos
         public Personnage AddPhotos()
         {
             BddSerie.Instance.AddPhotos(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddNewActor()
+        {
+            BddSerie.Instance.AddNewActor(this);
+
+            return BddSerie.Instance.GetPersoByID(this.IdPerso);
+
+        }
+
+        public Personnage AddPrenomActeur(Acteur a, int idPerso)
+        {
+            BddSerie.Instance.AddActorName(a);
+
+            return BddSerie.Instance.GetPersoByID(idPerso);
+        }
+
+        public void DeletePrenomActeur(int id)
+        {
+            BddSerie.Instance.DeletePrenomActeur(id);
+        }
+
+        public Personnage AddBirthdate()
+        {
+            BddSerie.Instance.AddBirthdate(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage ModifBirthdate()
+        {
+            BddSerie.Instance.ModifBirthDate(this);
 
             return BddSerie.Instance.GetPersoByID(this.Id);
         }
