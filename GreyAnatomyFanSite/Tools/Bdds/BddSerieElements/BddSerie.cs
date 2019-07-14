@@ -56,10 +56,35 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
             reader.Read();
-            acteur.NomActeur = reader.GetString(3);
+            try
+            {
+                acteur.NomActeur = reader.GetString(3);
+            }
+            catch
+            {
+                acteur.NomActeur = "undefined";
+            }
+            
             acteur.IdPerso = reader.GetInt32(1);
-            acteur.DateNaissance = reader.GetDateTime(2);
-            acteur.BioActeur = reader.GetString(5);
+
+            try
+            {
+                acteur.DateNaissance = reader.GetDateTime(2);
+            }
+            catch
+            {
+                acteur.DateNaissance = Convert.ToDateTime(01/01/2000);
+            }
+
+            try
+            {
+                acteur.BioActeur = reader.GetString(5);
+            }
+            catch
+            {
+                acteur.BioActeur = "undefined";
+            }
+            
             reader.Close();
             command.Dispose();
             acteur.PrenomsActeur = GetPrenomsActeurs(acteur);
