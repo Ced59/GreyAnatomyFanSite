@@ -36,19 +36,29 @@
             @foreach (Answer a in Model.Survey.Answers)
             {
 
-            pourcent = (((decimal)a.NbreVote / (decimal)Model.Survey.CountVotes) * 100);
-            pourcent = Math.Round(pourcent,2);
-            barre = Convert.ToString(pourcent) + " %";
+                pourcent = (((decimal)a.NbreVote / (decimal)Model.Survey.CountVotes) * 100);
+                pourcent = Math.Round(pourcent, 2);
+                barre = Convert.ToString(pourcent) + " %";
 
-            for (int i = 0; i < pourcent/2; i++)
+                for (int i = 0; i < pourcent / 2; i++)
                 {
                     barre = barre + "_";
                 }
 
-            <h3 class="col-md-12">@a.Label</h3>
-            <p class="col-xs-10"><span class="label label-success">@barre</span></p>
-            <p class="col-xs-2 pull-right">@a.NbreVote Votes</p>
+                <h3 class="col-md-12">@a.Label</h3>
+                <p class="col-xs-10"><span class="label label-success">@barre</span></p>
+                <p class="col-xs-2 pull-right">@a.NbreVote Votes</p>
             }
+
+
+            @foreach (Answer a in Model.Survey.Answers)
+            {
+                if (a.GoodAnswer)
+                {
+                    <h2 class="col-xs-8">La bonne réponse est : @a.Label</h2>
+                }
+            }
+
 
             <p class="col-md-2 pull-right alert-success marginTop">@Model.Survey.CountVotes  Votes au total.</p>
         </div>
@@ -71,14 +81,14 @@
 
         @foreach (Survey s in Model.Surveys)
         {
-        <a asp-area="" asp-controller="Surveys" asp-action="DisplaySurvey" asp-route-id="@s.Id" class="list-group-item">
-            <h3 class="list-group-item-heading">@s.Titre</h3>
-            <p class="list-group-item-danger pull-right col-md-3">
-                @s.CountVotes
-                Votes
-            </p>
-            <br />
-        </a>
+            <a asp-area="" asp-controller="Surveys" asp-action="DisplaySurvey" asp-route-id="@s.Id" class="list-group-item">
+                <h3 class="list-group-item-heading">@s.Titre</h3>
+                <p class="list-group-item-danger pull-right col-md-3">
+                    @s.CountVotes
+                    Votes
+                </p>
+                <br />
+            </a>
         }
 
     </div>

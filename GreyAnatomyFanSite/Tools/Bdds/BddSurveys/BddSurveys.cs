@@ -32,9 +32,10 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
 
         public List<Answer> AddAnswer(Answer answer)
         {
-            IDbCommand command = new SqlCommand("INSERT INTO Answers (Label, IdSurvey) VALUES (@Label, @IdSurvey)", (SqlConnection)ConnectionSurveys.Instance);
+            IDbCommand command = new SqlCommand("INSERT INTO Answers (Label, IdSurvey, GoodAnswer) VALUES (@Label, @IdSurvey, @GoodAnswer)", (SqlConnection)ConnectionSurveys.Instance);
             command.Parameters.Add(new SqlParameter("@Label", SqlDbType.VarChar) { Value = answer.Label });
             command.Parameters.Add(new SqlParameter("@IdSurvey", SqlDbType.Int) { Value = answer.IdSurvey });
+            command.Parameters.Add(new SqlParameter("@GoodAnswer", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(answer.GoodAnswer) });
             ConnectionSurveys.Instance.Open();
             command.ExecuteNonQuery();
             command.Dispose();
@@ -227,6 +228,14 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
                 a.Id = reader.GetInt32(0);
                 a.Label = reader.GetString(1);
                 a.IdSurvey = reader.GetInt32(2);
+                try
+                {
+                    a.GoodAnswer = ConvertIntBool.ConvertIntToBool(reader.GetInt32(3));
+                }
+                catch
+                {
+                    a.GoodAnswer = false;
+                }
                 answers.Add(a);
             }
             reader.Close();
