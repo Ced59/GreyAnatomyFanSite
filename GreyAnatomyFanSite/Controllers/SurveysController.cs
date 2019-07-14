@@ -99,7 +99,7 @@ namespace GreyAnatomyFanSite.Controllers
 
 
         [HttpPost]
-        public IActionResult AddAnswer(string answer, int idSurvey)
+        public IActionResult AddAnswer(string answer, string goodanswer, int idSurvey)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
@@ -117,6 +117,15 @@ namespace GreyAnatomyFanSite.Controllers
 
 
             Answer a = new Answer { IdSurvey = idSurvey, Label = answer };
+            if (goodanswer == "good")
+            {
+                a.GoodAnswer = true;
+            }
+            else
+            {
+                a.GoodAnswer = false;
+            }
+
             List<Answer> answers = a.AddAnswer();
             Survey s = new Survey { Id = idSurvey };
             s = s.GetSurvey();
