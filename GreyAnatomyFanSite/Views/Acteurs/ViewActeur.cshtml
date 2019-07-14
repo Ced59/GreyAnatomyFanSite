@@ -3,20 +3,42 @@
 
 
 @{
-    ViewData["Title"] = Model.Acteur.NomActeur + " " + Model.Acteur.PrenomActeur;
 
-    ViewData["MetaDescription"] = Model.Acteur.BioActeur;
-
-
-    int Age = DateTime.Now.Year - Model.Acteur.DateNaissance.Year;
-    DateTime DateAnniv = new DateTime(DateTime.Now.Year, Model.Acteur.DateNaissance.Month, Model.Acteur.DateNaissance.Day);
-    if (DateAnniv > DateTime.Now)
+    if ((Model.Acteur.NomActeur != "") && (Model.Acteur.PrenomsActeur.Count != 0))
     {
-        Age--;
+        ViewData["Title"] = Model.Acteur.NomActeur + " " + Model.Acteur.PrenomsActeur[0].Prenom;
+        ViewData["MetaKeywords"] = Model.Acteur.NomActeur + ", " + Model.Acteur.PrenomsActeur[0].Prenom + ", " + Model.Perso.Nom;
+    }
+    else
+    {
+        ViewData["Title"] = "undefined";
+        ViewData["MetaKeywords"] = "undefined";
+    }
+
+    if (Model.Acteur.BioActeur != "")
+    {
+        ViewData["MetaDescription"] = Model.Acteur.BioActeur;
+    }
+    else
+    {
+        ViewData["MetaDescription"] = "undefined";
     }
 
 
-    ViewData["MetaKeywords"] = Model.Acteur.NomActeur + ", " + Model.Acteur.PrenomActeur + ", " + Model.Perso.Nom;
+    int Age = 0;
+    if (Model.Acteur.DateNaissance != null)
+    {
+        Age = DateTime.Now.Year - Model.Acteur.DateNaissance.Year;
+        DateTime DateAnniv = new DateTime(DateTime.Now.Year, Model.Acteur.DateNaissance.Month, Model.Acteur.DateNaissance.Day);
+        if (DateAnniv > DateTime.Now)
+        {
+            Age--;
+        }
+    }
+    else
+    {
+        Age = 0;
+    }
 }
 
 <div class="row">
@@ -24,7 +46,7 @@
         @Model.Acteur.NomActeur
 
 
-        @Model.Acteur.PrenomActeur 
+        @Model.Acteur.PrenomsActeur[0].Prenom
 
 
     </h2>
@@ -34,7 +56,7 @@
 <div class="row">
 
     <section class="col-sm-offset-2 col-sm-3">
-        <img src="~/@Model.Perso.Photos[0].Url" alt="@Model.Acteur.PrenomActeur" class="img-thumbnail img-circle">
+        <img src="~/@Model.Perso.Photos[0].Url" alt="@Model.Acteur.PrenomsActeur[0].Prenom" class="img-thumbnail img-circle">
     </section>
 
     <section class="col-sm-7">
@@ -48,20 +70,41 @@
                         <td class="col-xs-5">Nom:  </td>
                         <td>@Model.Acteur.NomActeur</td>
                     </tr>
+                    @if (Model.Acteur.PrenomsActeur.Count != 0)
+                    {
                     <tr>
                         <td>
+
+                            @if (Model.Acteur.PrenomsActeur.Count == 1)
+                            {
                             <span>Prénom:  </span>
+                            }
+                            else
+                            {
+                            <span>Prénoms:  </span>
+                            }
+
                         </td>
 
                         <td>
-                            @Model.Acteur.PrenomActeur; <br>
+
+                            @foreach (PrenomActeur p in Model.Acteur.PrenomsActeur)
+                            {
+                            @p.Prenom; <br>
+
+                            }
+
                         </td>
                     </tr>
+                    }
 
+                    @if (Model.Acteur.DateNaissance != null)
+                    {
                     <tr>
                         <td>Date de Naissance:  </td>
                         <td>@String.Format("{0:dd/MM/yyyy}", Model.Acteur.DateNaissance) - @Age ans</td>
                     </tr>
+                    }
 
                     <tr>
                         <td>Personnage dans Grey's Anatomy:  </td>
@@ -73,11 +116,11 @@
                         <td>
                             @if (Model.Perso.StatutPresent)
                             {
-                                <span>Oui</span>
+                            <span>Oui</span>
                             }
                             else
                             {
-                                <span>Non</span>
+                            <span>Non</span>
                             }
 
                         </td>
@@ -85,7 +128,7 @@
                 </tbody>
             </table>
         </section>
-        
+
     </section>
 
 

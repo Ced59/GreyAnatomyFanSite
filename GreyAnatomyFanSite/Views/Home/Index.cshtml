@@ -25,7 +25,7 @@
     <div class="col-md-offset-2 col-md-8 thumbnail">
         @foreach (Personnage p in Annivs)
             {
-        <img src="~/images/Emoticones/gateauAnniversaire.png" /><span class="CentreTableau">  Aujourd'hui nous fêtons les @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", p.DateNaissance)))) ans de @p.PrenomActeur @p.NomActeur incarnant @p.Prenoms[0].Prenom @p.Nom .</span><br>
+        <img src="~/images/Emoticones/gateauAnniversaire.png" /><span class="CentreTableau">  Aujourd'hui nous fêtons les @((Convert.ToInt32(String.Format("{0:yyyy}", DateTime.Now))) - (Convert.ToInt32(String.Format("{0:yyyy}", p.DateNaissance)))) ans de @p.PrenomsActeur[0].Prenom @p.NomActeur incarnant @p.Prenoms[0].Prenom @p.Nom .</span><br>
             }
     </div>
 </div>

@@ -169,8 +169,28 @@
                         <td>@Model.NomActeur</td>
                     </tr>
                     <tr>
-                        <td>Prénom:  </td>
-                        <td>@Model.PrenomActeur</td>
+                        <td>
+
+                            @if (Model.PrenomsActeur.Count == 1)
+                            {
+                                <span>Prénom:  </span>
+                            }
+                            else
+                            {
+                                <span>Prénoms:  </span>
+                            }
+
+                        </td>
+
+                        <td>
+
+                            @foreach (PrenomActeur p in Model.PrenomsActeur)
+                            {
+                                @p.Prenom; <br>
+
+                            }
+
+                        </td>
                     </tr>
                     <tr>
                         <td>Date de Naissance:  </td>

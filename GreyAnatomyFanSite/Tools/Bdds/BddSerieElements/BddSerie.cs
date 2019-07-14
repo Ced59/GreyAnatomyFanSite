@@ -56,17 +56,207 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
             reader.Read();
-            acteur.NomActeur = reader.GetString(3);
-            acteur.PrenomActeur = reader.GetString(4);
+            try
+            {
+                acteur.NomActeur = reader.GetString(3);
+            }
+            catch
+            {
+                acteur.NomActeur = "undefined";
+            }
+            
             acteur.IdPerso = reader.GetInt32(1);
-            acteur.DateNaissance = reader.GetDateTime(2);
-            acteur.BioActeur = reader.GetString(5);
+
+            try
+            {
+                acteur.DateNaissance = reader.GetDateTime(2);
+            }
+            catch
+            {
+                acteur.DateNaissance = Convert.ToDateTime(01/01/2000);
+            }
+
+            try
+            {
+                acteur.BioActeur = reader.GetString(5);
+            }
+            catch
+            {
+                acteur.BioActeur = "undefined";
+            }
+            
             reader.Close();
             command.Dispose();
+            acteur.PrenomsActeur = GetPrenomsActeurs(acteur);
             ConnectionSerie.Instance.Close();
             return acteur;
 
         }
+
+
+        public void DeletePrenom(int id)
+        {
+            IDbCommand command = new SqlCommand("DELETE FROM PrenomsPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void DeleteSurnom(int id)
+        {
+            IDbCommand command = new SqlCommand("DELETE FROM SurnomsPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+
+        public void DeletePrenomActeur(int id)
+        {
+            IDbCommand command = new SqlCommand("DELETE FROM PrenomsActeurs WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void AddBirthdate(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Acteurs SET DateNaissance = @DateNaissance WHERE Id = @IdActeur", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@DateNaissance", SqlDbType.DateTime) { Value = p.DateNaissance });
+            command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = p.IdActeur });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void ModifBirthDate(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Acteurs SET DateNaissance = @DateNaissance WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@DateNaissance", SqlDbType.DateTime) { Value = p.DateNaissance });
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = p.IdActeur });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void AddPhotos(Personnage p)
+        {
+            IDbCommand command = new SqlCommand();
+            ConnectionSerie.Instance.Open();
+
+            foreach (PhotoPerso photo in p.Photos)
+            {
+                command = new SqlCommand("UPDATE PhotosPersos SET Image = @Image, PhotoPrincipale = @Photoprincipale, IdPerso = @IdPerso WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Image", SqlDbType.VarChar) { Value = photo.Url });
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(photo.PhotoPrincipale) });
+                command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = photo.Id });
+
+
+
+                command.ExecuteNonQuery();
+                command.Dispose();
+            }
+
+            foreach (PhotoPerso photo in p.Photos)
+            {
+                command = new SqlCommand("SELECT Id FROM PhotosPersos WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = photo.Id });
+
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    command.Dispose();
+
+                    command = new SqlCommand("INSERT INTO PhotosPersos (IdPerso, Image, PhotoPrincipale) VALUES (@IdPerso, @Image, @PhotoPrincipale)", (SqlConnection)ConnectionSerie.Instance);
+                    command.Parameters.Add(new SqlParameter("@Image", SqlDbType.VarChar) { Value = photo.Url });
+                    command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                    command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(photo.PhotoPrincipale) });
+
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                }
+
+                else
+                {
+                    reader.Close();
+                    command.Dispose();
+                }
+            }
+
+
+            ConnectionSerie.Instance.Close();
+        }
+
+
+
+        public void UpdateStatutPresent(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Persos SET StatutPresent = @StatutPresent WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@StatutPresent", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(p.StatutPresent) });
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void UpdateStatutVivant(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("UPDATE Persos SET StatutVivant = @StatutVivant WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@StatutVivant", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(p.StatutVivant) });
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+        }
+
+        public void AddPrenom(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = p.Prenoms[0].Prenom });
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+        public void AddActorName(Acteur a)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO PrenomsActeurs (Prenom, IdActeur) VALUES (@Prenom, @IdActeur)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = a.PrenomsActeur[0].Prenom });
+            command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = a.IdActeur });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
+
+        public void AddSurnom(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Surnom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Surnom", SqlDbType.VarChar) { Value = p.Surnoms[0].Surnom });
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+        }
+
 
         #endregion
 
@@ -84,12 +274,17 @@ namespace GreyAnatomyFanSite.Models
             {
                 Acteur a = new Acteur();
                 a.NomActeur = reader.GetString(3);
-                a.PrenomActeur = reader.GetString(4);
                 a.IdActeur = reader.GetInt32(0);
                 acteurs.Add(a);
             }
             reader.Close();
             command.Dispose();
+
+            foreach (Acteur a in acteurs)
+            {
+                a.PrenomsActeur = GetPrenomsActeurs(a);
+            }
+
             ConnectionSerie.Instance.Close();
             return acteurs;
         }
@@ -417,7 +612,7 @@ namespace GreyAnatomyFanSite.Models
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
             while (reader.Read())
             {
-                Personnage p = new Personnage { DateNaissance = reader.GetDateTime(0), NomActeur = reader.GetString(1), PrenomActeur = reader.GetString(2), Nom = reader.GetString(3), IdActeur = reader.GetInt32(4), IdPerso = reader.GetInt32(5) };
+                Personnage p = new Personnage { DateNaissance = reader.GetDateTime(0), NomActeur = reader.GetString(1), Nom = reader.GetString(3), IdActeur = reader.GetInt32(4), IdPerso = reader.GetInt32(5) };
                 BirthDates.Add(p);
             }
             reader.Close();
@@ -426,6 +621,7 @@ namespace GreyAnatomyFanSite.Models
             foreach (Personnage p in BirthDates)
             {
                 p.Prenoms = GetPrenomPersos(p);
+                p.PrenomsActeur = GetPrenomsActeurs(p);
             }
 
             ConnectionSerie.Instance.Close();
@@ -438,70 +634,50 @@ namespace GreyAnatomyFanSite.Models
 
         #region Ajouter Perso
 
-        public void AddPerso(Personnage p)
+        public Personnage AddNewPerso(Personnage p)
         {
-            int present = ConvertIntBool.ConvertBoolToInt(p.StatutPresent);
-            int vivant = ConvertIntBool.ConvertBoolToInt(p.StatutVivant);
-
-            IDbCommand command = new SqlCommand("INSERT INTO Persos (Nom, Role, Biographie, StatutVivant, StatutPresent) OUTPUT INSERTED.ID VALUES (@Nom, @Role, @Biographie, @StatutVivant, @StatutPresent)", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("INSERT INTO Persos (Nom) OUTPUT INSERTED.ID VALUES (@Nom)", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = p.Nom });
-            command.Parameters.Add(new SqlParameter("@Role", SqlDbType.VarChar) { Value = p.Role });
-            command.Parameters.Add(new SqlParameter("@StatutVivant", SqlDbType.Int) { Value = vivant });
-            command.Parameters.Add(new SqlParameter("@StatutPresent", SqlDbType.Int) { Value = present });
-            command.Parameters.Add(new SqlParameter("@Biographie", SqlDbType.VarChar) { Value = p.Biographie });
-
-
             ConnectionSerie.Instance.Open();
-            int Id = (int)command.ExecuteScalar();
-            command.Dispose();
-
-
-            command = new SqlCommand("INSERT INTO Acteurs (IdPerso, DateNaissance, Nom, Prenom, Biographie) VALUES (@IdPerso, @DateNaissance, @Nom, @Prenom, @Biographie)", (SqlConnection)ConnectionSerie.Instance);
-            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = Id });
-            command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = p.NomActeur });
-            command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = p.PrenomActeur });
-            command.Parameters.Add(new SqlParameter("@Biographie", SqlDbType.VarChar) { Value = p.BioActeur });
-            command.Parameters.Add(new SqlParameter("@DateNaissance", SqlDbType.Date) { Value = p.DateNaissance });
-
-            command.ExecuteNonQuery();
+            p.Id = (int)command.ExecuteScalar();
             command.Dispose();
 
             foreach (PrenomPerso prenom in p.Prenoms)
             {
-                command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+                command = new SqlCommand("INSERT INTO PrenomsPersos (Prenom, IdPerso) OUTPUT INSERTED.ID VALUES (@Prenom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
                 command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = prenom.Prenom });
-                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = Id });
-                command.ExecuteNonQuery();
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                prenom.Id = (int)command.ExecuteScalar();
                 command.Dispose();
             }
-
-            foreach (PhotoPerso photo in p.Photos)
-            {
-                command = new SqlCommand("INSERT INTO PhotosPersos (Image, IdPerso, PhotoPrincipale) VALUES (@Image, @IdPerso, @PhotoPrincipale)", (SqlConnection)ConnectionSerie.Instance);
-                command.Parameters.Add(new SqlParameter("@Image", SqlDbType.VarChar) { Value = photo.Url });
-                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = Id });
-                command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = 1 });
-
-                command.ExecuteNonQuery();
-                command.Dispose();
-            }
-
-            if (p.Surnoms != null)
-            {
-                foreach (SurnomPerso s in p.Surnoms)
-                {
-                    command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Surnom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
-                    command.Parameters.Add(new SqlParameter("@Surnom", SqlDbType.VarChar) { Value = s.Surnom });
-                    command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = Id });
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                }
-            }
-
-
             ConnectionSerie.Instance.Close();
 
+            return p;
         }
+
+
+        public void AddNewActor(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("INSERT INTO Acteurs (Nom, IdPerso) OUTPUT INSERTED.ID VALUES (@Nom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = p.NomActeur });
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.IdPerso });
+            ConnectionSerie.Instance.Open();
+            p.IdActeur = (int)command.ExecuteScalar();
+            command.Dispose();
+
+            foreach (PrenomActeur prenom in p.PrenomsActeur)
+            {
+                command = new SqlCommand("INSERT INTO PrenomsActeurs (Prenom, IdActeur) VALUES (@Prenom, @IdActeur)", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@Prenom", SqlDbType.VarChar) { Value = prenom.Prenom });
+                command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = p.IdActeur });
+                command.ExecuteNonQuery();
+                command.Dispose();
+            }
+            ConnectionSerie.Instance.Close();
+
+
+        }
+
 
         #endregion
 
@@ -521,26 +697,57 @@ namespace GreyAnatomyFanSite.Models
                 reader.Read();
                 p.Id = id;
                 p.Nom = reader.GetString(1);
-                p.Role = reader.GetString(4);
-                p.Biographie = reader.GetString(5);
 
-                if (reader.GetInt32(2) == 1)
+                try
                 {
-                    p.StatutVivant = true;
+                    p.Role = reader.GetString(4);
                 }
-                else
+                catch
+                {
+                    p.Role = null;
+                }
+
+                try
+                {
+                    p.Biographie = reader.GetString(4);
+                }
+                catch
+                {
+                    p.Biographie = null;
+                }
+
+                try
+                {
+                    if (reader.GetInt32(2) == 1)
+                    {
+                        p.StatutVivant = true;
+                    }
+                    else
+                    {
+                        p.StatutVivant = false;
+                    }
+                }
+                catch
                 {
                     p.StatutVivant = false;
                 }
 
-                if (reader.GetInt32(3) == 1)
+                try
                 {
-                    p.StatutPresent = true;
+                    if (reader.GetInt32(3) == 1)
+                    {
+                        p.StatutPresent = true;
+                    }
+                    else
+                    {
+                        p.StatutPresent = false;
+                    }
                 }
-                else
+                catch
                 {
                     p.StatutPresent = false;
                 }
+
             }
             catch
             {
@@ -557,27 +764,52 @@ namespace GreyAnatomyFanSite.Models
             p.Prenoms = GetPrenomPersos(p);
             p.Photos = GetPhotosPerso(p);
             p.Surnoms = GetSurnomsPersos(p);
+            p.PrenomsActeur = GetPrenomsActeurs(p);
+
+
+            command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = id });
+
+            reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
 
             try
             {
-                command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
-                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = id });
-
-                reader = (SqlDataReader)command.ExecuteReader();
-                reader.Read();
-
                 p.DateNaissance = reader.GetDateTime(2);
+            }
+            catch
+            {
+                p.DateNaissance = Convert.ToDateTime("01/01/0001");
+            }
+
+            try
+            {
                 p.NomActeur = reader.GetString(3);
-                p.PrenomActeur = reader.GetString(4);
-                p.BioActeur = reader.GetString(5);
-                p.IdActeur = reader.GetInt32(0);
             }
             catch
             {
                 p.NomActeur = null;
-                p.PrenomActeur = null;
+            }
+
+            try
+            {
+                p.BioActeur = reader.GetString(5);
+            }
+            catch
+            {
                 p.BioActeur = null;
             }
+
+            try
+            {
+                p.IdActeur = reader.GetInt32(0);
+            }
+            catch
+            {
+                p.IdActeur = 0;
+            }
+
+
 
             reader.Close();
             command.Dispose();
@@ -586,6 +818,8 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
             return p;
         }
+
+
         #endregion
 
 
@@ -606,25 +840,39 @@ namespace GreyAnatomyFanSite.Models
             {
                 while (reader.Read())
                 {
-                    Personnage p = new Personnage { Id = reader.GetInt32(0), Nom = reader.GetString(1), Role = reader.GetString(4), Biographie = reader.GetString(5) };
-                    if (reader.GetInt32(2) == 1)
+                    Personnage p = new Personnage { Id = reader.GetInt32(0), Nom = reader.GetString(1) };
+
+                    try
                     {
-                        p.StatutVivant = true;
+                        if (reader.GetInt32(2) == 1)
+                        {
+                            p.StatutVivant = true;
+                        }
+                        else
+                        {
+                            p.StatutVivant = false;
+                        }
                     }
-                    else
+                    catch
                     {
                         p.StatutVivant = false;
                     }
 
-                    if (reader.GetInt32(3) == 1)
+                    try
                     {
-                        p.StatutPresent = true;
+                        if (reader.GetInt32(3) == 1)
+                        {
+                            p.StatutPresent = true;
+                        }
+                        else
+                        {
+                            p.StatutPresent = false;
+                        }
                     }
-                    else
+                    catch
                     {
                         p.StatutPresent = false;
                     }
-
 
                     l.Add(p);
                 }
@@ -674,30 +922,56 @@ namespace GreyAnatomyFanSite.Models
 
                 #region Récupérer infos Acteurs
 
-                try
-                {
+ 
                     command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
                     command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
                     reader = (SqlDataReader)command.ExecuteReader();
                     reader.Read();
+
+                try
+                {
                     p.DateNaissance = reader.GetDateTime(2);
+                }
+                catch
+                {
+                    p.DateNaissance = Convert.ToDateTime("01/01/0001");
+                }
+                    
+                try
+                {
                     p.NomActeur = reader.GetString(3);
-                    p.PrenomActeur = reader.GetString(4);
-                    p.BioActeur = reader.GetString(5);
-                    p.IdActeur = reader.GetInt32(0);
                 }
                 catch
                 {
                     p.NomActeur = null;
-                    p.PrenomActeur = null;
+                }
+
+                try
+                {
+                    p.BioActeur = reader.GetString(5);
+                }
+                catch
+                {
                     p.BioActeur = null;
                 }
+
+                try
+                {
+                    p.IdActeur = reader.GetInt32(0);
+                }
+                catch
+                {
+                    p.IdActeur = 0;
+                }
+                    
 
                 reader.Close();
                 command.Dispose();
 
+                p.PrenomsActeur = GetPrenomsActeurs(p);
                 #endregion
             }
+
 
 
             ConnectionSerie.Instance.Close();
@@ -716,7 +990,7 @@ namespace GreyAnatomyFanSite.Models
         {
             List<PhotoPerso> photos = new List<PhotoPerso>();
 
-            IDbCommand command = new SqlCommand("SELECT Image, PhotoPrincipale FROM PhotosPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM PhotosPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
@@ -725,15 +999,7 @@ namespace GreyAnatomyFanSite.Models
                 while (reader.Read())
                 {
 
-                    PhotoPerso photo = new PhotoPerso { Url = reader.GetString(0) };
-                    if (reader.GetInt32(1) == 1)
-                    {
-                        photo.PhotoPrincipale = true;
-                    }
-                    else
-                    {
-                        photo.PhotoPrincipale = false;
-                    }
+                    PhotoPerso photo = new PhotoPerso { Url = reader.GetString(2), Id = reader.GetInt32(0), IdPerso = p.Id, PhotoPrincipale = ConvertIntBool.ConvertIntToBool(reader.GetInt32(3)) };
 
                     photos.Add(photo);
                 }
@@ -756,7 +1022,7 @@ namespace GreyAnatomyFanSite.Models
         private List<SurnomPerso> GetSurnomsPersos(Personnage p)
         {
             List<SurnomPerso> surnoms = new List<SurnomPerso>();
-            IDbCommand command = new SqlCommand("SELECT Surnom FROM SurnomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM SurnomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
@@ -765,7 +1031,7 @@ namespace GreyAnatomyFanSite.Models
                 while (reader.Read())
                 {
 
-                    SurnomPerso surnom = new SurnomPerso { Surnom = reader.GetString(0) };
+                    SurnomPerso surnom = new SurnomPerso { Surnom = reader.GetString(1), Id = reader.GetInt32(0) };
                     surnoms.Add(surnom);
                 }
             }
@@ -789,17 +1055,25 @@ namespace GreyAnatomyFanSite.Models
         private List<PrenomPerso> GetPrenomPersos(Personnage p)
         {
             List<PrenomPerso> prenoms = new List<PrenomPerso>();
-            IDbCommand command = new SqlCommand("SELECT Prenom FROM PrenomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM PrenomsPersos WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
 
-            while (reader.Read())
+            try
             {
+                while (reader.Read())
+                {
 
-                PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(0) };
-                prenoms.Add(prenom);
+                    PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
+                    prenoms.Add(prenom);
+                }
             }
+            catch
+            {
+                prenoms = null;
+            }
+
 
             reader.Close();
             command.Dispose();
@@ -807,10 +1081,95 @@ namespace GreyAnatomyFanSite.Models
             return prenoms;
         }
 
-
         #endregion
 
 
-        
+        #region Récupérer prénoms acteurs
+
+        private List<PrenomActeur> GetPrenomsActeurs(Personnage p)
+        {
+            IDbCommand command = new SqlCommand("SELECT Id FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+
+            if ((p.Id != 0))
+            {
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+            }
+            else
+            {
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.IdPerso });
+            }
+
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            try
+            {
+                reader.Read();
+                p.IdActeur = reader.GetInt32(0);
+                reader.Close();
+                command.Dispose();
+            }
+            catch
+            {
+                p.IdActeur = 0;
+                reader.Close();
+                command.Dispose();
+            }
+
+
+            List<PrenomActeur> prenoms = new List<PrenomActeur>();
+            command = new SqlCommand("SELECT * FROM PrenomsActeurs WHERE IdActeur = @IdActeur", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = p.IdActeur });
+            reader = (SqlDataReader)command.ExecuteReader();
+
+
+            try
+            {
+                while (reader.Read())
+                {
+
+                    PrenomActeur prenom = new PrenomActeur { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
+                    prenoms.Add(prenom);
+                }
+            }
+            catch
+            {
+                prenoms = null;
+            }
+
+
+            reader.Close();
+            command.Dispose();
+
+            return prenoms;
+        }
+
+        private List<PrenomActeur> GetPrenomsActeurs(Acteur a)
+        {
+            List<PrenomActeur> prenoms = new List<PrenomActeur>();
+            IDbCommand command = new SqlCommand("SELECT * FROM PrenomsActeurs WHERE IdActeur = @IdActeur", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = a.IdActeur });
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+
+            try
+            {
+                while (reader.Read())
+                {
+
+                    PrenomActeur prenom = new PrenomActeur { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
+                    prenoms.Add(prenom);
+                }
+            }
+            catch
+            {
+                prenoms = null;
+            }
+
+
+            reader.Close();
+            command.Dispose();
+
+            return prenoms;
+        }
+        #endregion
     }
 }

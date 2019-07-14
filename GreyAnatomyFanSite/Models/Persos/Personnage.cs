@@ -42,12 +42,29 @@ namespace GreyAnatomyFanSite.Models.Persos
         public List<PhotoPerso> Photos { get => photos; set => photos = value; }
         public string Biographie { get => biographie; set => biographie = value; }
 
-        public void AddPerso()
+        //public void AddPerso()
+        //{
+        //    BddSerie.Instance.AddPerso(this);
+        //}
+
+        public Personnage AddPrenom()
         {
-            BddSerie.Instance.AddPerso(this);
+            BddSerie.Instance.AddPrenom(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
         }
 
-        
+        public Personnage AddSurnom()
+        {
+            BddSerie.Instance.AddSurnom(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddNewPerso()
+        {
+            return BddSerie.Instance.AddNewPerso(this);
+        }
 
         public List<Personnage> GetAllPersos()
         {
@@ -57,6 +74,71 @@ namespace GreyAnatomyFanSite.Models.Persos
         public Personnage GetPersoID(int id)
         {
             return BddSerie.Instance.GetPersoByID(id);
+        }
+
+        public void DeletePrenom(int id)
+        {
+            BddSerie.Instance.DeletePrenom(id);
+        }
+
+        public void DeleteSurnom(int id)
+        {
+            BddSerie.Instance.DeleteSurnom(id);
+        }
+
+        public Personnage UpdateStatutVivant()
+        {
+            BddSerie.Instance.UpdateStatutVivant(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage UpdateStatutPresent()
+        {
+            BddSerie.Instance.UpdateStatutPresent(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddPhotos()
+        {
+            BddSerie.Instance.AddPhotos(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage AddNewActor()
+        {
+            BddSerie.Instance.AddNewActor(this);
+
+            return BddSerie.Instance.GetPersoByID(this.IdPerso);
+
+        }
+
+        public Personnage AddPrenomActeur(Acteur a, int idPerso)
+        {
+            BddSerie.Instance.AddActorName(a);
+
+            return BddSerie.Instance.GetPersoByID(idPerso);
+        }
+
+        public void DeletePrenomActeur(int id)
+        {
+            BddSerie.Instance.DeletePrenomActeur(id);
+        }
+
+        public Personnage AddBirthdate()
+        {
+            BddSerie.Instance.AddBirthdate(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
+        }
+
+        public Personnage ModifBirthdate()
+        {
+            BddSerie.Instance.ModifBirthDate(this);
+
+            return BddSerie.Instance.GetPersoByID(this.Id);
         }
     }
 }

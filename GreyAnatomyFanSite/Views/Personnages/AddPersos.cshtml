@@ -1,0 +1,508 @@
+﻿@using GreyAnatomyFanSite.Models.Persos
+
+@{
+
+    ViewData["Title"] = "Ajouter Personnage";
+
+}
+
+
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6 col-xs-offset-1 col-xs-10">
+        <div class="row">
+            <h2 class="col-lg-12">Ajouter un Personnage</h2>
+        </div>
+
+        @if (Model == null)
+        {
+            <form asp-controller="Personnages" asp-action="AddPerso" method="post">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Nom : </label>
+                        <input type="text" class="form-control" name="name" placeholder="Nom" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="nom">Prénom d'usage : </label>
+                        <input type="text" class="form-control" name="firstname" placeholder="Prenom" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        }
+
+        else
+
+        {
+            <div class="row">
+                <h2 class="col-lg-12">
+
+                    @if (Model.Prenoms.Count == 0)
+                    {
+                        <span>(Prénom à renseigner)</span><span> </span>
+                    }
+                    else
+                    {
+                        @Model.Prenoms[0].Prenom<span> </span>
+                    }
+
+                    @Model.Nom
+                </h2>
+            </div>
+
+
+
+
+
+
+            @if ((Model.Photos != null))
+            {
+
+                string urlPrincipale = "";
+                foreach (PhotoPerso p in Model.Photos)
+                {
+                    if (p.PhotoPrincipale)
+                    {
+                        urlPrincipale = p.Url;
+                    }
+                }
+
+                if (urlPrincipale != "")
+                {
+
+                    <div class="row">
+                        <section class="col-xs-offset-4 col-xs-4">
+                            <img src="~/@urlPrincipale" class="img-thumbnail img-circle">
+                        </section>
+                    </div>
+
+                    <button class="col-xs-offset-4 col-xs-4 btn btn-primary" id="ButtonDisplayHidden">Modifier la photo Principale </button>
+
+                    <form asp-controller="Personnages" asp-action="AddPrincPhoto" method="post" enctype="multipart/form-data" id="DisplayHidden">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="photo">Modifier photo principale : </label>
+                                <input type="file" class="form-control" name="image">
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                                <input type="hidden" name="photoPrincipale" value="yes" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+
+                }
+                else
+                {
+
+                    
+
+                    <form asp-controller="Personnages" asp-action="AddPrincPhoto" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="photo">Photo principale : </label>
+                                <input type="file" class="form-control" name="image">
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                                <input type="hidden" name="photoPrincipale" value="yes" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+                }
+
+
+
+            }
+
+            else
+            {
+                <div class="row">
+                    <h3>Choisir une photo principale :</h3>
+                </div>
+
+                <form asp-controller="Personnages" asp-action="AddPrincPhoto" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="photo">Photo principale : </label>
+                            <input type="file" class="form-control" name="image">
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                            <input type="hidden" name="photoPrincipale" value="yes" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+            }
+
+
+            <div class="col-xs-12">
+                <h3>Liste des prénoms:</h3>
+            </div>
+
+
+
+
+
+
+            @if ((Model.Prenoms == null) || (Model.Prenoms.Count == 0))
+            {
+                <p class="col-xs-12">Pas de prénom enregistré</p>
+
+                
+
+                <form asp-controller="Personnages" asp-action="AddFirstName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau Prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
+            }
+            else
+            {
+                <dl class="col-xs-12">
+                    @foreach (PrenomPerso p in Model.Prenoms)
+                    {
+                        <dt>@p.Prenom</dt>
+                        <dd><a asp-area="" asp-controller="Personnages" asp-action="DeletePrenom" asp-route-id="@p.Id" asp-route-idPerso="@Model.Id">Supprimer le prénom</a></dd>
+                    }
+                </dl>
+
+                <button class="col-xs-offset-4 col-xs-4 btn btn-primary" id="ButtonDisplayHidden">Ajouter des prénoms </button>
+
+                <form asp-controller="Personnages" asp-action="AddFirstName" method="post" class="col-xs-12" id="DisplayHidden">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau Prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+            }
+
+            <div class="row">
+                <h3>Liste des surnoms:</h3>
+            </div>
+
+            @if ((Model.Surnoms == null) || (Model.Surnoms.Count == 0))
+            {
+                <p>Pas de surnom enregistré</p>
+
+                <form asp-controller="Personnages" asp-action="AddSurName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un surnom : </label>
+                            <input type="text" class="form-control" name="surname" placeholder="Nouveau Surnom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
+            }
+            else
+            {
+                <dl>
+                    @foreach (SurnomPerso s in Model.Surnoms)
+                    {
+                        <dt>@s.Surnom</dt>
+                        <dd><a asp-area="" asp-controller="Personnages" asp-action="DeleteSurnom" asp-route-id="@s.Id" asp-route-idPerso="@Model.Id">Supprimer le surnom</a></dd>
+                    }
+                </dl>
+
+                <form asp-controller="Personnages" asp-action="AddSurName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un surnom : </label>
+                            <input type="text" class="form-control" name="surname" placeholder="Nouveau Surnom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
+            }
+
+            <form asp-controller="Personnages" asp-action="StillAlive" method="post">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label for="statutvVivant">Toujours Vivant ? </label>
+                    </div>
+                    <div class="col-lg-4">
+
+
+                        @if (Model.StatutVivant)
+                        {
+                            <label for="statutVivant" class="radio">
+                                <input id="statutVivant" type="radio" value="yes" name="statutVivant" checked>Oui
+                            </label>
+                        }
+                        else
+                        {
+                            <label for="statutVivant" class="radio">
+                                <input id="statutVivant" type="radio" value="yes" name="statutVivant">Oui
+                            </label>
+                        }
+                    </div>
+                    <div class="col-lg-4">
+                        @if (Model.StatutVivant)
+                        {
+                            <label for="statutVivant" class="radio">
+                                <input id="statutVivant" type="radio" value="no" name="statutVivant">Non
+                            </label>
+                        }
+                        else
+                        {
+                            <label for="statutVivant" class="radio">
+                                <input id="statutVivant" type="radio" value="no" name="statutVivant" checked>Non
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <input type="hidden" name="idPerso" value="@Model.Id" />
+                        <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                    </div>
+                </div>
+            </form>
+
+
+            @if (Model.StatutVivant)
+            {
+                <form asp-controller="Personnages" asp-action="StillPresent" method="post">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label for="StatutPresent">Toujours Présent ? </label>
+                        </div>
+                        <div class="col-lg-4">
+
+
+                            @if (Model.StatutPresent)
+                            {
+                                <label for="StatutPresent" class="radio">
+                                    <input id="StatutPresent" type="radio" value="yes" name="StatutPresent" checked>Oui
+                                </label>
+                            }
+                            else
+                            {
+                                <label for="StatutPresent" class="radio">
+                                    <input id="StatutPresent" type="radio" value="yes" name="StatutPresent">Oui
+                                </label>
+                            }
+                        </div>
+                        <div class="col-lg-4">
+                            @if (Model.StatutPresent)
+                            {
+                                <label for="StatutPresent" class="radio">
+                                    <input id="StatutPresent" type="radio" value="no" name="StatutPresent">Non
+                                </label>
+                            }
+                            else
+                            {
+                                <label for="StatutPresent" class="radio">
+                                    <input id="StatutPresent" type="radio" value="no" name="StatutPresent" checked>Non
+                                </label>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+            }
+
+
+            <h2>Acteur :</h2>
+
+            @if (Model.NomActeur == null)
+            {
+                <p>Pas de nom d'acteur enregistré</p>
+                <form asp-controller="Personnages" asp-action="AddActor" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Nom : </label>
+                            <input type="text" class="form-control" name="name" placeholder="Nom" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Prénom d'usage : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Prénom" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="row">
+                    <h2 class="col-lg-12">
+
+                        @if (Model.PrenomsActeur.Count == 0)
+                        {
+                            <span>(Prénom à renseigner)</span> <span> </span>
+
+                        }
+                        else
+                        {
+                            @Model.PrenomsActeur[0].Prenom <span> </span>
+                        }
+
+                        @Model.NomActeur
+                    </h2>
+                </div>
+
+                <dl>
+                    @foreach (PrenomActeur p in Model.PrenomsActeur)
+                    {
+                        <dt>@p.Prenom</dt>
+                        <dd><a asp-area="" asp-controller="Personnages" asp-action="DeletePrenomActeur" asp-route-id="@p.Id" asp-route-idPerso="@Model.Id">Supprimer le prénom</a></dd>
+                    }
+                </dl>
+
+                <form asp-controller="Personnages" asp-action="AddActorFirstName" method="post">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nom">Ajouter un Prénom : </label>
+                            <input type="text" class="form-control" name="firstname" placeholder="Nouveau Prénom" />
+                            <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                            <input type="hidden" name="idPerso" value="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+                <h3>Date de naissance : </h3>
+
+                @if (Model.DateNaissance != Convert.ToDateTime("01/01/0001"))
+                {
+
+                    <h4>@String.Format("{0:dd/MM/yyyy}", Model.DateNaissance)</h4>
+
+
+                    <form asp-controller="Personnages" asp-action="ModifBirthDate" method="post">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="naissanceActeur">Modifier la date de naissance : </label>
+                                <input type="date" class="form-control" name="dateNaissance" id="datepicker" />
+                                <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+
+                }
+                else
+                {
+                    <h4>Veuillez renseigner une date de naissance.</h4>
+
+                    <form asp-controller="Personnages" asp-action="AddBirthDate" method="post">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="naissanceActeur">Date de naissance de l'Acteur : </label>
+                                <input type="date" class="form-control" name="dateNaissance" id="datepicker" />
+                                <input type="hidden" name="idActeur" value="@Model.IdActeur" />
+                                <input type="hidden" name="idPerso" value="@Model.Id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn btn-default" type="submit">Soumettre</button>
+                            </div>
+                        </div>
+                    </form>
+
+                }
+
+            }
+
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+</script>
+
+<script>
+    document.querySelector("#ButtonDisplayHidden").onclick = function () {
+        if (window.getComputedStyle(document.querySelector('#DisplayHidden')).display == 'none') {
+            document.querySelector("#DisplayHidden").style.display = "block";
+        } else {
+            document.querySelector("#DisplayHidden").style.display = "none";
+        }
+    }
+</script>

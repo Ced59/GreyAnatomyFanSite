@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace GreyAnatomyFanSite.Models.Persos
 {
-    public class PrenomPerso
+    public class PrenomActeur
     {
         private int id;
         private string prenom;
-        private int idPerso;
+        private int idActeur;
 
-        public string Prenom { get => prenom; set => prenom = value; }
-        public int IdPerso { get => idPerso; set => idPerso = value; }
         public int Id { get => id; set => id = value; }
+        public string Prenom { get => prenom; set => prenom = value; }
+        public int IdActeur { get => idActeur; set => idActeur = value; }
     }
 }

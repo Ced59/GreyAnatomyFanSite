@@ -2,6 +2,10 @@
     background-color: #E2EAF7;
 }
 
+#DisplayHidden {
+    display: none;
+}
+
 .borderArticle {
     border: 2px solid #BFCEE5;
 }
