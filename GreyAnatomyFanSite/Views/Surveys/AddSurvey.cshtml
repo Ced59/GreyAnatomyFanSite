@@ -41,6 +41,12 @@
                     @foreach (Answer a in Model.Answers)
                     {
                         <dt>@a.Label</dt>
+
+                        @if (a.GoodAnswer)
+                        {
+                            <dd>Ceci est la bonne réponse</dd>
+                        }
+
                         <dd><a asp-area="" asp-controller="Surveys" asp-action="DeleteAnswer" asp-route-id="@a.Id" asp-route-idSurvey="@Model.Id">Supprimer la réponse</a></dd>
                     }
                 </dl>
