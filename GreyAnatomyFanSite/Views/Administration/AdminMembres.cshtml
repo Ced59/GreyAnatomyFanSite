@@ -1,1 +1,55 @@
-﻿
+﻿@using System.Globalization
+
+
+@{
+
+    ViewData["Title"] = "Administration Membres";
+
+}
+
+<section class="row">
+    <section class="col-lg-offset-1 col-lg-9">
+
+
+
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Liste des Membres</h4>
+            </caption>
+
+
+            <thead>
+                <tr class="CentreTableau">
+                    <th class="col-xs-1">Id</th>
+                    <th class="col-xs-2">Image:</th>
+                    <th class="col-xs-2">Pseudo:</th>
+                    <th class="col-xs-2">Mail:</th>
+                    <th class="col-xs-2">Statut:</th>
+                    <th class="col-xs-3">Date Inscription:</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (Membres m in Model)
+                {
+                    <tr class="CentreTableau">
+
+                        <td>N°: @m.IdMembre</td>
+
+                        <td><img src="~/@m.Avatar" class="img-circle imgMini" /></td>
+
+                        <td>@m.Pseudo</td>
+
+                        <td>@m.Mail</td>
+
+                        <td>@m.Statut</td>
+
+                        <td>@m.DateInscription.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</section>

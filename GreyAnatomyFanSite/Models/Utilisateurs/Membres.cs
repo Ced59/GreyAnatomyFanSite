@@ -1,6 +1,7 @@
 ﻿
 using GreyAnatomyFanSite.Tools;
 using System;
+using System.Collections.Generic;
 
 namespace GreyAnatomyFanSite.Models
 {
@@ -105,6 +106,11 @@ namespace GreyAnatomyFanSite.Models
             return BddUtilisateurs.Instance.GetMembreById(id);
         }
 
-        
+        public List<Membres> GetAllMembres()
+        {
+            return BddUtilisateurs.Instance.GetAllMembres();
+        }
+
+
     }
 }
