@@ -92,6 +92,30 @@ namespace GreyAnatomyFanSite.Models
             return statut;
         }
 
+        public Membres GetMembreByPseudo(string pseudo)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Membres WHERE Pseudo = @Pseudo", (SqlConnection)ConnectionUtilisateurs.Instance);
+            command.Parameters.Add(new SqlParameter("@Pseudo", SqlDbType.VarChar) { Value = pseudo });
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            Membres m = new Membres
+            {
+                IdMembre = reader.GetInt32(0),
+                Pseudo = pseudo,
+                DateInscription = reader.GetDateTime(7),
+                Mail = reader.GetString(2),
+                NoUnique = reader.GetString(4),
+                Statut = reader.GetString(5),
+                Avatar = reader.GetString(6)
+            };
+
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return m;
+        }
+
         public List<Membres> GetAllMembres()
         {
             List<Membres> membres = new List<Membres>();
@@ -100,8 +124,15 @@ namespace GreyAnatomyFanSite.Models
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
             while (reader.Read())
             {
-                Membres m = new Membres { IdMembre = reader.GetInt32(0), Pseudo = reader.GetString(1), Avatar = reader.GetString(6),
-                    Mail = reader.GetString(2), Statut = reader.GetString(5), DateInscription = reader.GetDateTime(7) };
+                Membres m = new Membres
+                {
+                    IdMembre = reader.GetInt32(0),
+                    Pseudo = reader.GetString(1),
+                    Avatar = reader.GetString(6),
+                    Mail = reader.GetString(2),
+                    Statut = reader.GetString(5),
+                    DateInscription = reader.GetDateTime(7)
+                };
 
                 membres.Add(m);
             }

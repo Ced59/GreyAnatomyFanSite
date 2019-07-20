@@ -149,7 +149,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
-        public IActionResult Show()
+        public IActionResult Show(string pseudo)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
@@ -160,7 +160,10 @@ namespace GreyAnatomyFanSite.Controllers
                 return View("Login");
             }
 
-            return View("ShowMembre");
+            Membres m = new Membres();
+            m = m.GetMembreByPseudo(pseudo);
+
+            return View("ShowMembre", m);
         }
 
         [HttpPost]

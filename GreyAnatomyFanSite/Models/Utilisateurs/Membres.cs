@@ -111,6 +111,9 @@ namespace GreyAnatomyFanSite.Models
             return BddUtilisateurs.Instance.GetAllMembres();
         }
 
-
+        public Membres GetMembreByPseudo(string pseudo)
+        {
+            return BddUtilisateurs.Instance.GetMembreByPseudo(pseudo);
+        }
     }
 }

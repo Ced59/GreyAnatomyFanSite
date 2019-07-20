@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = @ViewBag.Pseudo;
+    ViewData["Title"] = @Model.Pseudo;
 }
 
 
@@ -30,7 +30,7 @@
     <div class="col-xs-offset-4 col-xs-4">
         <div class="row">
 
-            <img class="AvatarDescription img-circle img-thumbnail" src="~/@ViewBag.Avatar" />
+            <img class="AvatarDescription img-circle img-thumbnail" src="~/@Model.Avatar" />
 
         </div>
     </div>
@@ -59,7 +59,7 @@
             <h4>Pseudo:</h4>
         </div>
         <div class="col-md-4">
-            @ViewBag.Pseudo
+            @Model.Pseudo
         </div>
     </div>
 </div>
@@ -72,7 +72,7 @@
             <h4>Adresse Mail:</h4>
         </div>
         <div class="col-md-4">
-            @ViewBag.Mail
+            @Model.Mail
         </div>
         <div class="col-md-4">
             <a asp-area="" asp-controller="Membres" asp-action="ModifMail">Modifier votre adresse Mail</a>

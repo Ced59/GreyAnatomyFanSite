@@ -169,7 +169,7 @@
 
                         @if (ViewBag.Logged == true)
                         {
-                            <li><a asp-controller="Membres" asp-action="Show"> Bonjour @ViewBag.MessageBonjour</a></li>
+                            <li><a asp-controller="Membres" asp-action="Show" asp-route-pseudo="@ViewBag.Pseudo"> Bonjour @ViewBag.MessageBonjour</a></li>
                             <li><a asp-controller="Membres" asp-action="LogOut"><span class=" glyphicon-log-out"></span>Log out</a></li>
                         }
                         else
