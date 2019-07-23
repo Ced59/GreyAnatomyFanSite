@@ -59,7 +59,7 @@
                         Posté le
                         @Model.Article.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
                         <br>
-                        par @Model.Article.Auteur.Pseudo
+                        par <a asp-area="" asp-controller="Membres" asp-action="Show" asp-route-pseudo="@Model.Article.Auteur.Pseudo">@Model.Article.Auteur.Pseudo</a>
                     </p>
                 </div>
                 <div class="row">

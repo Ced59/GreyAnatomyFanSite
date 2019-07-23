@@ -20,7 +20,7 @@
         <div class="row">
             <p class="col-xs-12 DateListeArticles">
                 Créé le
-                @Model.Survey.DateCreation.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par @Model.Membre.Pseudo
+                @Model.Survey.DateCreation.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par <a asp-area="" asp-controller="Membres" asp-action="Show" asp-route-pseudo="@Model.Membre.Pseudo">@Model.Membre.Pseudo</a>
             </p>
         </div>
 

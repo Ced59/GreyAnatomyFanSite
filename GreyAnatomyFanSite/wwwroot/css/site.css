@@ -67,7 +67,8 @@
 
 
 .LiensModif {
-    margin-top: 10px
+    margin-top: 10px;
+    text-align: center;
 }
 
 .imgArticle img {

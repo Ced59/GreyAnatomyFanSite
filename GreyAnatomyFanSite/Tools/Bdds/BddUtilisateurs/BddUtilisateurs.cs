@@ -42,7 +42,7 @@ namespace GreyAnatomyFanSite.Models
             ConnectionUtilisateurs.Instance.Close();
         }
 
-        
+
 
         public Membres GetMembreByNo(Membres m)
         {
@@ -50,14 +50,14 @@ namespace GreyAnatomyFanSite.Models
             command.Parameters.Add(new SqlParameter("@NumeroUnique", SqlDbType.VarChar) { Value = m.NoUnique });
             ConnectionUtilisateurs.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
-            if(!reader.Read())
+            if (!reader.Read())
             {
                 reader.Close();
                 command.Dispose();
                 ConnectionUtilisateurs.Instance.Close();
                 return null;
             }
-            
+
             else
             {
                 m = new Membres { IdMembre = reader.GetInt32(0), Pseudo = reader.GetString(1), Statut = reader.GetString(3), Mail = reader.GetString(2) };
@@ -71,7 +71,7 @@ namespace GreyAnatomyFanSite.Models
                     command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = m.IdMembre });
                     command.ExecuteNonQuery();
                 }
-                
+
                 command.Dispose();
                 ConnectionUtilisateurs.Instance.Close();
                 return m;
@@ -92,7 +92,56 @@ namespace GreyAnatomyFanSite.Models
             return statut;
         }
 
+        public Membres GetMembreByPseudo(string pseudo)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Membres WHERE Pseudo = @Pseudo", (SqlConnection)ConnectionUtilisateurs.Instance);
+            command.Parameters.Add(new SqlParameter("@Pseudo", SqlDbType.VarChar) { Value = pseudo });
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            Membres m = new Membres
+            {
+                IdMembre = reader.GetInt32(0),
+                Pseudo = pseudo,
+                DateInscription = reader.GetDateTime(7),
+                Mail = reader.GetString(2),
+                NoUnique = reader.GetString(4),
+                Statut = reader.GetString(5),
+                Avatar = reader.GetString(6)
+            };
 
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return m;
+        }
+
+
+        public List<Membres> GetAllMembres()
+        {
+            List<Membres> membres = new List<Membres>();
+            IDbCommand command = new SqlCommand("SELECT * FROM Membres", (SqlConnection)ConnectionUtilisateurs.Instance);
+            ConnectionUtilisateurs.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            while (reader.Read())
+            {
+                Membres m = new Membres
+                {
+                    IdMembre = reader.GetInt32(0),
+                    Pseudo = reader.GetString(1),
+                    Avatar = reader.GetString(6),
+                    Mail = reader.GetString(2),
+                    Statut = reader.GetString(5),
+                    DateInscription = reader.GetDateTime(7)
+                };
+
+                membres.Add(m);
+            }
+            reader.Close();
+            command.Dispose();
+            ConnectionUtilisateurs.Instance.Close();
+            return membres;
+        }
 
         public Membres GetMembreById(int id)
         {
@@ -125,10 +174,10 @@ namespace GreyAnatomyFanSite.Models
         }
 
 
-        public Membres ComparePassword (string mail, string HashPassword)
+        public Membres ComparePassword(string mail, string HashPassword)
         {
 
-            IDbCommand command = new SqlCommand("SELECT Password FROM Membres WHERE Mail = @Mail",(SqlConnection)ConnectionUtilisateurs.Instance);
+            IDbCommand command = new SqlCommand("SELECT Password FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
             command.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = mail });
             ConnectionUtilisateurs.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
@@ -140,7 +189,7 @@ namespace GreyAnatomyFanSite.Models
             if (PassWord == HashPassword)
             {
 
-                command = new SqlCommand("SELECT Id, Pseudo, Avatar, Statut, NumeroUnique FROM Membres WHERE Mail = @Mail",(SqlConnection)ConnectionUtilisateurs.Instance);
+                command = new SqlCommand("SELECT Id, Pseudo, Avatar, Statut, NumeroUnique FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
                 command.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = mail });
                 ConnectionUtilisateurs.Instance.Open();
                 reader = (SqlDataReader)command.ExecuteReader();
@@ -154,7 +203,7 @@ namespace GreyAnatomyFanSite.Models
             }
             else
             {
-                Membres m = new Membres { Mail = mail};
+                Membres m = new Membres { Mail = mail };
                 return m;
             }
 
@@ -196,7 +245,7 @@ namespace GreyAnatomyFanSite.Models
         public bool PseudoExist(Membres m)
         {
             bool Exist = false;
-            IDbCommand command = new SqlCommand("SELECT * FROM Membres WHERE Pseudo = @Pseudo",(SqlConnection)ConnectionUtilisateurs.Instance);
+            IDbCommand command = new SqlCommand("SELECT * FROM Membres WHERE Pseudo = @Pseudo", (SqlConnection)ConnectionUtilisateurs.Instance);
             command.Parameters.Add(new SqlParameter("@Pseudo", SqlDbType.VarChar) { Value = m.Pseudo });
             ConnectionUtilisateurs.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
@@ -228,6 +277,88 @@ namespace GreyAnatomyFanSite.Models
             return Exist;
         }
 
+
+        public int GetNbrePagesViewMembres(Membres m)
+        {
+            int? IdIp = GetIdIp(m);
+
+            if (IdIp != null)
+            {
+
+                int nbrePagesView = 0;
+
+                IDbCommand command = new SqlCommand("SELECT NbreVue FROM Visites WHERE IdIP = @IdIP", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdIP", SqlDbType.Int) { Value = IdIp });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                while (reader.Read())
+                {
+                    nbrePagesView = nbrePagesView + reader.GetInt32(0);
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return nbrePagesView;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int GetVisitMembres(Membres m)
+        {
+            int? IdIp = GetIdIp(m);
+
+            if (IdIp != null)
+            {
+                int visits = 0;
+
+                IDbCommand command = new SqlCommand("SELECT Id FROM Visites WHERE IdIP = @IdIP", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdIP", SqlDbType.Int) { Value = IdIp });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                while (reader.Read())
+                {
+                    visits++;
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return visits;
+            }
+            else
+            {
+                return 0;
+            }
+
+            
+        }
+
+        private int? GetIdIp(Membres m)
+        {
+            try
+            {
+                int IdIp;
+                IDbCommand command = new SqlCommand("SELECT Id FROM IP WHERE IdMembre = @IdMembre", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = m.IdMembre });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                reader.Read();
+                IdIp = reader.GetInt32(0);
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return IdIp;
+            }
+            catch
+            {
+               
+                ConnectionUtilisateurs.Instance.Close();
+                return null;
+            }
+            
+        }
 
 
         public int GetNbrePagesVues()
@@ -267,7 +398,7 @@ namespace GreyAnatomyFanSite.Models
         public int GetVisit(Visiteur v)
         {
             int IdIp = 0;
-            IDbCommand command = new SqlCommand("SELECT Id FROM IP WHERE IP = @IP",(SqlConnection)ConnectionUtilisateurs.Instance);
+            IDbCommand command = new SqlCommand("SELECT Id FROM IP WHERE IP = @IP", (SqlConnection)ConnectionUtilisateurs.Instance);
             command.Parameters.Add(new SqlParameter("@IP", SqlDbType.VarChar) { Value = v.Ip });
             ConnectionUtilisateurs.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
@@ -287,9 +418,9 @@ namespace GreyAnatomyFanSite.Models
                 command.Dispose();
             }
 
-            command = new SqlCommand("SELECT * FROM Visites WHERE IdIP = @IdIP AND Date = @Date",(SqlConnection)ConnectionUtilisateurs.Instance);
+            command = new SqlCommand("SELECT * FROM Visites WHERE IdIP = @IdIP AND Date = @Date", (SqlConnection)ConnectionUtilisateurs.Instance);
             command.Parameters.Add(new SqlParameter("@IdIP", SqlDbType.Int) { Value = IdIp });
-            command.Parameters.Add(new SqlParameter("@Date", SqlDbType.Date) { Value = v.Date });     
+            command.Parameters.Add(new SqlParameter("@Date", SqlDbType.Date) { Value = v.Date });
             reader = (SqlDataReader)command.ExecuteReader();
 
             if (!reader.Read())
@@ -317,9 +448,9 @@ namespace GreyAnatomyFanSite.Models
             }
 
             command.Dispose();
-            
+
             command = new SqlCommand("SELECT COUNT (*) FROM Visites", (SqlConnection)ConnectionUtilisateurs.Instance);
-            
+
             int VisitUnique = (int)command.ExecuteScalar();
             command.Dispose();
             ConnectionUtilisateurs.Instance.Close();
