@@ -116,6 +116,7 @@ namespace GreyAnatomyFanSite.Models
             return m;
         }
 
+
         public List<Membres> GetAllMembres()
         {
             List<Membres> membres = new List<Membres>();
@@ -276,6 +277,88 @@ namespace GreyAnatomyFanSite.Models
             return Exist;
         }
 
+
+        public int GetNbrePagesViewMembres(Membres m)
+        {
+            int? IdIp = GetIdIp(m);
+
+            if (IdIp != null)
+            {
+
+                int nbrePagesView = 0;
+
+                IDbCommand command = new SqlCommand("SELECT NbreVue FROM Visites WHERE IdIP = @IdIP", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdIP", SqlDbType.Int) { Value = IdIp });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                while (reader.Read())
+                {
+                    nbrePagesView = nbrePagesView + reader.GetInt32(0);
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return nbrePagesView;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int GetVisitMembres(Membres m)
+        {
+            int? IdIp = GetIdIp(m);
+
+            if (IdIp != null)
+            {
+                int visits = 0;
+
+                IDbCommand command = new SqlCommand("SELECT Id FROM Visites WHERE IdIP = @IdIP", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdIP", SqlDbType.Int) { Value = IdIp });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                while (reader.Read())
+                {
+                    visits++;
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return visits;
+            }
+            else
+            {
+                return 0;
+            }
+
+            
+        }
+
+        private int? GetIdIp(Membres m)
+        {
+            try
+            {
+                int IdIp;
+                IDbCommand command = new SqlCommand("SELECT Id FROM IP WHERE IdMembre = @IdMembre", (SqlConnection)ConnectionUtilisateurs.Instance);
+                command.Parameters.Add(new SqlParameter("@IdMembre", SqlDbType.Int) { Value = m.IdMembre });
+                ConnectionUtilisateurs.Instance.Open();
+                SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+                reader.Read();
+                IdIp = reader.GetInt32(0);
+                reader.Close();
+                command.Dispose();
+                ConnectionUtilisateurs.Instance.Close();
+                return IdIp;
+            }
+            catch
+            {
+               
+                ConnectionUtilisateurs.Instance.Close();
+                return null;
+            }
+            
+        }
 
 
         public int GetNbrePagesVues()

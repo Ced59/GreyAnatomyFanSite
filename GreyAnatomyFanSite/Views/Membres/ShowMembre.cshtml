@@ -1,4 +1,5 @@
-﻿
+﻿@using System.Globalization;
+
 @{
     ViewData["Title"] = @Model.Pseudo;
 }
@@ -27,7 +28,7 @@
 }
 
 <div class="row">
-    <div class="col-xs-offset-4 col-xs-4">
+    <div class="col-md-offset-5 col-md-2 col-xs-offset-1 col-xs-10">
         <div class="row">
 
             <img class="AvatarDescription img-circle img-thumbnail" src="~/@Model.Avatar" />
@@ -36,49 +37,77 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-offset-5 col-xs-2">
-        <div class="LiensModif">
-            <a asp-area="" asp-controller="Membres" asp-action="ModifAvatar">Modifier votre image de profil</a>
+
+@if ((ViewBag.Pseudo != null) && (ViewBag.Pseudo == Model.Pseudo))
+{
+    <div class="row">
+        <div class="col-xs-offset-4 col-xs-4">
+            <div class="LiensModif">
+                <a asp-area="" asp-controller="Membres" asp-action="ModifAvatar">Modifier votre image de profil</a>
+            </div>
+        </div>
+        <div class="col-xs-offset-4 col-xs-4">
+            <div class="LiensModif">
+                <a asp-area="" asp-controller="Membres" asp-action="ModifPassword">Modifier votre mot de passe</a>
+            </div>
         </div>
     </div>
-    <div class="col-xs-offset-5 col-xs-2">
-        <div class="LiensModif">
-            <a asp-area="" asp-controller="Membres" asp-action="ModifPassword">Modifier votre mot de passe</a>
-        </div>
-    </div>
+}
 
-    
-</div>
+<section class="row">
+    <section class="col-lg-offset-1 col-lg-10">
 
 
-<div class="row">
-    <div class="col-xs-offset-2 col-xs-8">
 
-        <div class="col-xs-4">
-            <h4>Pseudo:</h4>
-        </div>
-        <div class="col-md-4">
-            @Model.Pseudo
-        </div>
-    </div>
-</div>
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Informations</h4>
+            </caption>
+
+            <tr>
+
+                <th class="col-xs-4">Pseudo:</th>
+                <td class="col-xs-4">@Model.Pseudo</td>
+
+            </tr>
+
+            <tr>
+
+                <th class="col-xs-4">Statut:</th>
+                <td class="col-xs-4">@Model.Statut</td>
+
+            </tr>
+
+            <tr>
+
+                <th class="col-xs-4">Date d'inscription:</th>
+                <td class="col-xs-4">@Model.DateInscription.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+
+            </tr>
+
+            @if (((ViewBag.Pseudo != null) && (ViewBag.Pseudo == Model.Pseudo)) || (ViewBag.Statut == "Administrateur") || (ViewBag.Statut == "Coeur"))
+            {
+            <tr>
+
+                <th class="col-xs-4">Adresse Mail:</th>
+                <td class="col-xs-4">@Model.Mail </td>
+                @if (ViewBag.Pseudo == Model.Pseudo)
+                    {
+                <td class="col-xs-2">
+                    <a asp-area="" asp-controller="Membres" asp-action="ModifMail">Modifier</a>
+                </td>
+                    }
+
+            </tr>
+            }
 
 
-<div class="row">
-    <div class="col-xs-offset-2 col-xs-8">
 
-        <div class="col-xs-4">
-            <h4>Adresse Mail:</h4>
-        </div>
-        <div class="col-md-4">
-            @Model.Mail
-        </div>
-        <div class="col-md-4">
-            <a asp-area="" asp-controller="Membres" asp-action="ModifMail">Modifier votre adresse Mail</a>
-        </div>
-    </div>
-</div>
+        </table>
+    </section>
+</section>
+
+
 
 
 

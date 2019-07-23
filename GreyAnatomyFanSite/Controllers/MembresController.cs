@@ -31,6 +31,7 @@ namespace GreyAnatomyFanSite.Controllers
 
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
 
             Membres m = new Membres();
             return View(m);
@@ -41,6 +42,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
             if (!ViewBag.logged)
             {
@@ -56,6 +58,7 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
             if (!ViewBag.logged)
             {
@@ -154,14 +157,12 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
 
-            if (!ViewBag.logged)
-            {
-                return View("Login");
-            }
 
             Membres m = new Membres();
             m = m.GetMembreByPseudo(pseudo);
+            
 
             return View("ShowMembre", m);
         }
@@ -171,6 +172,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
 
             List<string> errors = new List<string>();
 
@@ -390,6 +392,7 @@ namespace GreyAnatomyFanSite.Controllers
 
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
 
             CookieUserExist(ViewBag);
 
@@ -402,6 +405,7 @@ namespace GreyAnatomyFanSite.Controllers
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
 
             List<string> errors = new List<string>();
 
@@ -601,6 +605,27 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
 
+            }
+        }
+
+
+        private void ConsentCookie(dynamic c)
+        {
+            if (Request.Cookies["ConsentCookies"] == null)
+            {
+                CookieOptions option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    HttpOnly = true
+                };
+                Response.Cookies.Append("ConsentCookies", "ok", option);
+
+                c.ConsentCookies = "non";
+            }
+
+            else
+            {
+                c.ConsentCookies = "ok";
             }
         }
 

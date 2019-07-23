@@ -20,6 +20,8 @@ namespace GreyAnatomyFanSite.Models
         private DateTime dateNaissance;
         private string genre;
         private DateTime dateInscription;
+        private int nbreVisite;
+        private int nbrePageViews;
         
 
         public Membres()
@@ -53,7 +55,8 @@ namespace GreyAnatomyFanSite.Models
         public string NoUnique { get => noUnique; set => noUnique = value; }
         public int IdMembre { get => idMembre; set => idMembre = value; }
         public DateTime DateInscription { get => dateInscription; set => dateInscription = value; }
-        
+        public int NbreVisite { get => nbreVisite; set => nbreVisite = value; }
+        public int NbrePageViews { get => nbrePageViews; set => nbrePageViews = value; }
 
         public string VerifStatut()
         {
@@ -114,6 +117,14 @@ namespace GreyAnatomyFanSite.Models
         public Membres GetMembreByPseudo(string pseudo)
         {
             return BddUtilisateurs.Instance.GetMembreByPseudo(pseudo);
+        }
+
+        public Membres GetVisitMembres()
+        {
+            this.NbreVisite = BddUtilisateurs.Instance.GetVisitMembres(this);
+            this.NbrePageViews = BddUtilisateurs.Instance.GetNbrePagesViewMembres(this);
+
+            return this;
         }
     }
 }
