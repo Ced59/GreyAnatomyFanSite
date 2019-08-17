@@ -23,7 +23,7 @@
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">@c.Titre</h4>
-                            <p class="miniTextItalic">Publié le @c.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par @c.Membre.Pseudo</p>
+                            <p class="miniTextItalic">Publié le @c.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par <a asp-area="" asp-controller="Membres" asp-action="Show" asp-route-pseudo="@c.Membre.Pseudo">@c.Membre.Pseudo</a></p>
                             <p>@Html.Raw(c.Text.Replace(Environment.NewLine, "<br/>"))</p>
                         </div>
                     </li>
