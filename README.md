@@ -1,6 +1,6 @@
 # GreyAnatomyFanSite
 
-Website to fans of Grey's Anatomy TV Serie fans
+Website for fans of Grey's Anatomy TV Serie.
 
 Developped with ASP.NET CORE 2.2
 
