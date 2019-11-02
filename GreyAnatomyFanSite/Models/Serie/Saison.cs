@@ -18,6 +18,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         private string poster_path;
         private int season_number;
         private int idTMDB;
+        private List<Episode> episodes;
 
         public int Id { get => id; set => id = value; }
         public int IdSerie { get => idSerie; set => idSerie = value; }
@@ -27,6 +28,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         public string Poster_path { get => poster_path; set => poster_path = value; }
         public int Season_number { get => season_number; set => season_number = value; }
         public int IdTMDB { get => idTMDB; set => idTMDB = value; }
+        public List<Episode> Episodes { get => episodes; set => episodes = value; }
 
         internal Saison updateSaisonWithMovieDB(int i, int idSerie)
         {

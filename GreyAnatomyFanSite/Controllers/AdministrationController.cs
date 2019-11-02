@@ -161,6 +161,24 @@ namespace GreyAnatomyFanSite.Controllers
                 serieInfo.updateSerieInfosInBdd();
             }
 
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 2 };
+                saison = saison.updateSaisonWithMovieDB(i, 2);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count > 0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
+
             return View("AdminSite", serieInfo);
         }
 
@@ -177,6 +195,24 @@ namespace GreyAnatomyFanSite.Controllers
             if (serieInfo != null)
             {
                 serieInfo.updateSerieInfosInBdd();
+            }
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 3 };
+                saison = saison.updateSaisonWithMovieDB(i, 3);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count > 0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
             }
 
             return View("AdminSite", serieInfo);
