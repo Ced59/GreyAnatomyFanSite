@@ -50,6 +50,86 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public void UpdateSeasonsSerie(List<Saison> saisons)
+        {
+            foreach (Saison s in saisons)
+            {
+                bool exist = seasonExist(s.Id);
+
+
+                if (exist)
+                {
+                    IDbCommand command = new SqlCommand(
+                    "UPDATE Saison SET " +
+                    "DateDiffusion = @DateDiffusion, " +
+                    "Nom = @Nom, " +
+                    "Description = @Description, " +
+                    "Affiche = @Affiche, " +
+                    "NumeroSaison = @NumeroSaison " +
+                    "WHERE IdTheMovieDB = @IdTheMovieDB",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+                    command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = s.Air_date });
+                    command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = s.Name });
+                    command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = s.Overview });
+                    command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = s.Poster_path });
+                    command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = s.Season_number });
+                    command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = s.Id });
+
+                    
+                    ConnectionSerie.Instance.Open();
+                    command.ExecuteNonQuery();
+                    ConnectionSerie.Instance.Close();
+                }
+                else
+                {
+                    IDbCommand command = new SqlCommand(
+                    "INSERT INTO Saison (IdSerie, DateDiffusion, Nom, Description, Affiche, NumeroSaison, IdTheMovieDB)" +
+                    "VALUES (@IdSerie, @DateDiffusion, @Nom, @Description, @Affiche, @NumeroSaison, @IdTheMovieDB) ",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+                    command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = s.IdSerie });
+                    command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = s.Air_date });
+                    command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = s.Name });
+                    command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = s.Overview });
+                    command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = s.Poster_path });
+                    command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = s.Season_number });
+                    command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = s.Id });
+                                       
+                    ConnectionSerie.Instance.Open();
+                    command.ExecuteNonQuery();
+                    ConnectionSerie.Instance.Close();
+
+                }
+            }
+        }
+
+        private bool seasonExist(int id)
+        {
+            bool exist;
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE IdTheMovieDB = @IdTheMovieDB", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                int test = reader.GetInt32(1);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
+        }
+
         public void UpdateSerieInfos(SerieInfo serieInfo)
         {
 
@@ -113,7 +193,7 @@ namespace GreyAnatomyFanSite.Models
                 command.ExecuteNonQuery();
                 ConnectionSerie.Instance.Close();
             }
-            
+
 
         }
 
@@ -158,7 +238,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 acteur.NomActeur = "undefined";
             }
-            
+
             acteur.IdPerso = reader.GetInt32(1);
 
             try
@@ -167,7 +247,7 @@ namespace GreyAnatomyFanSite.Models
             }
             catch
             {
-                acteur.DateNaissance = Convert.ToDateTime(01/01/2000);
+                acteur.DateNaissance = Convert.ToDateTime(01 / 01 / 2000);
             }
 
             try
@@ -178,7 +258,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 acteur.BioActeur = "undefined";
             }
-            
+
             reader.Close();
             command.Dispose();
             acteur.PrenomsActeur = GetPrenomsActeurs(acteur);
@@ -1016,11 +1096,11 @@ namespace GreyAnatomyFanSite.Models
 
                 #region Récupérer infos Acteurs
 
- 
-                    command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
-                    command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
-                    reader = (SqlDataReader)command.ExecuteReader();
-                    reader.Read();
+
+                command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                reader = (SqlDataReader)command.ExecuteReader();
+                reader.Read();
 
                 try
                 {
@@ -1030,7 +1110,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.DateNaissance = Convert.ToDateTime("01/01/0001");
                 }
-                    
+
                 try
                 {
                     p.NomActeur = reader.GetString(3);
@@ -1057,7 +1137,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.IdActeur = 0;
                 }
-                    
+
 
                 reader.Close();
                 command.Dispose();

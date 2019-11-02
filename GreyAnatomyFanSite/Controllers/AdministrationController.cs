@@ -110,7 +110,7 @@ namespace GreyAnatomyFanSite.Controllers
         }
 
 
-        public IActionResult MajInfoSerie()
+        public IActionResult MajInfoSerieGrey()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
@@ -124,7 +124,24 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 serieInfo.updateSerieInfosInBdd();
             }
-            
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 1 };
+                saison = saison.updateSaisonWithMovieDB(i, 1);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count >0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
 
             return View("AdminSite", serieInfo);
         }
