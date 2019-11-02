@@ -123,14 +123,16 @@
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Les Actus</a></li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">La Série<span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Les Séries<span class="caret"></span></a>
 
 
 
 
                             <ul class="dropdown-menu">
 
-                                <li><a asp-area="" asp-controller="Serie" asp-action="Index">La Série</a></li>
+                                <li><a asp-area="" asp-controller="Serie" asp-action="Index" asp-route-idSerie="1">Grey's Anatomy</a></li>
+                                <li><a asp-area="" asp-controller="Serie" asp-action="Index" asp-route-idSerie="2">Private Practice</a></li>
+                                <li><a asp-area="" asp-controller="Serie" asp-action="Index" asp-route-idSerie="3">Station 19</a></li>
                                 <li><a asp-area="" asp-controller="Personnages" asp-action="Index">Les Personnages</a></li>
                                 <li><a asp-area="" asp-controller="Acteurs" asp-action="Index">Les Acteurs</a></li>
                                 <li><a asp-area="" asp-controller="Relations" asp-action="Index">Les Relations</a></li>

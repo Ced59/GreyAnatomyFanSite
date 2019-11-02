@@ -1,8 +1,47 @@
-﻿
+﻿@{
+    ViewData["Title"] = Model.Original_name;
+}
 
 
-<div class="col-lg-offset-2 col-lg-6">
-    <h1>En Construction</h1>
-    <p>Cette page n'est pas encore disponible pour le moment. <br />
-    </p>
+<div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
+
+    <h1 class="marginTop">@Model.Original_name</h1>
+
+    <div class="col-md-2">
+        <div class="imgArticle">
+            <img src="@Model.Poster_path" />
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <p class="marginTop">
+            @Model.Overview <br />
+        </p>
+        <p class="marginTop2">
+            Nombre de saisons : @Model.Number_of_seasons
+        </p>
+        <p class="marginTop2">
+            Nombre d'épisodes : @Model.Number_of_episodes
+        </p>
+
+
+        @if (Model.In_production)
+        {
+            <p class="marginTop2">
+                En production : Oui
+            </p>
+        }
+        else
+        {
+            <p class="marginTop2">
+                En production : Non
+            </p>
+        }
+
+
+
+
+    </div>
+
+
 </div>

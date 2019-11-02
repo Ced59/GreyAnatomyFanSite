@@ -124,6 +124,38 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
+        internal SerieInfo GetSerie(int idSerie)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Serie WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = idSerie });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            SerieInfo serie = new SerieInfo();
+            serie.Id = reader.GetInt32(0);
+            serie.Original_name = reader.GetString(1);
+            serie.Homepage = reader.GetString(2);
+            if (reader.GetInt32(3) == 1)
+            {
+                serie.In_production = true;
+            }
+            else
+            {
+                serie.In_production = false;
+            }
+            serie.Number_of_seasons = reader.GetInt32(4);
+            serie.Number_of_episodes = reader.GetInt32(5);
+            serie.Overview = reader.GetString(6);
+            serie.Poster_path = reader.GetString(8);
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return serie;
+
+        }
+
         private void insertEpisode(Episode e, int idSerie)
         {
             IDbCommand command = new SqlCommand(

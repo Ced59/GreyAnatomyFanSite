@@ -19,6 +19,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         private int number_of_seasons;
         private int number_of_episodes;
         private bool in_production;
+        private string poster_path;
 
 
 
@@ -31,6 +32,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         public int IdSerie { get => idSerie; set => idSerie = value; }
         public bool In_production { get => in_production; set => in_production = value; }
         public int Id { get => id; set => id = value; }
+        public string Poster_path { get => poster_path; set => poster_path = value; }
 
         internal SerieInfo updateWithTheMovieDB()
         {
@@ -87,6 +89,12 @@ namespace GreyAnatomyFanSite.Models.Serie
 
             return responseObject;
         }
+
+        internal SerieInfo getSerie(int idSerie)
+        {
+            return BddSerie.Instance.GetSerie(idSerie);
+        }
+
     }
 
 }
