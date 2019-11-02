@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Models.Site;
 using GreyAnatomyFanSite.Tools;
 using GreyAnatomyFanSite.Tools.Bdds.BddSerie;
@@ -49,6 +50,277 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+        public void UpdateSeasonsSerie(List<Saison> saisons)
+        {
+            foreach (Saison s in saisons)
+            {
+                bool exist = seasonExist(s.Id);
+
+
+                if (exist)
+                {
+                    IDbCommand command = new SqlCommand(
+                    "UPDATE Saison SET " +
+                    "DateDiffusion = @DateDiffusion, " +
+                    "Nom = @Nom, " +
+                    "Description = @Description, " +
+                    "Affiche = @Affiche, " +
+                    "NumeroSaison = @NumeroSaison " +
+                    "WHERE IdTheMovieDB = @IdTheMovieDB",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+                    command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = s.Air_date });
+                    command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = s.Name });
+                    command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = s.Overview });
+                    command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + s.Poster_path });
+                    command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = s.Season_number });
+                    command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = s.Id });
+
+
+                    ConnectionSerie.Instance.Open();
+                    command.ExecuteNonQuery();
+                    ConnectionSerie.Instance.Close();
+
+                    foreach (Episode e in s.Episodes)
+                    {
+                        bool existEp = episodeExist(e);
+
+                        if (existEp)
+                        {
+                            updateEpisode(e, s.IdSerie);
+                        }
+                        else
+                        {
+                            insertEpisode(e, s.IdSerie);
+                        }
+                    }
+
+                }
+                else
+                {
+                    IDbCommand command = new SqlCommand(
+                    "INSERT INTO Saison (IdSerie, DateDiffusion, Nom, Description, Affiche, NumeroSaison, IdTheMovieDB)" +
+                    "VALUES (@IdSerie, @DateDiffusion, @Nom, @Description, @Affiche, @NumeroSaison, @IdTheMovieDB) ",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+                    command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = s.IdSerie });
+                    command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = s.Air_date });
+                    command.Parameters.Add(new SqlParameter("@Nom", SqlDbType.VarChar) { Value = s.Name });
+                    command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = s.Overview });
+                    command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + s.Poster_path });
+                    command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = s.Season_number });
+                    command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = s.Id });
+
+                    ConnectionSerie.Instance.Open();
+                    command.ExecuteNonQuery();
+                    ConnectionSerie.Instance.Close();
+
+                    foreach (Episode e in s.Episodes)
+                    {
+                        insertEpisode(e, s.IdSerie);
+                    }
+
+                }
+            }
+        }
+
+        private void insertEpisode(Episode e, int idSerie)
+        {
+            IDbCommand command = new SqlCommand(
+                    "INSERT INTO Episode (DateDiffusion, NumeroEpisode, IdTheMovieDB, Titre, Description, NumeroSaison, IdSerieTheMovieDB, IdSerie, Affiche)" +
+                    "VALUES (@DateDiffusion, @NumeroEpisode, @IdTheMovieDB, @Titre, @Description, @NumeroSaison, @IdSerieTheMovieDB, @IdSerie, @Affiche) ",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+            command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = e.Air_date });
+            command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = e.Name });
+            command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = e.Overview });
+            command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + e.Still_path });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = e.Season_number });
+            command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = e.Id });
+            command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@IdSerieTheMovieDB", SqlDbType.Int) { Value = e.Show_id });
+
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            ConnectionSerie.Instance.Close();
+        }
+
+        private void updateEpisode(Episode e, int idSerie)
+        {
+            IDbCommand command = new SqlCommand(
+                    "UPDATE Episode SET " +
+                    "DateDiffusion = @DateDiffusion, " +
+                    "NumeroEpisode = @NumeroEpisode, " +
+                    "Affiche = @Affiche, " +
+                    "NumeroSaison = @NumeroSaison, " +
+                    "Titre = @Titre, " +
+                    "IdSerie = @IdSerie, " +
+                    "IdSerieTheMovieDB = @IdSerieTheMovieDB" +
+                    "Description = @Description" +
+                    "WHERE IdTheMovieDB = @IdTheMovieDB",
+                    (SqlConnection)ConnectionSerie.Instance);
+
+            command.Parameters.Add(new SqlParameter("@DateDiffusion", SqlDbType.Date) { Value = e.Air_date });
+            command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = e.Name });
+            command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = e.Overview });
+            command.Parameters.Add(new SqlParameter("@Affiche", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + e.Still_path });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = e.Season_number });
+            command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = e.Id });
+            command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@IdSerieTheMovieDB", SqlDbType.Int) { Value = e.Show_id });
+
+            ConnectionSerie.Instance.Open();
+            command.ExecuteNonQuery();
+            ConnectionSerie.Instance.Close();
+        }
+
+        private bool episodeExist(Episode e)
+        {
+            bool exist;
+            IDbCommand command = new SqlCommand("SELECT * FROM Episode WHERE IdTheMovieDB = @IdTheMovieDB", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = e.Id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                int test = reader.GetInt32(1);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
+        }
+
+        private bool seasonExist(int id)
+        {
+            bool exist;
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE IdTheMovieDB = @IdTheMovieDB", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                int test = reader.GetInt32(1);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
+        }
+
+        public void UpdateSerieInfos(SerieInfo serieInfo)
+        {
+
+            bool exist = serieExist(serieInfo.Id);
+
+            if (exist)
+            {
+                IDbCommand command = new SqlCommand(
+                "UPDATE Serie SET " +
+                "Titre = @Titre, " +
+                "Homepage = @Homepage, " +
+                "EnProduction = @EnProduction, " +
+                "NbreSaisons = @NbreSaisons, " +
+                "NbreEpisodes = @NbreEpisodes, " +
+                "Description = @Description " +
+                "WHERE IdMovieDatabase = @IdMovieDatabase",
+                (SqlConnection)ConnectionSerie.Instance);
+
+                command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = serieInfo.Original_name });
+                command.Parameters.Add(new SqlParameter("@NbreSaisons", SqlDbType.Int) { Value = serieInfo.Number_of_seasons });
+                command.Parameters.Add(new SqlParameter("@NbreEpisodes", SqlDbType.Int) { Value = serieInfo.Number_of_episodes });
+                command.Parameters.Add(new SqlParameter("@Homepage", SqlDbType.VarChar) { Value = serieInfo.Homepage });
+                command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = serieInfo.Overview });
+                command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = serieInfo.Id });
+
+                if (serieInfo.In_production)
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 1 });
+                }
+                else
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 0 });
+                }
+                ConnectionSerie.Instance.Open();
+                command.ExecuteNonQuery();
+                ConnectionSerie.Instance.Close();
+            }
+            else
+            {
+                IDbCommand command = new SqlCommand(
+                "INSERT INTO Serie (Titre, Homepage, EnProduction, NbreSaisons, NbreEpisodes, Description, IdMovieDatabase)" +
+                "VALUES (@Titre, @Homepage, @EnProduction, @NbreSaisons, @NbreEpisodes, @Description, @IdMovieDatabase) ",
+                (SqlConnection)ConnectionSerie.Instance);
+
+                command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = serieInfo.Original_name });
+                command.Parameters.Add(new SqlParameter("@NbreSaisons", SqlDbType.Int) { Value = serieInfo.Number_of_seasons });
+                command.Parameters.Add(new SqlParameter("@NbreEpisodes", SqlDbType.Int) { Value = serieInfo.Number_of_episodes });
+                command.Parameters.Add(new SqlParameter("@Homepage", SqlDbType.VarChar) { Value = serieInfo.Homepage });
+                command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = serieInfo.Overview });
+                command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = serieInfo.Id });
+
+                if (serieInfo.In_production)
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 1 });
+                }
+                else
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 0 });
+                }
+                ConnectionSerie.Instance.Open();
+                command.ExecuteNonQuery();
+                ConnectionSerie.Instance.Close();
+            }
+
+
+        }
+
+        private bool serieExist(int id)
+        {
+            bool exist;
+            IDbCommand command = new SqlCommand("SELECT * FROM Serie WHERE IdMovieDatabase = @IdMovieDatabase", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                string test = reader.GetString(1);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
+        }
+
         public Acteur GetActeurById(Acteur acteur)
         {
             IDbCommand command = new SqlCommand("SELECT * FROM Acteurs WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
@@ -64,7 +336,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 acteur.NomActeur = "undefined";
             }
-            
+
             acteur.IdPerso = reader.GetInt32(1);
 
             try
@@ -73,7 +345,7 @@ namespace GreyAnatomyFanSite.Models
             }
             catch
             {
-                acteur.DateNaissance = Convert.ToDateTime(01/01/2000);
+                acteur.DateNaissance = Convert.ToDateTime(01 / 01 / 2000);
             }
 
             try
@@ -84,7 +356,7 @@ namespace GreyAnatomyFanSite.Models
             {
                 acteur.BioActeur = "undefined";
             }
-            
+
             reader.Close();
             command.Dispose();
             acteur.PrenomsActeur = GetPrenomsActeurs(acteur);
@@ -922,11 +1194,11 @@ namespace GreyAnatomyFanSite.Models
 
                 #region Récupérer infos Acteurs
 
- 
-                    command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
-                    command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
-                    reader = (SqlDataReader)command.ExecuteReader();
-                    reader.Read();
+
+                command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
+                reader = (SqlDataReader)command.ExecuteReader();
+                reader.Read();
 
                 try
                 {
@@ -936,7 +1208,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.DateNaissance = Convert.ToDateTime("01/01/0001");
                 }
-                    
+
                 try
                 {
                     p.NomActeur = reader.GetString(3);
@@ -963,7 +1235,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.IdActeur = 0;
                 }
-                    
+
 
                 reader.Close();
                 command.Dispose();

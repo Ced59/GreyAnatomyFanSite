@@ -215,7 +215,7 @@
 
             @if ((Model.Surnoms == null) || (Model.Surnoms.Count == 0))
             {
-                <p>Pas de surnom enregistré</p>
+                <p class="col-xs-12">Pas de surnom enregistré</p>
 
                 <form asp-controller="Personnages" asp-action="AddSurName" method="post" class="col-xs-12">
                     <div class="row">
@@ -355,12 +355,12 @@
             }
 
 
-            <h2>Acteur :</h2>
+            <h2 class="col-xs-12">Acteur :</h2>
 
             @if (Model.NomActeur == null)
             {
-                <p>Pas de nom d'acteur enregistré</p>
-                <form asp-controller="Personnages" asp-action="AddActor" method="post">
+                <p class="col-xs-12">Pas de nom d'acteur enregistré</p>
+                <form asp-controller="Personnages" asp-action="AddActor" method="post" class="col-xs-12">
                     <div class="row">
                         <div class="form-group">
                             <label for="nom">Nom : </label>
@@ -437,7 +437,7 @@
 
                     <h4 class="col-xs-12">@String.Format("{0:dd/MM/yyyy}", Model.DateNaissance)</h4>
 
-                    <button class="col-xs-offset-4 col-xs-4 btn btn-primary" id="ButtonDisplayHiddenDateActeur">Ajouter un prénom </button>
+                    <button class="col-xs-offset-4 col-xs-4 btn btn-primary margBtn" id="ButtonDisplayHiddenDateActeur">Modifier date de naissance</button>
 
                     <form asp-controller="Personnages" asp-action="ModifBirthDate" method="post" id="DisplayHiddenDateActeur" class="col-xs-12 hidden">
                         <div class="row">
@@ -458,7 +458,7 @@
                 }
                 else
                 {
-                    <h4>Veuillez renseigner une date de naissance.</h4>
+                    <h4 class="col-xs-12">Veuillez renseigner une date de naissance.</h4>
 
 
                     <form asp-controller="Personnages" asp-action="AddBirthDate" method="post">

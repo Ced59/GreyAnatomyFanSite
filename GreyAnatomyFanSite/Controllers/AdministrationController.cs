@@ -5,8 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.Models.Serie;
+using GreyAnatomyFanSite.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -86,6 +90,152 @@ namespace GreyAnatomyFanSite.Controllers
             }
 
             return View("AddPersos");
+        }
+
+
+        public IActionResult Site()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            if (!ViewBag.logged)
+            {
+                return View("Login");
+            }
+
+
+            return View("AdminSite");
+        }
+
+
+        public IActionResult MajInfoSerieGrey()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updateWithTheMovieDB();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 1 };
+                saison = saison.updateSaisonWithMovieDB(i, 1);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count >0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
+
+            return View("AdminSite", serieInfo);
+        }
+
+        public IActionResult MajPrivatePractice()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updatePrivatePracticeWithTheMovieDB();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 2 };
+                saison = saison.updateSaisonWithMovieDB(i, 2);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count > 0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
+
+            return View("AdminSite", serieInfo);
+        }
+
+        public IActionResult MajStation()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updateStationWithTheMovieDB();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = 3 };
+                saison = saison.updateSaisonWithMovieDB(i, 3);
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+            if (saisons.Count > 0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
+
+            return View("AdminSite", serieInfo);
+        }
+
+        
+
+        public IActionResult testAPI()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            var client = new RestClient(PassConnection.connectionTheMovieDB());
+            var request = new RestRequest(Method.GET);
+            request.AddParameter("undefined", "{}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+
+            var response2 = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
+
+            return View("AdminSite", response2);
         }
 
 
