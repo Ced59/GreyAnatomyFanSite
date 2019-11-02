@@ -5,8 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.Models.Serie;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -86,6 +89,34 @@ namespace GreyAnatomyFanSite.Controllers
             }
 
             return View("AddPersos");
+        }
+
+
+        public IActionResult Site()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            if (!ViewBag.logged)
+            {
+                return View("Login");
+            }
+
+
+            return View("AdminSite");
+        }
+
+
+        public IActionResult MajInfoSerie()
+        {
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updateWithTheMovieDB();
+            serieInfo.updateSerieInfosInBdd();
+
+            return View("AdminSite", serieInfo);
         }
 
 

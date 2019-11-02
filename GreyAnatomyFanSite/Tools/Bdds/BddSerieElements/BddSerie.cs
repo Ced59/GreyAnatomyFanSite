@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Models.Site;
 using GreyAnatomyFanSite.Tools;
 using GreyAnatomyFanSite.Tools.Bdds.BddSerie;
@@ -47,6 +48,99 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
 
+        }
+
+        public void UpdateSerieInfos(SerieInfo serieInfo)
+        {
+
+            bool exist = serieExist(serieInfo.Id);
+
+            if (exist)
+            {
+                IDbCommand command = new SqlCommand(
+                "UPDATE Serie SET " +
+                "Titre = @Titre, " +
+                "Homepage = @Homepage, " +
+                "EnProduction = @EnProduction, " +
+                "NbreSaisons = @NbreSaisons, " +
+                "NbreEpisodes = @NbreEpisodes, " +
+                "Description = @Description " +
+                "WHERE IdMovieDatabase = @IdMovieDatabase",
+                (SqlConnection)ConnectionSerie.Instance);
+
+                command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = serieInfo.Original_name });
+                command.Parameters.Add(new SqlParameter("@NbreSaisons", SqlDbType.Int) { Value = serieInfo.Number_of_seasons });
+                command.Parameters.Add(new SqlParameter("@NbreEpisodes", SqlDbType.Int) { Value = serieInfo.Number_of_episodes });
+                command.Parameters.Add(new SqlParameter("@Homepage", SqlDbType.VarChar) { Value = serieInfo.Homepage });
+                command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = serieInfo.Overview });
+                command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = serieInfo.Id });
+
+                if (serieInfo.In_production)
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 1 });
+                }
+                else
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 0 });
+                }
+                ConnectionSerie.Instance.Open();
+                command.ExecuteNonQuery();
+                ConnectionSerie.Instance.Close();
+            }
+            else
+            {
+                IDbCommand command = new SqlCommand(
+                "INSERT INTO Serie (Titre, Homepage, EnProduction, NbreSaisons, NbreEpisodes, Description, IdMovieDatabase)" +
+                "VALUES (@Titre, @Homepage, @EnProduction, @NbreSaisons, @NbreEpisodes, @Description, @IdMovieDatabase) ",
+                (SqlConnection)ConnectionSerie.Instance);
+
+                command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = serieInfo.Original_name });
+                command.Parameters.Add(new SqlParameter("@NbreSaisons", SqlDbType.Int) { Value = serieInfo.Number_of_seasons });
+                command.Parameters.Add(new SqlParameter("@NbreEpisodes", SqlDbType.Int) { Value = serieInfo.Number_of_episodes });
+                command.Parameters.Add(new SqlParameter("@Homepage", SqlDbType.VarChar) { Value = serieInfo.Homepage });
+                command.Parameters.Add(new SqlParameter("@Description", SqlDbType.Text) { Value = serieInfo.Overview });
+                command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = serieInfo.Id });
+
+                if (serieInfo.In_production)
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 1 });
+                }
+                else
+                {
+                    command.Parameters.Add(new SqlParameter("@EnProduction", SqlDbType.Int) { Value = 0 });
+                }
+                ConnectionSerie.Instance.Open();
+                command.ExecuteNonQuery();
+                ConnectionSerie.Instance.Close();
+            }
+            
+
+        }
+
+        private bool serieExist(int id)
+        {
+            bool exist;
+            IDbCommand command = new SqlCommand("SELECT * FROM Serie WHERE IdMovieDatabase = @IdMovieDatabase", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdMovieDatabase", SqlDbType.Int) { Value = id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                string test = reader.GetString(1);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
         }
 
         public Acteur GetActeurById(Acteur acteur)

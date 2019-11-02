@@ -9,8 +9,8 @@ namespace GreyAnatomyFanSite.Models.Serie
     public class Episode
     {
         private string titre;
-        private string titreFr;
-        private string synopsis;
+        private string name;
+        private string overview;
         private List<Personnage> personnages;
         private List<Patient> patients;
         private List<string> photos;
@@ -22,15 +22,15 @@ namespace GreyAnatomyFanSite.Models.Serie
 
 
         public string Titre { get => titre; set => titre = value; }
-        public string Synopsis { get => synopsis; set => synopsis = value; }
         public List<Personnage> Personnages { get => personnages; set => personnages = value; }
         public List<Patient> Patients { get => patients; set => patients = value; }
         public List<string> Photos { get => photos; set => photos = value; }
         public int IdEpisode { get => idEpisode; set => idEpisode = value; }
         public int IdSaison { get => idSaison; set => idSaison = value; }
-        public string TitreFr { get => titreFr; set => titreFr = value; }
+        public string Name { get => name; set => name = value; }
         public Realisateur Realisateur { get => realisateur; set => realisateur = value; }
         public Scenarist Scenarist { get => scenarist; set => scenarist = value; }
         public int NoProduction { get => noProduction; set => noProduction = value; }
+        public string Overview { get => overview; set => overview = value; }
     }
 }
