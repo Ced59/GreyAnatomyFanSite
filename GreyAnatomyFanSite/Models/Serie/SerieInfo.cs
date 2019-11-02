@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GreyAnatomyFanSite.Tools;
 
 namespace GreyAnatomyFanSite.Models.Serie
 {
@@ -33,21 +34,58 @@ namespace GreyAnatomyFanSite.Models.Serie
 
         internal SerieInfo updateWithTheMovieDB()
         {
-            var client = new RestClient("https://api.themoviedb.org/3/tv/1416?append_to_response=JSON&language=fr-FR&api_key=d9f3e64a71289b0ce3eb8e272b1836d6");
+            var client = new RestClient(PassConnection.connectionTheMovieDB());
             var request = new RestRequest(Method.GET);
             request.AddParameter("undefined", "{}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
+            if (!response.IsSuccessful)
+            {
+                return null;
+            }
 
-            var response2 = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
+            var responseObject = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
 
-
-            return response2;
+            return responseObject;
         }
 
         public void updateSerieInfosInBdd()
         {
             BddSerie.Instance.UpdateSerieInfos(this);
+        }
+
+        internal SerieInfo updatePrivatePracticeWithTheMovieDB()
+        {
+            var client = new RestClient(PassConnection.connectionTheMovieDBPrivatePractice());
+            var request = new RestRequest(Method.GET);
+            request.AddParameter("undefined", "{}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            if (!response.IsSuccessful)
+            {
+                return null;
+            }
+
+            var responseObject = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
+
+            return responseObject;
+        }
+
+        internal SerieInfo updateStationWithTheMovieDB()
+        {
+            var client = new RestClient(PassConnection.connectionTheMovieDBStation());
+            var request = new RestRequest(Method.GET);
+            request.AddParameter("undefined", "{}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            if (!response.IsSuccessful)
+            {
+                return null;
+            }
+
+            var responseObject = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
+
+            return responseObject;
         }
     }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
+using GreyAnatomyFanSite.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -111,12 +112,77 @@ namespace GreyAnatomyFanSite.Controllers
 
         public IActionResult MajInfoSerie()
         {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
 
             SerieInfo serieInfo = new SerieInfo();
             serieInfo = serieInfo.updateWithTheMovieDB();
-            serieInfo.updateSerieInfosInBdd();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+            
 
             return View("AdminSite", serieInfo);
+        }
+
+        public IActionResult MajPrivatePractice()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updatePrivatePracticeWithTheMovieDB();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            return View("AdminSite", serieInfo);
+        }
+
+        public IActionResult MajStation()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            SerieInfo serieInfo = new SerieInfo();
+            serieInfo = serieInfo.updateStationWithTheMovieDB();
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            return View("AdminSite", serieInfo);
+        }
+
+        
+
+        public IActionResult testAPI()
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            ConsentCookie(ViewBag);
+            UserConnect(ViewBag);
+
+            var client = new RestClient(PassConnection.connectionTheMovieDB());
+            var request = new RestRequest(Method.GET);
+            request.AddParameter("undefined", "{}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+
+            var response2 = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
+
+            return View("AdminSite", response2);
         }
 
 
