@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Serie;
+using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,22 @@ namespace GreyAnatomyFanSite.Controllers
             season = season.getSeason(idSerie, saison);
 
             return View("ViewSeason", season);
+        }
+
+        public IActionResult ViewEpisode(int idSerie, int saison, int episode)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Saison season = new Saison();
+
+            season = season.getSeasonById(idSerie, saison);
+
+            EpisodeViewModel model = new EpisodeViewModel { Saison = season, EpisodeNumber = episode };
+
+            return View("ViewEpisode", model);
         }
 
 

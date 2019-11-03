@@ -55,6 +55,11 @@ namespace GreyAnatomyFanSite.Models.Serie
             return responseObject;
         }
 
+        internal Saison getSeasonById(int idSerie, int saison)
+        {
+            return BddSerie.Instance.GetSaisonById(idSerie, saison);
+        }
+
         internal static void updateSeasonsInDatabase(List<Saison> saisons)
         {
             BddSerie.Instance.UpdateSeasonsSerie(saisons);
