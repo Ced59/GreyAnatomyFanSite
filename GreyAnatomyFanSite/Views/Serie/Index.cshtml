@@ -1,4 +1,6 @@
-﻿@{
+﻿@using GreyAnatomyFanSite.Models.Serie
+
+@{
     ViewData["Title"] = Model.Original_name;
 }
 
@@ -27,21 +29,62 @@
 
         @if (Model.In_production)
         {
-            <p class="marginTop2">
-                En production : Oui
-            </p>
+        <p class="marginTop2">
+            En production : Oui
+        </p>
         }
         else
         {
-            <p class="marginTop2">
-                En production : Non
-            </p>
+        <p class="marginTop2">
+            En production : Non
+        </p>
         }
 
-
-
+        <p class="marginTop2">
+            Site officiel : <a href="@Model.Homepage">@Model.Homepage</a>
+        </p>
 
     </div>
 
-
 </div>
+
+<legend class="col-xs-offset-1 col-md-10 marginTop">
+    Liste des saisons :
+</legend>
+
+<ul class="media-list col-xs-offset-1 col-md-10">
+
+    @foreach (Saison s in Model.Saisons)
+    {
+    <li class="media borderArticle">
+        <div class="media-left table-bordered">
+
+            <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number">
+
+                <img src="@s.Poster_path" class="media-object miniImgArticles" alt="@s.Name" />
+
+            </a>
+
+        </div>
+
+        <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number" class="media-body thumbnail">
+
+            <h3 class="media-heading">
+                @s.Name
+            </h3>
+
+
+            <p class="marginTop">
+                Date de diffusion : @String.Format("{0:dd/MM/yyyy}", s.Air_date)
+            </p>
+
+            <p class="marginTop">
+                Nombre d'épisodes : @s.Episodes.Count()
+            </p>
+
+        </a>
+
+    </li>
+    }
+
+</ul>

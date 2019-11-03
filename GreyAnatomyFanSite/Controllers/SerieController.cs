@@ -22,6 +22,7 @@ namespace GreyAnatomyFanSite.Controllers
             SerieInfo serie = new SerieInfo();
 
             serie = serie.getSerie(idSerie);
+            serie.Saisons = serie.getSaisons();
 
             return View("Index", serie);
         }

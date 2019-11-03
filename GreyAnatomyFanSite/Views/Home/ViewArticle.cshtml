@@ -44,13 +44,13 @@
 
                 @if (Model.Article.TypeMedia == "video")
                 {
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="~/@Model.Article.Media"></iframe>
-                </div>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="~/@Model.Article.Media"></iframe>
+                    </div>
                 }
                 else
                 {
-                <img class="center-block img-responsive" src="~/@Model.Article.Media" alt="@Model.Article.Titre" />
+                    <img class="center-block img-responsive" src="~/@Model.Article.Media" alt="@Model.Article.Titre" />
                 }
 
 
@@ -108,45 +108,45 @@
 
     @foreach (Article a in Model.Articles)
     {
-    <li class="media borderArticle">
-        <div class="media-left table-bordered">
+        <li class="media borderArticle">
+            <div class="media-left table-bordered">
 
-            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">
-                @if (a.TypeMedia == "video")
+                <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id">
+                    @if (a.TypeMedia == "video")
                     {
-                <img src="~/images/Tools/videosImg.jpg" class="media-object miniImgArticles" alt="@a.Titre" />
+                        <img src="~/images/Tools/videosImg.jpg" class="media-object miniImgArticles" alt="@a.Titre" />
                     }
                     else if ((a.TypeMedia == "image") || (a.TypeMedia == "autre"))
                     {
-                <img src="~/@a.Media" class="media-object miniImgArticles" alt="@a.Titre" />
+                        <img src="~/@a.Media" class="media-object miniImgArticles" alt="@a.Titre" />
                     }
 
-            </a>
+                </a>
 
-        </div>
+            </div>
 
-        <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="media-body thumbnail">
+            <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="media-body thumbnail">
 
-            <h3 class="media-heading">
-                @a.Titre
-            </h3>
+                <h3 class="media-heading">
+                    @a.Titre
+                </h3>
 
 
-            <p>
-                @if (a.Texte.Length > 150)
+                <p>
+                    @if (a.Texte.Length > 150)
                     {
-                @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
 
                     }
                     else
                     {
-                @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
                     }
-            </p>
+                </p>
 
-        </a>
+            </a>
 
-    </li>
+        </li>
     }
 
 </ul>
