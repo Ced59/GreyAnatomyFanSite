@@ -1,0 +1,66 @@
+﻿@using GreyAnatomyFanSite.Models.Serie
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+
+<div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
+
+    <h1 class="marginTop margLeft">@Model.Name</h1>
+
+    <div class="col-md-4">
+        <div class="imgArticle img-thumbnail">
+            <img src="@Model.Poster_path" />
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        @if (Model.Overview != "")
+        {
+            <p class="marginTop">
+                @Model.Overview <br />
+            </p>
+        }
+        else
+        {
+            <p class="marginTop">
+                Pas encore de description pour cette saison <br />
+            </p>
+        }
+
+
+        <p class="marginTop2">
+            Nombre d'épisodes : @Model.Episodes.Count
+        </p>
+
+    </div>
+
+    <div class="col-md-12 margLeft marginTop2">
+
+        <h3>Liste des épisodes de la saison @Model.Season_number</h3>
+
+        @foreach (Episode e in Model.Episodes)
+        {
+            <div class="row marginTop2">
+                <div class="col-md-4 img-responsive img-thumbnail">
+                    <a asp-area="" asp-controller="Serie" asp-action="ViewEpisode" asp-route-idSerie="@Model.Id" asp-route-saison="@Model.Season_number" asp-route-episode="@e.Episode_number.">
+                        <img src="@e.Still_path" />
+                    </a>
+                </div>
+                <div class="col-md-offset-1 col-md-7">
+                    <h4>
+                        <a asp-area="" asp-controller="Serie" asp-action="ViewEpisode" asp-route-idSerie="@Model.Id" asp-route-saison="@Model.Season_number" asp-route-episode="@e.Episode_number.">
+                            Episode @e.Episode_number : @e.Name
+                        </a>
+                    </h4>
+                    <p>
+                        Date de diffusion : @String.Format("{0:dd/MM/yyyy}", e.Air_date)
+                    </p>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

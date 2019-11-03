@@ -27,6 +27,20 @@ namespace GreyAnatomyFanSite.Controllers
             return View("Index", serie);
         }
 
+        public IActionResult ViewSeason(int idSerie, int saison)
+        {
+            ViewBag.NbreVisitUnique = GetVisitIP();
+            ViewBag.NbrePagesVues = GetPageVues();
+            UserConnect(ViewBag);
+            ConsentCookie(ViewBag);
+
+            Saison season = new Saison();
+
+            season = season.getSeason(idSerie, saison);
+
+            return View("ViewSeason", season);
+        }
+
 
         private void UserConnect(dynamic v)
         {

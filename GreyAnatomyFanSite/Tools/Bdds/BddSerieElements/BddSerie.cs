@@ -50,6 +50,7 @@ namespace GreyAnatomyFanSite.Models
 
         }
 
+
         public void UpdateSeasonsSerie(List<Saison> saisons)
         {
             foreach (Saison s in saisons)
@@ -159,6 +160,33 @@ namespace GreyAnatomyFanSite.Models
 
 
             return saisons;
+        }
+
+        internal Saison GetSaison(int idSerie, int saison)
+        {
+            Saison s = new Saison();
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE (IdSerie = @IdSerie AND NumeroSaison = @NumeroSaison)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = saison });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            s.Id = reader.GetInt32(0);
+            s.IdSerie = reader.GetInt32(1);
+            s.Air_date = reader.GetDateTime(2);
+            s.Name = reader.GetString(3);
+            s.Overview = reader.GetString(4);
+            s.Poster_path = reader.GetString(5);
+            s.Season_number = reader.GetInt32(6);
+            s.IdTMDB = reader.GetInt32(7);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
+
+            return s;
+
         }
 
         public List<Episode> getEpisodesBySeason(int idSerie, int SeasonNumber)
