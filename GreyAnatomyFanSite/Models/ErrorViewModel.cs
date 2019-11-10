@@ -1,5 +1,3 @@
-using System;
-
 namespace GreyAnatomyFanSite.Models
 {
     public class ErrorViewModel

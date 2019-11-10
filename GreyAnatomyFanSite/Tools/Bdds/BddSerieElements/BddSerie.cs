@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Models.Site;
@@ -247,6 +245,8 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
 
 
+
+
             return episodes;
         }
 
@@ -285,7 +285,8 @@ namespace GreyAnatomyFanSite.Models
         private void insertEpisode(Episode e, int idSerie)
         {
             IDbCommand command = new SqlCommand(
-                    "INSERT INTO Episode (DateDiffusion, NumeroEpisode, IdTheMovieDB, Titre, Description, NumeroSaison, IdSerieTheMovieDB, IdSerie, Affiche)" +
+                    "INSERT INTO Episode (DateDiffusion, NumeroEpisode, IdTheMovieDB, Titre, Description, NumeroSaison, IdSerieTheMovieDB, IdSerie, Affiche) " +
+                    "OUTPUT INSERTED.ID " +
                     "VALUES (@DateDiffusion, @NumeroEpisode, @IdTheMovieDB, @Titre, @Description, @NumeroSaison, @IdSerieTheMovieDB, @IdSerie, @Affiche) ",
                     (SqlConnection)ConnectionSerie.Instance);
 
@@ -298,6 +299,37 @@ namespace GreyAnatomyFanSite.Models
             command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
             command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
             command.Parameters.Add(new SqlParameter("@IdSerieTheMovieDB", SqlDbType.Int) { Value = e.Show_id });
+
+            ConnectionSerie.Instance.Open();
+            int idEpisode = (int)command.ExecuteScalar();
+            ConnectionSerie.Instance.Close();
+
+
+            insertImgsEpisode(e, idSerie, idEpisode);
+
+        }
+
+        private void insertImgsEpisode(Episode e, int idSerie, int idEpisode)
+        {
+
+            foreach  (EpisodeImg episodeImg in e.Photos.Stills)
+            {
+                insertImgEpisode(idSerie, idEpisode, episodeImg);
+            }
+
+
+        }
+
+        private static void insertImgEpisode(int idSerie, int idEpisode, EpisodeImg episodeImg)
+        {
+            IDbCommand command = new SqlCommand(
+                                "INSERT INTO EpisodeImages (Url, IdEpisode, IdSerie)" +
+                                "VALUES (@Url, @IdEpisode, @IdSerie) ",
+                                (SqlConnection)ConnectionSerie.Instance);
+
+            command.Parameters.Add(new SqlParameter("@IdEpisode", SqlDbType.Int) { Value = idEpisode });
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@Url", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + episodeImg.File_path });
 
             ConnectionSerie.Instance.Open();
             command.ExecuteNonQuery();
@@ -332,6 +364,57 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Open();
             command.ExecuteNonQuery();
             ConnectionSerie.Instance.Close();
+
+            command = new SqlCommand("SELECT Id FROM Episode WHERE NumeroEpisode = @NumeroEpisode", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            int idEpisode = reader.GetInt32(0);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+
+            foreach (EpisodeImg episodeImg in e.Photos.Stills)
+            {
+                bool ImgExist = imgExist(episodeImg);
+
+                if (!ImgExist)
+                {
+                    insertImgEpisode(idSerie, idEpisode, episodeImg);
+                }
+                
+            }
+        }
+
+
+
+        private bool imgExist(EpisodeImg episodeImg)
+        {
+            bool exist;
+
+            IDbCommand command = new SqlCommand("SELECT * FROM EpisodeImages WHERE Url = @Url", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Url", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + episodeImg.File_path });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                int test = reader.GetInt32(0);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
         }
 
         private bool episodeExist(Episode e)

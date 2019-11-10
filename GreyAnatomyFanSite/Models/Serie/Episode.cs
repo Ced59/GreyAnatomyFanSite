@@ -1,8 +1,9 @@
 ﻿using GreyAnatomyFanSite.Models.Persos;
+using GreyAnatomyFanSite.Tools;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GreyAnatomyFanSite.Models.Serie
 {
@@ -19,7 +20,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         private string still_path;
         private List<Personnage> personnages;
         private List<Patient> patients;
-        private List<string> photos;
+        private EpisodeImages photos;
         private int idEpisode;
         private int idSaison;
         private Realisateur realisateur;
@@ -28,7 +29,6 @@ namespace GreyAnatomyFanSite.Models.Serie
 
         public List<Personnage> Personnages { get => personnages; set => personnages = value; }
         public List<Patient> Patients { get => patients; set => patients = value; }
-        public List<string> Photos { get => photos; set => photos = value; }
         public int IdEpisode { get => idEpisode; set => idEpisode = value; }
         public int IdSaison { get => idSaison; set => idSaison = value; }
         public string Name { get => name; set => name = value; }
@@ -43,5 +43,20 @@ namespace GreyAnatomyFanSite.Models.Serie
         public int Episode_number { get => episode_number; set => episode_number = value; }
         public int Id { get => id; set => id = value; }
         public int IdTheMovieDB { get => idTheMovieDB; set => idTheMovieDB = value; }
+        public EpisodeImages Photos { get => photos; set => photos = value; }
+
+        internal EpisodeImages updatePhotosEpisodeWithMovieDB(int idSerie)
+        {
+            EpisodeImages episodeImages = new EpisodeImages();
+            
+            var client = new RestClient(PassConnection.connectionTheMovieDBPhotosEpisodes(idSerie, this));
+            var request = new RestRequest(Method.GET);
+            request.AddParameter("undefined", "{}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            var responseObject = JsonConvert.DeserializeObject<EpisodeImages>(response.Content);
+
+            return responseObject;
+        }
     }
 }

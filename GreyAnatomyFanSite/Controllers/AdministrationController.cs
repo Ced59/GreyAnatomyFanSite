@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
@@ -117,31 +114,8 @@ namespace GreyAnatomyFanSite.Controllers
             ConsentCookie(ViewBag);
             UserConnect(ViewBag);
 
-            SerieInfo serieInfo = new SerieInfo();
-            serieInfo = serieInfo.updateWithTheMovieDB();
-
-            if (serieInfo != null)
-            {
-                serieInfo.updateSerieInfosInBdd();
-            }
-
-            List<Saison> saisons = new List<Saison>();
-
-            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
-            {
-                Saison saison = new Saison { IdSerie = 1 };
-                saison = saison.updateSaisonWithMovieDB(i, 1);
-
-                if (saison != null)
-                {
-                    saisons.Add(saison);
-                }
-            }
-
-            if (saisons.Count >0)
-            {
-                Saison.updateSeasonsInDatabase(saisons);
-            }
+            int idSerie = 1;
+            SerieInfo serieInfo = updateSerieWithMovieDB(idSerie);
 
             return View("AdminSite", serieInfo);
         }
@@ -153,31 +127,9 @@ namespace GreyAnatomyFanSite.Controllers
             ConsentCookie(ViewBag);
             UserConnect(ViewBag);
 
-            SerieInfo serieInfo = new SerieInfo();
-            serieInfo = serieInfo.updatePrivatePracticeWithTheMovieDB();
+            int idSerie = 2;
+            SerieInfo serieInfo = updateSerieWithMovieDB(idSerie);
 
-            if (serieInfo != null)
-            {
-                serieInfo.updateSerieInfosInBdd();
-            }
-
-            List<Saison> saisons = new List<Saison>();
-
-            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
-            {
-                Saison saison = new Saison { IdSerie = 2 };
-                saison = saison.updateSaisonWithMovieDB(i, 2);
-
-                if (saison != null)
-                {
-                    saisons.Add(saison);
-                }
-            }
-
-            if (saisons.Count > 0)
-            {
-                Saison.updateSeasonsInDatabase(saisons);
-            }
 
             return View("AdminSite", serieInfo);
         }
@@ -189,31 +141,8 @@ namespace GreyAnatomyFanSite.Controllers
             ConsentCookie(ViewBag);
             UserConnect(ViewBag);
 
-            SerieInfo serieInfo = new SerieInfo();
-            serieInfo = serieInfo.updateStationWithTheMovieDB();
-
-            if (serieInfo != null)
-            {
-                serieInfo.updateSerieInfosInBdd();
-            }
-
-            List<Saison> saisons = new List<Saison>();
-
-            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
-            {
-                Saison saison = new Saison { IdSerie = 3 };
-                saison = saison.updateSaisonWithMovieDB(i, 3);
-
-                if (saison != null)
-                {
-                    saisons.Add(saison);
-                }
-            }
-
-            if (saisons.Count > 0)
-            {
-                Saison.updateSeasonsInDatabase(saisons);
-            }
+            int idSerie = 3;
+            SerieInfo serieInfo = updateSerieWithMovieDB(idSerie);
 
             return View("AdminSite", serieInfo);
         }
@@ -236,6 +165,57 @@ namespace GreyAnatomyFanSite.Controllers
             var response2 = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
 
             return View("AdminSite", response2);
+        }
+
+
+        private static SerieInfo updateSerieWithMovieDB(int idSerie)
+        {
+            SerieInfo serieInfo = new SerieInfo();
+
+            if (idSerie == 1)
+            {
+                serieInfo = serieInfo.updateWithTheMovieDB();
+            }
+            else if (idSerie == 2)
+            {
+                serieInfo = serieInfo.updatePrivatePracticeWithTheMovieDB();
+            }
+            else
+            {
+                serieInfo = serieInfo.updateStationWithTheMovieDB();
+            }
+
+
+            if (serieInfo != null)
+            {
+                serieInfo.updateSerieInfosInBdd();
+            }
+
+            List<Saison> saisons = new List<Saison>();
+
+            for (int i = 1; i <= serieInfo.Number_of_seasons; i++)
+            {
+                Saison saison = new Saison { IdSerie = idSerie };
+                saison = saison.updateSaisonWithMovieDB(i, idSerie);
+
+                for (int j = 0; j < saison.Episodes.Count; j++)
+                {
+                     saison.Episodes[j].Photos = saison.Episodes[j].updatePhotosEpisodeWithMovieDB(idSerie);
+                }
+
+                if (saison != null)
+                {
+                    saisons.Add(saison);
+                }
+            }
+
+
+            if (saisons.Count > 0)
+            {
+                Saison.updateSeasonsInDatabase(saisons);
+            }
+
+            return serieInfo;
         }
 
 
