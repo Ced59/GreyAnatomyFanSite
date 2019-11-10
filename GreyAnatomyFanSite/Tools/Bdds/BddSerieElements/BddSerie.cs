@@ -237,14 +237,42 @@ namespace GreyAnatomyFanSite.Models
                 e.Show_id = reader.GetInt32(7);
                 e.Still_path = reader.GetString(9);
                 episodes.Add(e);
-                
+
             }
 
             reader.Close();
             command.Dispose();
             ConnectionSerie.Instance.Close();
 
+            foreach (Episode episode in episodes)
+            {
+                command = new SqlCommand("SELECT * FROM EpisodeImages WHERE (IdEpisode = @IdEpisode)", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+                command.Parameters.Add(new SqlParameter("@IdEpisode", SqlDbType.Int) { Value = episode.Id });
+                ConnectionSerie.Instance.Open();
+                reader = (SqlDataReader)command.ExecuteReader();
+                if (reader.Read())
+                {
+                    EpisodeImages episodeImages = new EpisodeImages();
+                    episodeImages.Stills = new List<EpisodeImg>();
 
+                    while (reader.Read())
+                    {
+                        
+                        EpisodeImg episodeImg = new EpisodeImg { File_path = reader.GetString(1) };
+                        
+                        episodeImages.Stills.Add(episodeImg);
+                        episode.Photos = episodeImages;
+                    }
+                }
+                else
+                {
+                    episode.Photos = null;
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+            }
 
 
             return episodes;
@@ -312,7 +340,7 @@ namespace GreyAnatomyFanSite.Models
         private void insertImgsEpisode(Episode e, int idSerie, int idEpisode)
         {
 
-            foreach  (EpisodeImg episodeImg in e.Photos.Stills)
+            foreach (EpisodeImg episodeImg in e.Photos.Stills)
             {
                 insertImgEpisode(idSerie, idEpisode, episodeImg);
             }
@@ -384,7 +412,7 @@ namespace GreyAnatomyFanSite.Models
                 {
                     insertImgEpisode(idSerie, idEpisode, episodeImg);
                 }
-                
+
             }
         }
 
