@@ -1,8 +1,90 @@
-﻿
+﻿@using GreyAnatomyFanSite.Models.Serie
+
+@{
+    ViewData["Title"] = Model.Original_name;
+}
 
 
-<div class="col-lg-offset-2 col-lg-6">
-    <h1>En Construction</h1>
-    <p>Cette page n'est pas encore disponible pour le moment. <br />
-    </p>
+<div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
+
+    <h1 class="marginTop">@Model.Original_name</h1>
+
+    <div class="col-md-4">
+        <div class="imgArticle">
+            <img src="@Model.Poster_path" />
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <p class="marginTop">
+            @Model.Overview <br />
+        </p>
+        <p class="marginTop2">
+            Nombre de saisons : @Model.Number_of_seasons
+        </p>
+        <p class="marginTop2">
+            Nombre d'épisodes : @Model.Number_of_episodes
+        </p>
+
+
+        @if (Model.In_production)
+        {
+            <p class="marginTop2">
+                En production : Oui
+            </p>
+        }
+        else
+        {
+            <p class="marginTop2">
+                En production : Non
+            </p>
+        }
+
+        <p class="marginTop2">
+            Site officiel : <a href="@Model.Homepage">@Model.Homepage</a>
+        </p>
+
+    </div>
+
 </div>
+
+<legend class="col-xs-offset-1 col-md-10 marginTop">
+    Liste des saisons :
+</legend>
+
+<ul class="media-list col-xs-offset-1 col-md-10">
+
+    @foreach (Saison s in Model.Saisons)
+    {
+        <li class="media borderArticle">
+            <div class="media-left table-bordered">
+
+                <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number">
+
+                    <img src="@s.Poster_path" class="media-object miniImgArticles" alt="@s.Name" />
+
+                </a>
+
+            </div>
+
+            <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number" class="media-body thumbnail">
+
+                <h3 class="media-heading">
+                    @s.Name
+                </h3>
+
+
+                <p class="marginTop">
+                    Date de diffusion : @String.Format("{0:dd/MM/yyyy}", s.Air_date)
+                </p>
+
+                <p class="marginTop">
+                    Nombre d'épisodes : @s.Episodes.Count()
+                </p>
+
+            </a>
+
+        </li>
+    }
+
+</ul>

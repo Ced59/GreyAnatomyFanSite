@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GreyAnatomyFanSite.Tools;
 
 namespace GreyAnatomyFanSite.Models.Serie
@@ -19,7 +17,8 @@ namespace GreyAnatomyFanSite.Models.Serie
         private int number_of_seasons;
         private int number_of_episodes;
         private bool in_production;
-
+        private string poster_path;
+        private List<Saison> saisons;
 
 
         public string Original_name { get => original_name; set => original_name = value; }
@@ -31,6 +30,8 @@ namespace GreyAnatomyFanSite.Models.Serie
         public int IdSerie { get => idSerie; set => idSerie = value; }
         public bool In_production { get => in_production; set => in_production = value; }
         public int Id { get => id; set => id = value; }
+        public string Poster_path { get => poster_path; set => poster_path = value; }
+        public List<Saison> Saisons { get => saisons; set => saisons = value; }
 
         internal SerieInfo updateWithTheMovieDB()
         {
@@ -87,6 +88,18 @@ namespace GreyAnatomyFanSite.Models.Serie
 
             return responseObject;
         }
+
+        internal SerieInfo getSerie(int idSerie)
+        {
+            return BddSerie.Instance.GetSerie(idSerie);
+        }
+
+        internal List<Saison> getSaisons()
+        {
+            return BddSerie.Instance.GetSaisons(this);
+        }
+
+
     }
 
 }

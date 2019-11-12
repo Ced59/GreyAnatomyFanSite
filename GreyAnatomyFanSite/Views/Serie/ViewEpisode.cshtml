@@ -1,0 +1,63 @@
+﻿@using GreyAnatomyFanSite.Models.Serie
+
+@{
+    ViewData["Title"] = Model.Saison.Episodes[Model.EpisodeNumber - 1].Name;
+}
+
+
+<div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
+
+    <h1 class="marginTop margLeft">@Model.Saison.Episodes[Model.EpisodeNumber - 1].Name</h1>
+
+    <div class="col-md-4">
+        <div class="imgArticle img-thumbnail">
+            <img src="@Model.Saison.Episodes[Model.EpisodeNumber - 1].Still_path" />
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <p>
+            Date première diffusion : @String.Format("{0:dd/MM/yyyy}", Model.Saison.Episodes[Model.EpisodeNumber - 1].Air_date)
+        </p>
+        <p>
+            Saison n° : @Model.Saison.Episodes[Model.EpisodeNumber - 1].Season_number
+        </p>
+        <p>
+            Episode n° : @Model.Saison.Episodes[Model.EpisodeNumber - 1].Episode_number
+        </p>
+        <h5>
+            Descriptif :
+        </h5>
+        <p>
+            @Model.Saison.Episodes[Model.EpisodeNumber - 1].Overview
+        </p>
+    </div>
+
+</div>
+
+
+
+<div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
+
+    @if (Model.Saison.Episodes[Model.EpisodeNumber - 1].Photos == null)
+    {
+        <h2 class="marginTop margLeft">Pas encore de photos pour cet épisode.</h2>
+    }
+    else
+    {
+        <h2 class="marginTop margLeft">Photos de l'épisode : </h2>
+
+        <div id="carousel">
+            <figure id="spinner">
+
+                @foreach (EpisodeImg episodeImg in Model.Saison.Episodes[Model.EpisodeNumber - 1].Photos.Stills)
+                {
+                    <img src=@episodeImg.File_path>        
+                }
+            </figure>
+        </div>
+        
+    }
+
+</div>
+

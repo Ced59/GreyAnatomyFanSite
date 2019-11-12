@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GreyAnatomyFanSite.Models.Serie
+﻿namespace GreyAnatomyFanSite.Models.Serie
 {
     public class DateDiffusion
     {

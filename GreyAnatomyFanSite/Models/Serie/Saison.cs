@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GreyAnatomyFanSite.Models.Serie
 {
@@ -30,6 +28,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         public int IdTMDB { get => idTMDB; set => idTMDB = value; }
         public List<Episode> Episodes { get => episodes; set => episodes = value; }
 
+
         internal Saison updateSaisonWithMovieDB(int i, int idSerie)
         {
             var client = new RestClient(PassConnection.connectionTheMovieDBSeasons(i, idSerie));
@@ -47,6 +46,16 @@ namespace GreyAnatomyFanSite.Models.Serie
             responseObject.IdSerie = idSerie;
 
             return responseObject;
+        }
+
+        internal Saison getSeason(int idSerie, int saison)
+        {
+            return BddSerie.Instance.GetSaison(idSerie, saison);
+        }
+
+        internal Saison getSeasonById(int idSerie, int saison)
+        {
+            return BddSerie.Instance.GetSaisonById(idSerie, saison);
         }
 
         internal static void updateSeasonsInDatabase(List<Saison> saisons)

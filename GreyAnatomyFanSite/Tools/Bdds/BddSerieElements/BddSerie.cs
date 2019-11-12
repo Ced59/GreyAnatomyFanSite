@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Models.Site;
@@ -49,6 +47,7 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
 
         }
+
 
         public void UpdateSeasonsSerie(List<Saison> saisons)
         {
@@ -124,10 +123,198 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
+        internal List<Saison> GetSaisons(SerieInfo serie)
+        {
+            List<Saison> saisons = new List<Saison>();
+
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE IdSerie = @IdSerie", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = serie.Id });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Saison s = new Saison();
+                s.Id = reader.GetInt32(0);
+                s.IdSerie = reader.GetInt32(1);
+                s.Air_date = reader.GetDateTime(2);
+                s.Name = reader.GetString(3);
+                s.Overview = reader.GetString(4);
+                s.Poster_path = reader.GetString(5);
+                s.Season_number = reader.GetInt32(6);
+                s.IdTMDB = reader.GetInt32(7);
+                saisons.Add(s);
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+
+            foreach (Saison s in saisons)
+            {
+                s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
+            }
+
+
+            return saisons;
+        }
+
+        internal Saison GetSaison(int idSerie, int saison)
+        {
+            Saison s = new Saison();
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE (IdSerie = @IdSerie AND NumeroSaison = @NumeroSaison)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = saison });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            s.Id = reader.GetInt32(0);
+            s.IdSerie = reader.GetInt32(1);
+            s.Air_date = reader.GetDateTime(2);
+            s.Name = reader.GetString(3);
+            s.Overview = reader.GetString(4);
+            s.Poster_path = reader.GetString(5);
+            s.Season_number = reader.GetInt32(6);
+            s.IdTMDB = reader.GetInt32(7);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
+
+            return s;
+
+        }
+
+        internal Saison GetSaisonById(int id, int saison)
+        {
+            Saison s = new Saison();
+            IDbCommand command = new SqlCommand("SELECT * FROM Saison WHERE (Id = @Id AND NumeroSaison = @NumeroSaison)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = saison });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            s.Id = reader.GetInt32(0);
+            s.IdSerie = reader.GetInt32(1);
+            s.Air_date = reader.GetDateTime(2);
+            s.Name = reader.GetString(3);
+            s.Overview = reader.GetString(4);
+            s.Poster_path = reader.GetString(5);
+            s.Season_number = reader.GetInt32(6);
+            s.IdTMDB = reader.GetInt32(7);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
+
+            return s;
+
+        }
+
+        public List<Episode> getEpisodesBySeason(int idSerie, int SeasonNumber)
+        {
+            List<Episode> episodes = new List<Episode>();
+
+            IDbCommand command = new SqlCommand("SELECT * FROM Episode WHERE (IdSerie = @IdSerie AND NumeroSaison = @NumeroSaison)", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = SeasonNumber });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Episode e = new Episode();
+                e.Id = reader.GetInt32(0);
+                e.Air_date = reader.GetDateTime(1);
+                e.Episode_number = reader.GetInt32(2);
+                e.IdTheMovieDB = reader.GetInt32(3);
+                e.Name = reader.GetString(4);
+                e.Overview = reader.GetString(5);
+                e.Season_number = reader.GetInt32(6);
+                e.Show_id = reader.GetInt32(7);
+                e.Still_path = reader.GetString(9);
+                episodes.Add(e);
+
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            foreach (Episode episode in episodes)
+            {
+                command = new SqlCommand("SELECT * FROM EpisodeImages WHERE (IdEpisode = @IdEpisode)", (SqlConnection)ConnectionSerie.Instance);
+                command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+                command.Parameters.Add(new SqlParameter("@IdEpisode", SqlDbType.Int) { Value = episode.Id });
+                ConnectionSerie.Instance.Open();
+                reader = (SqlDataReader)command.ExecuteReader();
+                if (reader.Read())
+                {
+                    EpisodeImages episodeImages = new EpisodeImages();
+                    episodeImages.Stills = new List<EpisodeImg>();
+
+                    while (reader.Read())
+                    {
+                        
+                        EpisodeImg episodeImg = new EpisodeImg { File_path = reader.GetString(1) };
+                        
+                        episodeImages.Stills.Add(episodeImg);
+                        episode.Photos = episodeImages;
+                    }
+                }
+                else
+                {
+                    episode.Photos = null;
+                }
+                reader.Close();
+                command.Dispose();
+                ConnectionSerie.Instance.Close();
+            }
+
+
+            return episodes;
+        }
+
+        internal SerieInfo GetSerie(int idSerie)
+        {
+            IDbCommand command = new SqlCommand("SELECT * FROM Serie WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = idSerie });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            SerieInfo serie = new SerieInfo();
+            serie.Id = reader.GetInt32(0);
+            serie.Original_name = reader.GetString(1);
+            serie.Homepage = reader.GetString(2);
+            if (reader.GetInt32(3) == 1)
+            {
+                serie.In_production = true;
+            }
+            else
+            {
+                serie.In_production = false;
+            }
+            serie.Number_of_seasons = reader.GetInt32(4);
+            serie.Number_of_episodes = reader.GetInt32(5);
+            serie.Overview = reader.GetString(6);
+            serie.Poster_path = reader.GetString(8);
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+
+            return serie;
+        }
+
         private void insertEpisode(Episode e, int idSerie)
         {
             IDbCommand command = new SqlCommand(
-                    "INSERT INTO Episode (DateDiffusion, NumeroEpisode, IdTheMovieDB, Titre, Description, NumeroSaison, IdSerieTheMovieDB, IdSerie, Affiche)" +
+                    "INSERT INTO Episode (DateDiffusion, NumeroEpisode, IdTheMovieDB, Titre, Description, NumeroSaison, IdSerieTheMovieDB, IdSerie, Affiche) " +
+                    "OUTPUT INSERTED.ID " +
                     "VALUES (@DateDiffusion, @NumeroEpisode, @IdTheMovieDB, @Titre, @Description, @NumeroSaison, @IdSerieTheMovieDB, @IdSerie, @Affiche) ",
                     (SqlConnection)ConnectionSerie.Instance);
 
@@ -140,6 +327,37 @@ namespace GreyAnatomyFanSite.Models
             command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
             command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
             command.Parameters.Add(new SqlParameter("@IdSerieTheMovieDB", SqlDbType.Int) { Value = e.Show_id });
+
+            ConnectionSerie.Instance.Open();
+            int idEpisode = (int)command.ExecuteScalar();
+            ConnectionSerie.Instance.Close();
+
+
+            insertImgsEpisode(e, idSerie, idEpisode);
+
+        }
+
+        private void insertImgsEpisode(Episode e, int idSerie, int idEpisode)
+        {
+
+            foreach (EpisodeImg episodeImg in e.Photos.Stills)
+            {
+                insertImgEpisode(idSerie, idEpisode, episodeImg);
+            }
+
+
+        }
+
+        private static void insertImgEpisode(int idSerie, int idEpisode, EpisodeImg episodeImg)
+        {
+            IDbCommand command = new SqlCommand(
+                                "INSERT INTO EpisodeImages (Url, IdEpisode, IdSerie)" +
+                                "VALUES (@Url, @IdEpisode, @IdSerie) ",
+                                (SqlConnection)ConnectionSerie.Instance);
+
+            command.Parameters.Add(new SqlParameter("@IdEpisode", SqlDbType.Int) { Value = idEpisode });
+            command.Parameters.Add(new SqlParameter("@IdSerie", SqlDbType.Int) { Value = idSerie });
+            command.Parameters.Add(new SqlParameter("@Url", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + episodeImg.File_path });
 
             ConnectionSerie.Instance.Open();
             command.ExecuteNonQuery();
@@ -174,6 +392,57 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Open();
             command.ExecuteNonQuery();
             ConnectionSerie.Instance.Close();
+
+            command = new SqlCommand("SELECT Id FROM Episode WHERE NumeroEpisode = @NumeroEpisode", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@NumeroEpisode", SqlDbType.Int) { Value = e.Episode_number });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+            int idEpisode = reader.GetInt32(0);
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+
+            foreach (EpisodeImg episodeImg in e.Photos.Stills)
+            {
+                bool ImgExist = imgExist(episodeImg);
+
+                if (!ImgExist)
+                {
+                    insertImgEpisode(idSerie, idEpisode, episodeImg);
+                }
+
+            }
+        }
+
+
+
+        private bool imgExist(EpisodeImg episodeImg)
+        {
+            bool exist;
+
+            IDbCommand command = new SqlCommand("SELECT * FROM EpisodeImages WHERE Url = @Url", (SqlConnection)ConnectionSerie.Instance);
+            command.Parameters.Add(new SqlParameter("@Url", SqlDbType.VarChar) { Value = "https://image.tmdb.org/t/p/original" + episodeImg.File_path });
+            ConnectionSerie.Instance.Open();
+            SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
+            reader.Read();
+
+            try
+            {
+                int test = reader.GetInt32(0);
+                exist = true;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            reader.Close();
+            command.Dispose();
+            ConnectionSerie.Instance.Close();
+
+            return exist;
         }
 
         private bool episodeExist(Episode e)
