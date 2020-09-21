@@ -41,23 +41,78 @@
 
     @if (Model.Saison.Episodes[Model.EpisodeNumber - 1].Photos == null)
     {
-        <h2 class="marginTop margLeft">Pas encore de photos pour cet épisode.</h2>
+        <h2 class="marginTop margLeft">Pas encore de photo pour cet épisode.</h2>
     }
     else
     {
-        <h2 class="marginTop margLeft">Photos de l'épisode : </h2>
+        <h2 class="marginTop margLeft margBtn">Photos de l'épisode : </h2>
 
-        <div id="carousel">
-            <figure id="spinner">
+        
+
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner thumbnail">
+
+                <div class="item active"><img class="img-thumbnail" alt="" src=@Model.Saison.Episodes[Model.EpisodeNumber - 1].Still_path> </div>
 
                 @foreach (EpisodeImg episodeImg in Model.Saison.Episodes[Model.EpisodeNumber - 1].Photos.Stills)
                 {
-                    <img src=@episodeImg.File_path>        
+                    <div class="item"><img class="img-thumbnail" alt="" src=@episodeImg.File_path> </div>
                 }
-            </figure>
+
+            </div>
+            <a class="left carousel-control" href="#carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
         </div>
-        
+
+
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <div class="btn-group" data-toggle="buttons">
+                    
+                    <label class="btn btn-success" id="previous">
+                        <input type="radio" name="options"><span class="glyphicon glyphicon-step-backward"></span>
+                    </label>
+                    <label class="btn btn-success" id="pause">
+                        <input type="radio" name="options"><span class="glyphicon glyphicon-pause"></span>
+                    </label>
+                    <label class="btn btn-success active" id="play">
+                        <input type="radio" name="options"><span class="glyphicon glyphicon-play"></span>
+                    </label>
+                    <label class="btn btn-success" id="next">
+                        <input type="radio" name="options"><span class="glyphicon glyphicon-step-forward"></span>
+                    </label>
+                    
+                </div>
+                <p><span class="label label-info"></span></p>
+            </div>
+        </div>
+
     }
 
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    function affichage() {
+        var total = $('.item').length;
+        var current = $('.item.active').index() + 1;
+        $('.label').text(current + ' / ' + total);
+    }
+    $(function () {
+        affichage();
+        $('.carousel').carousel({ interval: 5000 });
+        $('#previous').click(function () { $('.carousel').carousel('prev'); });
+        $('#pause').click(function () { $('.carousel').carousel('pause'); });
+        $('#play').click(function () { $('.carousel').carousel('cycle'); });
+        $('#next').click(function () { $('.carousel').carousel('next'); });
+        $('.carousel').on('slid.bs.carousel', function () {
+            affichage();
+        });
+    });
+</script>
 
