@@ -9,7 +9,6 @@ namespace GreyAnatomyFanSite.ViewModels
         private Survey survey;
         private List<Survey> surveys;
         private Membres membre;
-        
 
         public Survey Survey { get => survey; set => survey = value; }
         public List<Survey> Surveys { get => surveys; set => surveys = value; }

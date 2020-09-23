@@ -12,21 +12,17 @@ namespace GreyAnatomyFanSite.Models
 
         public Visiteur()
         {
-
         }
 
-
-        public Visiteur (string Ip) : this()
+        public Visiteur(string Ip) : this()
         {
             date = DateTime.Today;
             ip = Ip;
-
         }
-
 
         public int GetVisit(Visiteur v)
         {
-           return BddUtilisateurs.Instance.GetVisit(v);
+            return BddUtilisateurs.Instance.GetVisit(v);
         }
 
         public int GetNbrePagesVues()
@@ -38,14 +34,5 @@ namespace GreyAnatomyFanSite.Models
         {
             return BddUtilisateurs.Instance.GetIdIpByIp(remoteIpAddress);
         }
-
-
-
-
-        
-
-
     }
-
-    
 }

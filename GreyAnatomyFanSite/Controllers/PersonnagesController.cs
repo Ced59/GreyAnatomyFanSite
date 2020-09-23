@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using GreyAnatomyFanSite.Models;
+﻿using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -15,7 +15,6 @@ namespace GreyAnatomyFanSite.Controllers
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -27,13 +26,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewPersos", Persos);
         }
 
-
-
         public IActionResult ViewPersonnageID(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -50,20 +46,17 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
 
-
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
 
             return View("AddPersos");
         }
 
-
         [HttpPost]
         public IActionResult AddPerso(string name, string firstname)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -81,12 +74,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-        
         public IActionResult ModifPerso(int id)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -104,10 +95,8 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
 
-
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             PrenomPerso prenom = new PrenomPerso { Prenom = firstname, IdPerso = idPerso };
             List<PrenomPerso> prenoms = new List<PrenomPerso>();
@@ -125,10 +114,8 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
 
-
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             PrenomActeur prenom = new PrenomActeur { Prenom = firstname, IdActeur = idActeur };
             List<PrenomActeur> prenoms = new List<PrenomActeur>();
@@ -141,13 +128,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
-        
         public IActionResult DeletePrenom(int id, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -159,13 +143,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
-        
         public IActionResult DeletePrenomActeur(int id, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -177,17 +158,14 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
         [HttpPost]
         public IActionResult AddSurName(string surname, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
 
-
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             SurnomPerso surnom = new SurnomPerso { Surnom = surname, IdPerso = idPerso };
             List<SurnomPerso> surnoms = new List<SurnomPerso>();
@@ -199,13 +177,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
-        
         public IActionResult DeleteSurnom(int id, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -217,13 +192,11 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
         [HttpPost]
         public IActionResult StillAlive(string statutVivant, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -244,13 +217,11 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
         [HttpPost]
         public IActionResult StillPresent(string statutPresent, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -271,13 +242,11 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> AddPrincPhoto(IFormFile image, int idPerso, string photoPrincipale)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -292,7 +261,6 @@ namespace GreyAnatomyFanSite.Controllers
                     photo.PhotoPrincipale = false;
                 }
             }
-
 
             if (image.FileName.Contains(".png") || image.FileName.Contains(".jpg"))
             {
@@ -339,19 +307,16 @@ namespace GreyAnatomyFanSite.Controllers
                 return View("AddPersos", p);
             }
 
-
             p = p.AddPhotos();
 
             return View("AddPersos", p);
         }
-
 
         [HttpPost]
         public IActionResult AddActor(string name, string firstname, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -369,12 +334,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
         public IActionResult AddBirthDate(DateTime dateNaissance, int idActeur, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -386,13 +349,10 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
-
         public IActionResult ModifBirthDate(DateTime dateNaissance, int idActeur, int idPerso)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
-
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
@@ -404,18 +364,12 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos", p);
         }
 
-
-
-
-
-
         private int GetVisitIP()
         {
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);
             return v.GetVisit(v);
         }
-
 
         private void CookieUserExist(dynamic v)
         {
@@ -425,13 +379,11 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres { NoUnique = valCookie };
                 m = m.GetMembreByNoUnique();
                 v.Mail = m.Mail;
-
             }
             else
             {
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
-
             }
         }
 
@@ -447,7 +399,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -456,9 +407,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;
@@ -484,12 +433,10 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";
             }
         }
-
     }
 }

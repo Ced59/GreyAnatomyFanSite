@@ -238,7 +238,7 @@ $(function () {
     assert.expect(7)
     var $tooltip = $('<div/>')
       .bootstrapTooltip()
-      .on('click.foo', function () {})
+      .on('click.foo', function () { })
 
     assert.ok($tooltip.data('bs.tooltip'), 'tooltip has data')
     assert.ok($._data($tooltip[0], 'events').mouseover && $._data($tooltip[0], 'events').mouseout, 'tooltip has hover events')
@@ -307,9 +307,9 @@ $(function () {
   QUnit.test('should add position class before positioning so that position-specific styles are taken into account', function (assert) {
     assert.expect(1)
     var styles = '<style>'
-        + '.tooltip.right { white-space: nowrap; }'
-        + '.tooltip.right .tooltip-inner { max-width: none; }'
-        + '</style>'
+      + '.tooltip.right { white-space: nowrap; }'
+      + '.tooltip.right .tooltip-inner { max-width: none; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div/>').appendTo('#qunit-fixture')
@@ -423,10 +423,10 @@ $(function () {
   QUnit.test('should position tip on top if viewport has enough space and placement is "auto top"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + 'body { padding-top: 100px; }'
-        + '#section { height: 300px; border: 1px solid red; padding-top: 50px }'
-        + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
-        + '</style>'
+      + 'body { padding-top: 100px; }'
+      + '#section { height: 300px; border: 1px solid red; padding-top: 50px }'
+      + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="section"/>').appendTo('#qunit-fixture')
@@ -449,9 +449,9 @@ $(function () {
   QUnit.test('should position tip on top if viewport has enough space and is not parent', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '#section { height: 300px; border: 1px solid red; margin-top: 100px; }'
-        + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
-        + '</style>'
+      + '#section { height: 300px; border: 1px solid red; margin-top: 100px; }'
+      + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="section"/>').appendTo('#qunit-fixture')
@@ -474,10 +474,10 @@ $(function () {
   QUnit.test('should position tip on bottom if the tip\'s dimension exceeds the viewport area and placement is "auto top"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + 'body { padding-top: 100px; }'
-        + '#section { height: 300px; border: 1px solid red; }'
-        + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
-        + '</style>'
+      + 'body { padding-top: 100px; }'
+      + '#section { height: 300px; border: 1px solid red; }'
+      + 'div[rel="tooltip"] { width: 150px; border: 1px solid blue; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="section"/>').appendTo('#qunit-fixture')
@@ -500,9 +500,9 @@ $(function () {
   QUnit.test('should display the tip on top whenever scrollable viewport has enough room if the given placement is "auto top"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '#scrollable-div { height: 200px; overflow: auto; }'
-        + '.tooltip-item { margin: 200px 0 400px; width: 150px; }'
-        + '</style>'
+      + '#scrollable-div { height: 200px; overflow: auto; }'
+      + '.tooltip-item { margin: 200px 0 400px; width: 150px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="scrollable-div"/>').appendTo('#qunit-fixture')
@@ -527,9 +527,9 @@ $(function () {
   QUnit.test('should display the tip on bottom whenever scrollable viewport doesn\'t have enough room if the given placement is "auto top"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '#scrollable-div { height: 200px; overflow: auto; }'
-        + '.tooltip-item { padding: 200px 0 400px; width: 150px; }'
-        + '</style>'
+      + '#scrollable-div { height: 200px; overflow: auto; }'
+      + '.tooltip-item { padding: 200px 0 400px; width: 150px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="scrollable-div"/>').appendTo('#qunit-fixture')
@@ -554,11 +554,11 @@ $(function () {
   QUnit.test('should display the tip on bottom whenever scrollable viewport has enough room if the given placement is "auto bottom"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '#scrollable-div { height: 200px; overflow: auto; }'
-        + '.spacer { height: 400px; }'
-        + '.spacer:first-child { height: 200px; }'
-        + '.tooltip-item { width: 150px; }'
-        + '</style>'
+      + '#scrollable-div { height: 200px; overflow: auto; }'
+      + '.spacer { height: 400px; }'
+      + '.spacer:first-child { height: 200px; }'
+      + '.tooltip-item { width: 150px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="scrollable-div"/>').appendTo('#qunit-fixture')
@@ -585,9 +585,9 @@ $(function () {
   QUnit.test('should display the tip on top whenever scrollable viewport doesn\'t have enough room if the given placement is "auto bottom"', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '#scrollable-div { height: 200px; overflow: auto; }'
-        + '.tooltip-item { margin-top: 400px; width: 150px; }'
-        + '</style>'
+      + '#scrollable-div { height: 200px; overflow: auto; }'
+      + '.tooltip-item { margin-top: 400px; width: 150px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div id="scrollable-div"/>').appendTo('#qunit-fixture')
@@ -612,9 +612,9 @@ $(function () {
   QUnit.test('should adjust the tip\'s top position when up against the top of the viewport', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div/>').appendTo('#qunit-fixture')
@@ -640,9 +640,9 @@ $(function () {
   QUnit.test('should adjust the tip\'s top position when up against the bottom of the viewport', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div/>').appendTo('#qunit-fixture')
@@ -670,9 +670,9 @@ $(function () {
   QUnit.test('should adjust the tip\'s left position when up against the left of the viewport', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div/>').appendTo('#qunit-fixture')
@@ -699,9 +699,9 @@ $(function () {
   QUnit.test('should adjust the tip\'s left position when up against the right of the viewport', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div/>').appendTo('body')
@@ -729,10 +729,10 @@ $(function () {
   QUnit.test('should adjust the tip when up against the right of an arbitrary viewport', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip, .tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + '.container-viewport { position: absolute; top: 50px; left: 60px; width: 300px; height: 300px; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip, .tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + '.container-viewport { position: absolute; top: 50px; left: 60px; width: 300px; height: 300px; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div class="container-viewport"/>').appendTo(document.body)
@@ -757,10 +757,10 @@ $(function () {
   QUnit.test('should get viewport element from function', function (assert) {
     assert.expect(3)
     var styles = '<style>'
-        + '.tooltip, .tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
-        + '.container-viewport { position: absolute; top: 50px; left: 60px; width: 300px; height: 300px; }'
-        + 'a[rel="tooltip"] { position: fixed; }'
-        + '</style>'
+      + '.tooltip, .tooltip .tooltip-inner { width: 200px; height: 200px; max-width: none; }'
+      + '.container-viewport { position: absolute; top: 50px; left: 60px; width: 300px; height: 300px; }'
+      + 'a[rel="tooltip"] { position: fixed; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div class="container-viewport"/>').appendTo(document.body)
@@ -788,11 +788,11 @@ $(function () {
   QUnit.test('should not misplace the tip when the right edge offset is greater or equal than the viewport width', function (assert) {
     assert.expect(2)
     var styles = '<style>'
-        + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
-        + '.container-viewport, .container-viewport *, .container-viewport *:before, .container-viewport *:after { box-sizing: border-box; }'
-        + '.tooltip, .tooltip .tooltip-inner { width: 50px; height: 50px; max-width: none; background: red; }'
-        + '.container-viewport { padding: 100px; margin-left: 100px; width: 100px; }'
-        + '</style>'
+      + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
+      + '.container-viewport, .container-viewport *, .container-viewport *:before, .container-viewport *:after { box-sizing: border-box; }'
+      + '.tooltip, .tooltip .tooltip-inner { width: 50px; height: 50px; max-width: none; background: red; }'
+      + '.container-viewport { padding: 100px; margin-left: 100px; width: 100px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $container = $('<div class="container-viewport"/>').appendTo(document.body)
@@ -838,10 +838,10 @@ $(function () {
     var done = assert.async()
 
     var containerHTML = '<div>'
-        + '<p style="margin-top: 200px">'
-        + '<a href="#" title="very very very very very very very long tooltip">Hover me</a>'
-        + '</p>'
-        + '</div>'
+      + '<p style="margin-top: 200px">'
+      + '<a href="#" title="very very very very very very very long tooltip">Hover me</a>'
+      + '</p>'
+      + '</div>'
 
     var $container = $(containerHTML)
       .css({
@@ -950,7 +950,7 @@ $(function () {
 
     var $tooltip = $('<a href="#" rel="tooltip" title="Another tooltip"/>')
       .appendTo('#qunit-fixture')
-      .bootstrapTooltip({ delay: { show: 0, hide: 150 }})
+      .bootstrapTooltip({ delay: { show: 0, hide: 150 } })
 
     setTimeout(function () {
       assert.ok($('.tooltip').is('.fade.in'), '1ms: tooltip faded in')
@@ -997,7 +997,7 @@ $(function () {
 
     var $tooltip = $('<a href="#" rel="tooltip" title="Another tooltip"/>')
       .appendTo('#qunit-fixture')
-      .bootstrapTooltip({ delay: { show: 150, hide: 0 }})
+      .bootstrapTooltip({ delay: { show: 150, hide: 0 } })
 
     setTimeout(function () {
       assert.ok(!$('.tooltip').is('.fade.in'), '100ms: tooltip not faded in')
@@ -1018,7 +1018,7 @@ $(function () {
 
     var $tooltip = $('<a href="#" rel="tooltip" title="Another tooltip"/>')
       .appendTo('#qunit-fixture')
-      .bootstrapTooltip({ delay: { show: 0, hide: 150 }})
+      .bootstrapTooltip({ delay: { show: 0, hide: 150 } })
 
     setTimeout(function () {
       assert.ok($tooltip.data('bs.tooltip').$tip.is('.fade.in'), '1ms: tooltip faded in')
@@ -1033,7 +1033,6 @@ $(function () {
         assert.ok(!$tooltip.data('bs.tooltip').$tip.is('.in'), '200ms: tooltip removed')
         done()
       }, 200)
-
     }, 0)
 
     $tooltip.trigger('mouseenter')
@@ -1050,14 +1049,14 @@ $(function () {
     var done = assert.async()
 
     var styles = '<style>'
-        + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
-        + '.tooltip { position: absolute; }'
-        + '.tooltip .tooltip-inner { width: 24px; height: 24px; font-family: Helvetica; }'
-        + '</style>'
+      + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
+      + '.tooltip { position: absolute; }'
+      + '.tooltip .tooltip-inner { width: 24px; height: 24px; font-family: Helvetica; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     $('#qunit-fixture').append(
-        '<div style="position: fixed; top: 0; left: 0;">'
+      '<div style="position: fixed; top: 0; left: 0;">'
       + '  <svg width="200" height="200">'
       + '    <circle cx="100" cy="100" r="10" title="m" id="theCircle" />'
       + '  </svg>'
@@ -1083,15 +1082,15 @@ $(function () {
     var done = assert.async()
 
     var styles = '<style>'
-        + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
-        + '.tooltip { position: absolute; display: block; font-size: 12px; line-height: 1.4; }'
-        + '.tooltip .tooltip-inner { max-width: 200px; padding: 3px 8px; font-family: Helvetica; text-align: center; }'
-        + '#trigger-parent {'
-        + '  position: fixed;'
-        + '  top: 100px;'
-        + '  right: 17px;'
-        + '}'
-        + '</style>'
+      + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
+      + '.tooltip { position: absolute; display: block; font-size: 12px; line-height: 1.4; }'
+      + '.tooltip .tooltip-inner { max-width: 200px; padding: 3px 8px; font-family: Helvetica; text-align: center; }'
+      + '#trigger-parent {'
+      + '  position: fixed;'
+      + '  top: 100px;'
+      + '  right: 17px;'
+      + '}'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     $('#qunit-fixture').append('<span id="trigger-parent"><a id="tt-trigger" title="If a_larger_text is written here, it won\'t fit using older broken version of BS">HOVER OVER ME</a></span>')
@@ -1188,11 +1187,11 @@ $(function () {
     var done = assert.async()
 
     var styles = '<style>'
-        + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
-        + '.tooltip { position: absolute; }'
-        + '.tooltip-arrow { position: absolute; width: 0; height: 0; }'
-        + '.tooltip .tooltip-inner { max-width: 200px; padding: 3px 8px; }'
-        + '</style>'
+      + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
+      + '.tooltip { position: absolute; }'
+      + '.tooltip-arrow { position: absolute; width: 0; height: 0; }'
+      + '.tooltip .tooltip-inner { max-width: 200px; padding: 3px 8px; }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     $('<a href="#" title="tooltip title" style="position: absolute; bottom: 0; right: 0;">Foobar</a>')
@@ -1227,12 +1226,12 @@ $(function () {
     var done = assert.async()
 
     var styles = '<style>'
-        + '#qunit-fixture { top: 0; left: 0; }'
-        + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
-        + '.tooltip { position: absolute; }'
-        + '.tooltip .tooltip-inner { width: 24px; height: 24px; font-family: Helvetica; }'
-        + '#target { position: absolute; top: 100px; left: 50px; width: 100px; height: 200px; -webkit-transform: rotate(270deg); -ms-transform: rotate(270deg); transform: rotate(270deg); }'
-        + '</style>'
+      + '#qunit-fixture { top: 0; left: 0; }'
+      + '.tooltip, .tooltip *, .tooltip *:before, .tooltip *:after { box-sizing: border-box; }'
+      + '.tooltip { position: absolute; }'
+      + '.tooltip .tooltip-inner { width: 24px; height: 24px; font-family: Helvetica; }'
+      + '#target { position: absolute; top: 100px; left: 50px; width: 100px; height: 200px; -webkit-transform: rotate(270deg); -ms-transform: rotate(270deg); transform: rotate(270deg); }'
+      + '</style>'
     var $styles = $(styles).appendTo('head')
 
     var $element = $('<div id="target" title="1"/>').appendTo('#qunit-fixture')
@@ -1295,21 +1294,21 @@ $(function () {
     function showingTooltip() { return $tooltip.hasClass('in') || tooltip.hoverState == 'in' }
 
     var tests = [
-        ['mouseenter', 'mouseleave'],
+      ['mouseenter', 'mouseleave'],
 
-        ['focusin', 'focusout'],
+      ['focusin', 'focusout'],
 
-        ['click', 'click'],
+      ['click', 'click'],
 
-        ['mouseenter', 'focusin', 'focusout', 'mouseleave'],
-        ['mouseenter', 'focusin', 'mouseleave', 'focusout'],
+      ['mouseenter', 'focusin', 'focusout', 'mouseleave'],
+      ['mouseenter', 'focusin', 'mouseleave', 'focusout'],
 
-        ['focusin', 'mouseenter', 'mouseleave', 'focusout'],
-        ['focusin', 'mouseenter', 'focusout', 'mouseleave'],
+      ['focusin', 'mouseenter', 'mouseleave', 'focusout'],
+      ['focusin', 'mouseenter', 'focusout', 'mouseleave'],
 
-        ['click', 'focusin', 'mouseenter', 'focusout', 'mouseleave', 'click'],
-        ['mouseenter', 'click', 'focusin', 'focusout', 'mouseleave', 'click'],
-        ['mouseenter', 'focusin', 'click', 'click', 'mouseleave', 'focusout']
+      ['click', 'focusin', 'mouseenter', 'focusout', 'mouseleave', 'click'],
+      ['mouseenter', 'click', 'focusin', 'focusout', 'mouseleave', 'click'],
+      ['mouseenter', 'focusin', 'click', 'click', 'mouseleave', 'focusout']
     ]
 
     assert.ok(!showingTooltip())
@@ -1321,5 +1320,4 @@ $(function () {
       }
     })
   })
-
 })

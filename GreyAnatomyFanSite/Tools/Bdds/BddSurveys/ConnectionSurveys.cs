@@ -6,6 +6,7 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
     {
         private static SqlConnection _instance = null;
         private static readonly object _lock = new object();
+
         public static SqlConnection Instance
         {
             get
@@ -14,7 +15,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
                 {
                     if (_instance == null)
                     {
-
                         _instance = new SqlConnection(PassConnection.ConnectionBddSurveys());
 
                         try
@@ -25,18 +25,15 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
                         catch (System.Data.SqlClient.SqlException)
                         {
                             _instance = new SqlConnection(@"Data Source=226114-18021;Initial Catalog=db782547998;Integrated Security=True");
-
                         }
-
-
                     }
                     return _instance;
                 }
             }
         }
+
         private ConnectionSurveys()
         {
-
         }
     }
 }

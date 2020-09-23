@@ -6,16 +6,10 @@
     int Id = 0;
 }
 
-
 @model List<Personnage>
-
-
-
 
 <section class="row">
     <section class="col-lg-offset-2 col-lg-7">
-
-
 
         <table class="table table-bordered table-striped">
             <caption>
@@ -64,7 +58,6 @@
                                         }
                                     }
 
-
                                     <img src="~/@urlPrincipale" class="img-circle imgMini" />
                                 }
                                 <span>    </span>
@@ -78,13 +71,11 @@
 
                                     @p.Nom
                                 </a>
-
-
                             </td>
                             <td>
                                 @if ((p.NomActeur != null) && (p.PrenomsActeur.Count != 0))
                                 {
-                                <a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur">@p.PrenomsActeur[0].Prenom @p.NomActeur</a>
+                                    <a asp-area="" asp-controller="Acteurs" asp-action="ViewActeurID" asp-route-id="@p.IdActeur">@p.PrenomsActeur[0].Prenom @p.NomActeur</a>
 
                                 }
                             </td>
@@ -93,25 +84,18 @@
                             {
                                 <td><a asp-area="" asp-controller="Personnages" asp-action="ModifPerso" asp-route-id="@p.Id">Modifier</a></td>
                             }
-
-
                         </tr>
                     }
                 </tbody>
             }
-
         </table>
 
         @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
         {
             <a asp-area="" asp-controller="Personnages" asp-action="AddNewPerso">Ajouter un personnage</a>
         }
-
     </section>
-
-
 </section>
-
 
 <section class="row">
     <div class="col-xs-offset-3 col-xs-7">
@@ -122,5 +106,4 @@
             <li>Ect Ect...</li>
         </ul>
     </div>
-
 </section>

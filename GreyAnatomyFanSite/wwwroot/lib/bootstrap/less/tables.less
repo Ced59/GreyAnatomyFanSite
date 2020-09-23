@@ -2,20 +2,20 @@
 // Tables
 // --------------------------------------------------
 
-
 table {
   background-color: @table-bg;
 }
+
 caption {
   padding-top: @table-cell-padding;
   padding-bottom: @table-cell-padding;
   color: @text-muted;
   text-align: left;
 }
+
 th {
   text-align: left;
 }
-
 
 // Baseline styles
 
@@ -57,13 +57,11 @@ th {
   > tbody + tbody {
     border-top: 2px solid @table-border-color;
   }
-
   // Nesting
   .table {
     background-color: @body-bg;
   }
 }
-
 
 // Condensed table w/ half padding
 
@@ -80,13 +78,13 @@ th {
   }
 }
 
-
 // Bordered version
 //
 // Add borders all around the table and between all the columns.
 
 .table-bordered {
   border: 1px solid @table-border-color;
+
   > thead,
   > tbody,
   > tfoot {
@@ -97,6 +95,7 @@ th {
       }
     }
   }
+
   > thead > tr {
     > th,
     > td {
@@ -104,7 +103,6 @@ th {
     }
   }
 }
-
 
 // Zebra-striping
 //
@@ -116,7 +114,6 @@ th {
   }
 }
 
-
 // Hover effect
 //
 // Placed here since it has to come after the potential zebra striping
@@ -127,7 +124,6 @@ th {
   }
 }
 
-
 // Table cell sizing
 //
 // Reset default table behavior
@@ -137,6 +133,7 @@ table col[class*="col-"] {
   float: none;
   display: table-column;
 }
+
 table {
   td,
   th {
@@ -147,7 +144,6 @@ table {
     }
   }
 }
-
 
 // Table backgrounds
 //
@@ -161,7 +157,6 @@ table {
 .table-row-variant(warning; @state-warning-bg);
 .table-row-variant(danger; @state-danger-bg);
 
-
 // Responsive tables
 //
 // Wrap your tables in `.table-responsive` and we'll make them mobile friendly
@@ -171,18 +166,15 @@ table {
 .table-responsive {
   overflow-x: auto;
   min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
-
   @media screen and (max-width: @screen-xs-max) {
     width: 100%;
     margin-bottom: (@line-height-computed * 0.75);
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid @table-border-color;
-
     // Tighten up spacing
     > .table {
       margin-bottom: 0;
-
       // Ensure the content doesn't wrap
       > thead,
       > tbody,
@@ -195,11 +187,9 @@ table {
         }
       }
     }
-
     // Special overrides for the bordered tables
     > .table-bordered {
       border: 0;
-
       // Nuke the appropriate borders so that the parent can handle them
       > thead,
       > tbody,
@@ -209,13 +199,13 @@ table {
           > td:first-child {
             border-left: 0;
           }
+
           > th:last-child,
           > td:last-child {
             border-right: 0;
           }
         }
       }
-
       // Only nuke the last row's bottom-border in `tbody` and `tfoot` since
       // chances are there will be only one `tr` in a `thead` and that would
       // remove the border altogether.
@@ -228,7 +218,6 @@ table {
           }
         }
       }
-
     }
   }
 }

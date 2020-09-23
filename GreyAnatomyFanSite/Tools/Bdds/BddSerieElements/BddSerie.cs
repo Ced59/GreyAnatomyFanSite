@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using GreyAnatomyFanSite.Models.Persos;
+﻿using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Models.Site;
 using GreyAnatomyFanSite.Tools;
 using GreyAnatomyFanSite.Tools.Bdds.BddSerie;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace GreyAnatomyFanSite.Models
 {
@@ -45,16 +45,13 @@ namespace GreyAnatomyFanSite.Models
             command.ExecuteNonQuery();
             command.Dispose();
             ConnectionSerie.Instance.Close();
-
         }
-
 
         public void UpdateSeasonsSerie(List<Saison> saisons)
         {
             foreach (Saison s in saisons)
             {
                 bool exist = seasonExist(s.Id);
-
 
                 if (exist)
                 {
@@ -75,7 +72,6 @@ namespace GreyAnatomyFanSite.Models
                     command.Parameters.Add(new SqlParameter("@NumeroSaison", SqlDbType.Int) { Value = s.Season_number });
                     command.Parameters.Add(new SqlParameter("@IdTheMovieDB", SqlDbType.Int) { Value = s.Id });
 
-
                     ConnectionSerie.Instance.Open();
                     command.ExecuteNonQuery();
                     ConnectionSerie.Instance.Close();
@@ -93,7 +89,6 @@ namespace GreyAnatomyFanSite.Models
                             insertEpisode(e, s.IdSerie);
                         }
                     }
-
                 }
                 else
                 {
@@ -118,7 +113,6 @@ namespace GreyAnatomyFanSite.Models
                     {
                         insertEpisode(e, s.IdSerie);
                     }
-
                 }
             }
         }
@@ -150,12 +144,10 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
 
-
             foreach (Saison s in saisons)
             {
                 s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
             }
-
 
             return saisons;
         }
@@ -184,7 +176,6 @@ namespace GreyAnatomyFanSite.Models
             s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
 
             return s;
-
         }
 
         internal Saison GetSaisonById(int id, int saison)
@@ -211,7 +202,6 @@ namespace GreyAnatomyFanSite.Models
             s.Episodes = getEpisodesBySeason(s.IdSerie, s.Season_number);
 
             return s;
-
         }
 
         public List<Episode> getEpisodesBySeason(int idSerie, int SeasonNumber)
@@ -237,7 +227,6 @@ namespace GreyAnatomyFanSite.Models
                 e.Show_id = reader.GetInt32(7);
                 e.Still_path = reader.GetString(9);
                 episodes.Add(e);
-
             }
 
             reader.Close();
@@ -258,9 +247,8 @@ namespace GreyAnatomyFanSite.Models
 
                     while (reader.Read())
                     {
-                        
                         EpisodeImg episodeImg = new EpisodeImg { File_path = reader.GetString(1) };
-                        
+
                         episodeImages.Stills.Add(episodeImg);
                         episode.Photos = episodeImages;
                     }
@@ -273,7 +261,6 @@ namespace GreyAnatomyFanSite.Models
                 command.Dispose();
                 ConnectionSerie.Instance.Close();
             }
-
 
             return episodes;
         }
@@ -306,7 +293,6 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
 
-
             return serie;
         }
 
@@ -332,20 +318,15 @@ namespace GreyAnatomyFanSite.Models
             int idEpisode = (int)command.ExecuteScalar();
             ConnectionSerie.Instance.Close();
 
-
             insertImgsEpisode(e, idSerie, idEpisode);
-
         }
 
         private void insertImgsEpisode(Episode e, int idSerie, int idEpisode)
         {
-
             foreach (EpisodeImg episodeImg in e.Photos.Stills)
             {
                 insertImgEpisode(idSerie, idEpisode, episodeImg);
             }
-
-
         }
 
         private static void insertImgEpisode(int idSerie, int idEpisode, EpisodeImg episodeImg)
@@ -403,7 +384,6 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
 
-
             foreach (EpisodeImg episodeImg in e.Photos.Stills)
             {
                 bool ImgExist = imgExist(episodeImg);
@@ -412,11 +392,8 @@ namespace GreyAnatomyFanSite.Models
                 {
                     insertImgEpisode(idSerie, idEpisode, episodeImg);
                 }
-
             }
         }
-
-
 
         private bool imgExist(EpisodeImg episodeImg)
         {
@@ -499,7 +476,6 @@ namespace GreyAnatomyFanSite.Models
 
         public void UpdateSerieInfos(SerieInfo serieInfo)
         {
-
             bool exist = serieExist(serieInfo.Id);
 
             if (exist)
@@ -560,8 +536,6 @@ namespace GreyAnatomyFanSite.Models
                 command.ExecuteNonQuery();
                 ConnectionSerie.Instance.Close();
             }
-
-
         }
 
         private bool serieExist(int id)
@@ -631,9 +605,7 @@ namespace GreyAnatomyFanSite.Models
             acteur.PrenomsActeur = GetPrenomsActeurs(acteur);
             ConnectionSerie.Instance.Close();
             return acteur;
-
         }
-
 
         public void DeletePrenom(int id)
         {
@@ -654,7 +626,6 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
         }
-
 
         public void DeletePrenomActeur(int id)
         {
@@ -701,8 +672,6 @@ namespace GreyAnatomyFanSite.Models
                 command.Parameters.Add(new SqlParameter("@PhotoPrincipale", SqlDbType.Int) { Value = ConvertIntBool.ConvertBoolToInt(photo.PhotoPrincipale) });
                 command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = photo.Id });
 
-
-
                 command.ExecuteNonQuery();
                 command.Dispose();
             }
@@ -727,7 +696,6 @@ namespace GreyAnatomyFanSite.Models
                     command.ExecuteNonQuery();
                     command.Dispose();
                 }
-
                 else
                 {
                     reader.Close();
@@ -735,11 +703,8 @@ namespace GreyAnatomyFanSite.Models
                 }
             }
 
-
             ConnectionSerie.Instance.Close();
         }
-
-
 
         public void UpdateStatutPresent(Personnage p)
         {
@@ -761,7 +726,6 @@ namespace GreyAnatomyFanSite.Models
             command.ExecuteNonQuery();
             command.Dispose();
             ConnectionSerie.Instance.Close();
-
         }
 
         public void AddPrenom(Personnage p)
@@ -786,7 +750,6 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
         }
 
-
         public void AddSurnom(Personnage p)
         {
             IDbCommand command = new SqlCommand("INSERT INTO SurnomsPersos (Surnom, IdPerso) VALUES (@Surnom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
@@ -798,9 +761,7 @@ namespace GreyAnatomyFanSite.Models
             ConnectionSerie.Instance.Close();
         }
 
-
-        #endregion
-
+        #endregion AddCommentaire
 
         #region GetAllActeursNameFirstName
 
@@ -830,9 +791,7 @@ namespace GreyAnatomyFanSite.Models
             return acteurs;
         }
 
-
-        #endregion
-
+        #endregion GetAllActeursNameFirstName
 
         #region GetComments
 
@@ -847,8 +806,6 @@ namespace GreyAnatomyFanSite.Models
 
             try
             {
-
-
                 while (reader.Read())
                 {
                     Commentaire c = new Commentaire { TypePubli = commentaire.TypePubli, IdPubli = commentaire.IdPubli };
@@ -867,7 +824,6 @@ namespace GreyAnatomyFanSite.Models
                     return null;
                 }
                 return Commentaires;
-
             }
             catch
             {
@@ -878,8 +834,7 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
-        #endregion
-
+        #endregion GetComments
 
         #region GetCategory by Id
 
@@ -897,14 +852,12 @@ namespace GreyAnatomyFanSite.Models
             return c;
         }
 
-        #endregion
-
+        #endregion GetCategory by Id
 
         #region Add Category
 
         public List<CategoryArticle> AddCategory(CategoryArticle categoryArticle)
         {
-
             IDbCommand command = new SqlCommand("INSERT INTO Categories (Titre) VALUES (@Titre)", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@Titre", SqlDbType.VarChar) { Value = categoryArticle.TitreCategory });
             ConnectionSerie.Instance.Open();
@@ -915,10 +868,7 @@ namespace GreyAnatomyFanSite.Models
             return GetCategories();
         }
 
-
-        #endregion
-
-
+        #endregion Add Category
 
         public Article GetArticle(Article article, out int IdAuteur)
         {
@@ -938,8 +888,6 @@ namespace GreyAnatomyFanSite.Models
                 reader.Close();
                 command.Dispose();
 
-
-
                 command = new SqlCommand("SELECT * FROM Categories WHERE Id = @Id", (SqlConnection)ConnectionSerie.Instance);
                 command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = IdCategory });
                 reader = (SqlDataReader)command.ExecuteReader();
@@ -948,7 +896,6 @@ namespace GreyAnatomyFanSite.Models
                 article.Categorie = c;
                 reader.Close();
                 command.Dispose();
-
 
                 command = new SqlCommand("SELECT * FROM MediasArticles WHERE IdArticle = @Id", (SqlConnection)ConnectionSerie.Instance);
                 command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = article.Id });
@@ -959,12 +906,10 @@ namespace GreyAnatomyFanSite.Models
                 {
                     article.TypeMedia = "image";
                 }
-
                 else if ((reader.GetString(1).Contains(".mp4") || reader.GetString(1).Contains(".avi") || reader.GetString(1).Contains(".mpg")))
                 {
                     article.TypeMedia = "video";
                 }
-
                 else
                 {
                     article.TypeMedia = "autre";
@@ -975,21 +920,17 @@ namespace GreyAnatomyFanSite.Models
                 ConnectionSerie.Instance.Close();
                 return article;
             }
-
             else
             {
                 IdAuteur = 0;
                 return null;
             }
-
         }
-
 
         #region GetNbreArticle
 
         public int GetNbreArticles(int? IdCategory)
         {
-
             if ((IdCategory == 0) || (IdCategory == null))
             {
                 IDbCommand command = new SqlCommand("SELECT COUNT (*) FROM Articles", (SqlConnection)ConnectionSerie.Instance);
@@ -999,7 +940,6 @@ namespace GreyAnatomyFanSite.Models
                 ConnectionSerie.Instance.Close();
                 return NbreArticles;
             }
-
             else
             {
                 IDbCommand command = new SqlCommand("SELECT COUNT (*) FROM Articles WHERE IdCategorie = @Id", (SqlConnection)ConnectionSerie.Instance);
@@ -1010,10 +950,9 @@ namespace GreyAnatomyFanSite.Models
                 ConnectionSerie.Instance.Close();
                 return NbreArticles;
             }
-
         }
 
-        #endregion
+        #endregion GetNbreArticle
 
         #region Get All Articles
 
@@ -1053,17 +992,14 @@ namespace GreyAnatomyFanSite.Models
 
                 Article a = new Article { Id = reader.GetInt32(0), Titre = reader.GetString(1), Texte = reader.GetString(2), Categorie = c, Auteur = m, Date = reader.GetDateTime(5), Media = reader.GetString(7) };
 
-
                 if ((reader.GetString(7).Contains(".png") || reader.GetString(7).Contains(".jpg") || reader.GetString(7).Contains(".jpeg")))
                 {
                     a.TypeMedia = "image";
                 }
-
                 else if ((reader.GetString(7).Contains(".mp4") || reader.GetString(7).Contains(".avi") || reader.GetString(7).Contains(".mpg")))
                 {
                     a.TypeMedia = "video";
                 }
-
                 else
                 {
                     a.TypeMedia = "autre";
@@ -1079,8 +1015,7 @@ namespace GreyAnatomyFanSite.Models
             return articles;
         }
 
-
-        #endregion
+        #endregion Get All Articles
 
         #region AddArticle
 
@@ -1098,7 +1033,6 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
             return article;
-
         }
 
         public void AddMediaArticle(MediaArticle m)
@@ -1111,11 +1045,9 @@ namespace GreyAnatomyFanSite.Models
             command.ExecuteNonQuery();
             command.Dispose();
             ConnectionSerie.Instance.Close();
-
         }
 
-
-        #endregion
+        #endregion AddArticle
 
         #region Récuperer toutes les catégories d'articles
 
@@ -1136,11 +1068,9 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionSerie.Instance.Close();
             return categories;
-
         }
 
-        #endregion
-
+        #endregion Récuperer toutes les catégories d'articles
 
         #region GetAllActeursBirthDate
 
@@ -1170,8 +1100,7 @@ namespace GreyAnatomyFanSite.Models
             return BirthDates;
         }
 
-        #endregion
-
+        #endregion GetAllActeursBirthDate
 
         #region Ajouter Perso
 
@@ -1196,7 +1125,6 @@ namespace GreyAnatomyFanSite.Models
             return p;
         }
 
-
         public void AddNewActor(Personnage p)
         {
             IDbCommand command = new SqlCommand("INSERT INTO Acteurs (Nom, IdPerso) OUTPUT INSERTED.ID VALUES (@Nom, @IdPerso)", (SqlConnection)ConnectionSerie.Instance);
@@ -1215,12 +1143,9 @@ namespace GreyAnatomyFanSite.Models
                 command.Dispose();
             }
             ConnectionSerie.Instance.Close();
-
-
         }
 
-
-        #endregion
+        #endregion Ajouter Perso
 
         #region Récupérer Perso Par Id
 
@@ -1288,7 +1213,6 @@ namespace GreyAnatomyFanSite.Models
                 {
                     p.StatutPresent = false;
                 }
-
             }
             catch
             {
@@ -1306,7 +1230,6 @@ namespace GreyAnatomyFanSite.Models
             p.Photos = GetPhotosPerso(p);
             p.Surnoms = GetSurnomsPersos(p);
             p.PrenomsActeur = GetPrenomsActeurs(p);
-
 
             command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = id });
@@ -1350,19 +1273,14 @@ namespace GreyAnatomyFanSite.Models
                 p.IdActeur = 0;
             }
 
-
-
             reader.Close();
             command.Dispose();
-
 
             ConnectionSerie.Instance.Close();
             return p;
         }
 
-
-        #endregion
-
+        #endregion Récupérer Perso Par Id
 
         #region Récupérer liste des acteurs
 
@@ -1375,7 +1293,6 @@ namespace GreyAnatomyFanSite.Models
             IDbCommand command = new SqlCommand("SELECT * FROM Persos", (SqlConnection)ConnectionSerie.Instance);
             ConnectionSerie.Instance.Open();
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
-
 
             try
             {
@@ -1430,39 +1347,29 @@ namespace GreyAnatomyFanSite.Models
                 return null;
             }
 
-
-
-
-            #endregion
-
+            #endregion Recuperer tous les persos
 
             foreach (Personnage p in l)
             {
                 #region Recuperer les prenoms des persos
 
-
                 p.Prenoms = GetPrenomPersos(p);
 
-                #endregion
-
+                #endregion Recuperer les prenoms des persos
 
                 #region Recuperer les surnoms des persos
 
-
                 p.Surnoms = GetSurnomsPersos(p);
 
-                #endregion
+                #endregion Recuperer les surnoms des persos
 
                 #region Recuperer les photos des persos
 
-
                 p.Photos = GetPhotosPerso(p);
 
-
-                #endregion
+                #endregion Recuperer les photos des persos
 
                 #region Récupérer infos Acteurs
-
 
                 command = new SqlCommand("SELECT * FROM Acteurs WHERE IdPerso = @IdPerso", (SqlConnection)ConnectionSerie.Instance);
                 command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
@@ -1505,27 +1412,21 @@ namespace GreyAnatomyFanSite.Models
                     p.IdActeur = 0;
                 }
 
-
                 reader.Close();
                 command.Dispose();
 
                 p.PrenomsActeur = GetPrenomsActeurs(p);
-                #endregion
+
+                #endregion Récupérer infos Acteurs
             }
-
-
 
             ConnectionSerie.Instance.Close();
             return l;
-
-
         }
 
-        #endregion
-
+        #endregion Récupérer liste des acteurs
 
         #region Récuperer Photos Persos
-
 
         private List<PhotoPerso> GetPhotosPerso(Personnage p)
         {
@@ -1539,7 +1440,6 @@ namespace GreyAnatomyFanSite.Models
             {
                 while (reader.Read())
                 {
-
                     PhotoPerso photo = new PhotoPerso { Url = reader.GetString(2), Id = reader.GetInt32(0), IdPerso = p.Id, PhotoPrincipale = ConvertIntBool.ConvertIntToBool(reader.GetInt32(3)) };
 
                     photos.Add(photo);
@@ -1556,7 +1456,7 @@ namespace GreyAnatomyFanSite.Models
             return photos;
         }
 
-        #endregion
+        #endregion Récuperer Photos Persos
 
         #region Récupérer Surnoms Persos
 
@@ -1571,7 +1471,6 @@ namespace GreyAnatomyFanSite.Models
             {
                 while (reader.Read())
                 {
-
                     SurnomPerso surnom = new SurnomPerso { Surnom = reader.GetString(1), Id = reader.GetInt32(0) };
                     surnoms.Add(surnom);
                 }
@@ -1581,15 +1480,13 @@ namespace GreyAnatomyFanSite.Models
                 surnoms = null;
             }
 
-
             reader.Close();
             command.Dispose();
 
             return surnoms;
         }
 
-        #endregion
-
+        #endregion Récupérer Surnoms Persos
 
         #region Récupérer Prénoms Persos
 
@@ -1600,12 +1497,10 @@ namespace GreyAnatomyFanSite.Models
             command.Parameters.Add(new SqlParameter("@IdPerso", SqlDbType.Int) { Value = p.Id });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
-
             try
             {
                 while (reader.Read())
                 {
-
                     PrenomPerso prenom = new PrenomPerso { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
                     prenoms.Add(prenom);
                 }
@@ -1615,15 +1510,13 @@ namespace GreyAnatomyFanSite.Models
                 prenoms = null;
             }
 
-
             reader.Close();
             command.Dispose();
 
             return prenoms;
         }
 
-        #endregion
-
+        #endregion Récupérer Prénoms Persos
 
         #region Récupérer prénoms acteurs
 
@@ -1655,18 +1548,15 @@ namespace GreyAnatomyFanSite.Models
                 command.Dispose();
             }
 
-
             List<PrenomActeur> prenoms = new List<PrenomActeur>();
             command = new SqlCommand("SELECT * FROM PrenomsActeurs WHERE IdActeur = @IdActeur", (SqlConnection)ConnectionSerie.Instance);
             command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = p.IdActeur });
             reader = (SqlDataReader)command.ExecuteReader();
 
-
             try
             {
                 while (reader.Read())
                 {
-
                     PrenomActeur prenom = new PrenomActeur { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
                     prenoms.Add(prenom);
                 }
@@ -1675,7 +1565,6 @@ namespace GreyAnatomyFanSite.Models
             {
                 prenoms = null;
             }
-
 
             reader.Close();
             command.Dispose();
@@ -1690,12 +1579,10 @@ namespace GreyAnatomyFanSite.Models
             command.Parameters.Add(new SqlParameter("@IdActeur", SqlDbType.Int) { Value = a.IdActeur });
             SqlDataReader reader = (SqlDataReader)command.ExecuteReader();
 
-
             try
             {
                 while (reader.Read())
                 {
-
                     PrenomActeur prenom = new PrenomActeur { Prenom = reader.GetString(1), Id = reader.GetInt32(0) };
                     prenoms.Add(prenom);
                 }
@@ -1705,12 +1592,12 @@ namespace GreyAnatomyFanSite.Models
                 prenoms = null;
             }
 
-
             reader.Close();
             command.Dispose();
 
             return prenoms;
         }
-        #endregion
+
+        #endregion Récupérer prénoms acteurs
     }
 }

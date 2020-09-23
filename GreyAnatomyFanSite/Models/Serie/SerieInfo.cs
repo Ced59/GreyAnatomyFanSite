@@ -1,8 +1,8 @@
-﻿using RestSharp;
+﻿using GreyAnatomyFanSite.Tools;
 using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using GreyAnatomyFanSite.Tools;
 
 namespace GreyAnatomyFanSite.Models.Serie
 {
@@ -19,7 +19,6 @@ namespace GreyAnatomyFanSite.Models.Serie
         private bool in_production;
         private string poster_path;
         private List<Saison> saisons;
-
 
         public string Original_name { get => original_name; set => original_name = value; }
         public string Overview { get => overview; set => overview = value; }
@@ -98,8 +97,5 @@ namespace GreyAnatomyFanSite.Models.Serie
         {
             return BddSerie.Instance.GetSaisons(this);
         }
-
-
     }
-
 }

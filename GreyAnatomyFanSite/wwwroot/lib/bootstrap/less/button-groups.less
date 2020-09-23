@@ -41,6 +41,7 @@
   .input-group {
     float: left;
   }
+
   > .btn,
   > .btn-group,
   > .input-group {
@@ -55,6 +56,7 @@
 // Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
 .btn-group > .btn:first-child {
   margin-left: 0;
+
   &:not(:last-child):not(.dropdown-toggle) {
     .border-right-radius(0);
   }
@@ -69,15 +71,18 @@
 .btn-group > .btn-group {
   float: left;
 }
+
 .btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
   border-radius: 0;
 }
+
 .btn-group > .btn-group:first-child:not(:last-child) {
   > .btn:last-child,
   > .dropdown-toggle {
     .border-right-radius(0);
   }
 }
+
 .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
   .border-left-radius(0);
 }
@@ -88,15 +93,21 @@
   outline: 0;
 }
 
-
 // Sizing
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.btn-group-xs > .btn { &:extend(.btn-xs); }
-.btn-group-sm > .btn { &:extend(.btn-sm); }
-.btn-group-lg > .btn { &:extend(.btn-lg); }
+.btn-group-xs > .btn {
+  &:extend(.btn-xs);
+}
 
+.btn-group-sm > .btn {
+  &:extend(.btn-sm);
+}
+
+.btn-group-lg > .btn {
+  &:extend(.btn-lg);
+}
 
 // Split button dropdowns
 // ----------------------
@@ -106,6 +117,7 @@
   padding-left: 8px;
   padding-right: 8px;
 }
+
 .btn-group > .btn-lg + .dropdown-toggle {
   padding-left: 12px;
   padding-right: 12px;
@@ -115,13 +127,11 @@
 // Remove the gradient and set the same inset shadow as the :active state
 .btn-group.open .dropdown-toggle {
   .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
-
   // Show no shadow for `.btn-link` since it has no other button styles.
   &.btn-link {
     .box-shadow(none);
   }
 }
-
 
 // Reposition the caret
 .btn .caret {
@@ -137,7 +147,6 @@
   border-width: 0 @caret-width-large @caret-width-large;
 }
 
-
 // Vertical button groups
 // ----------------------
 
@@ -150,10 +159,10 @@
     width: 100%;
     max-width: 100%;
   }
-
   // Clear floats so dropdown menus can be properly placed
   > .btn-group {
     &:extend(.clearfix all);
+
     > .btn {
       float: none;
     }
@@ -172,28 +181,32 @@
   &:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
+
   &:first-child:not(:last-child) {
     .border-top-radius(@btn-border-radius-base);
     .border-bottom-radius(0);
   }
+
   &:last-child:not(:first-child) {
     .border-top-radius(0);
     .border-bottom-radius(@btn-border-radius-base);
   }
 }
+
 .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {
   border-radius: 0;
 }
+
 .btn-group-vertical > .btn-group:first-child:not(:last-child) {
   > .btn:last-child,
   > .dropdown-toggle {
     .border-bottom-radius(0);
   }
 }
+
 .btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {
   .border-top-radius(0);
 }
-
 
 // Justified button groups
 // ----------------------
@@ -203,12 +216,14 @@
   width: 100%;
   table-layout: fixed;
   border-collapse: separate;
+
   > .btn,
   > .btn-group {
     float: none;
     display: table-cell;
     width: 1%;
   }
+
   > .btn-group .btn {
     width: 100%;
   }
@@ -217,7 +232,6 @@
     left: auto;
   }
 }
-
 
 // Checkbox and radio options
 //

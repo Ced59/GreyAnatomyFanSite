@@ -9,7 +9,5 @@ namespace GreyAnatomyFanSite.Models.Serie
 
         public int Id { get => id; set => id = value; }
         public List<EpisodeImg> Stills { get => stills; set => stills = value; }
-
-
     }
 }

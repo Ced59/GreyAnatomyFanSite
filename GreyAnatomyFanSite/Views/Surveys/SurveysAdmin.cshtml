@@ -1,87 +1,78 @@
 ﻿@using GreyAnatomyFanSite.Models.Surveys
 @using System.Globalization
 
+<section class="row">
+    <section class="col-xs-offset-1 col-xs-10">
 
-    <section class="row">
-        <section class="col-xs-offset-1 col-xs-10">
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Liste des Sondages</h4>
+            </caption>
 
+            @if (Model.Count == 0)
+            {
+                <tbody>
+                    <tr>
 
+                        <td>
+                            Pas de sondage enregistré.
+                        </td>
+                    </tr>
+                </tbody>
+            }
+            else
+            {
 
-            <table class="table table-bordered table-striped">
-                <caption>
-                    <h4>Liste des Sondages</h4>
-                </caption>
+                <thead>
+                    <tr>
+                        <th class="col-xs-2">Id</th>
+                        <th class="col-xs-4">Question:</th>
+                        <th class="col-xs-4">Date:</th>
+                        <th class="col-xs-2">En ligne:</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                @if (Model.Count == 0)
-                {
-                    <tbody>
-                        <tr>
+                    @foreach (Survey s in Model)
+                    {
+
+                        <tr class="CentreTableau">
+
+                            <td>N°: @s.Id</td>
 
                             <td>
-                                Pas de sondage enregistré.
+                                @s.Titre
+                            </td>
+                            <td>
+                                @s.DateCreation.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                            </td>
+                            <td>
+                                @s.Online
+                                @if (s.Online == false)
+                                {
+                                    <br />
+                                    <a asp-area="" asp-controller="Surveys" asp-action="ModifSurvey" asp-route-id="@s.Id">Modifier</a>
+                                }
+                                else
+                                {
+                                    <br />
+                                    <a asp-area="" asp-controller="Surveys" asp-action="DisplaySurvey" asp-route-id="@s.Id">Voir</a>
+                                }
                             </td>
                         </tr>
-                    </tbody>
-                }
-                else
-                {
+                    }
+                </tbody>
+            }
+        </table>
 
-                    <thead>
-                        <tr>
-                            <th class="col-xs-2">Id</th>
-                            <th class="col-xs-4">Question:</th>
-                            <th class="col-xs-4">Date:</th>
-                            <th class="col-xs-2">En ligne:</th>
+        <form asp-controller="Surveys" asp-action="Add" method="post" class="alert-link col-xs-offset-3 col-xs-6">
 
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (Survey s in Model)
-                        {
-
-                            <tr class="CentreTableau">
-
-                                <td>N°: @s.Id</td>
-
-                                <td>
-                                    @s.Titre
-                                </td>
-                                <td>
-                                    @s.DateCreation.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
-                                </td>
-                                <td>
-                                    @s.Online
-                                    @if (s.Online == false)
-                                    {
-                                        <br />
-                                        <a asp-area="" asp-controller="Surveys" asp-action="ModifSurvey" asp-route-id="@s.Id">Modifier</a>
-                                    }
-                                    else
-                                    {
-                                        <br />
-                                        <a asp-area="" asp-controller="Surveys" asp-action="DisplaySurvey" asp-route-id="@s.Id">Voir</a>
-                                    }
-                                </td>
-
-
-                            </tr>
-                        }
-                    </tbody>
-                }
-
-            </table>
-
-            <form asp-controller="Surveys" asp-action="Add" method="post" class="alert-link col-xs-offset-3 col-xs-6">
-
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nom">Ajouter un nouveau sondage </label>
-                        <button class="form-control btn btn-default" type="submit">Ajouter</button>
-                    </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="nom">Ajouter un nouveau sondage </label>
+                    <button class="form-control btn btn-default" type="submit">Ajouter</button>
                 </div>
-            </form>
-
-        </section>
+            </div>
+        </form>
     </section>
-
+</section>

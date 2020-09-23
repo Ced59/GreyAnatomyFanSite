@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GreyAnatomyFanSite.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace GreyAnatomyFanSite.Models.Persos
 {
-    public class Acteur
+    public class Acteur : IActeur
     {
         private int idActeur;
         private int idPerso;
@@ -42,5 +43,3 @@ namespace GreyAnatomyFanSite.Models.Persos
         }
     }
 }
-
-

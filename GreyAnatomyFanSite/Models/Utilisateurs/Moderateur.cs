@@ -2,33 +2,24 @@
 {
     public class Moderateur : Membres
     {
-        
-
         public Moderateur()
         {
-
         }
 
         public Moderateur(string Pseudo, string Avatar, string Statut) : base(Pseudo, Avatar, Statut)
         {
-
         }
 
-
-
-        public void EditAllCommentaire ()
+        public void EditAllCommentaire()
         {
-
         }
 
-        public void ChangeStatutMembre ()
+        public void ChangeStatutMembre()
         {
-            
         }
 
-        public void ChangeStatutVisiteur ()
+        public void ChangeStatutVisiteur()
         {
-            
         }
     }
 }

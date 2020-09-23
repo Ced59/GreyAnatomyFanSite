@@ -53,7 +53,6 @@
                     <img class="center-block img-responsive" src="~/@Model.Article.Media" alt="@Model.Article.Titre" />
                 }
 
-
                 <div class="row">
                     <p class="col-xs-12 DateListeArticles">
                         Posté le
@@ -75,14 +74,10 @@
                 @Model.Article.Titre
             </h1>
 
-
             <p>
                 @Html.Raw(Model.Article.Texte)
             </p>
-
         </div>
-
-
 
         <div class="row">
             <div class="col-md-offset-9 col-xs-offset-6">
@@ -91,18 +86,14 @@
                 </div>
             </div>
         </div>
-
     </article>
 
-
     <div class="fb-page col-md-3 borderArticle" data-href="https://www.facebook.com/Greys-anatomy-serie-242083632638034/" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Greys-anatomy-serie-242083632638034/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Greys-anatomy-serie-242083632638034/">Grey&#039;s anatomy serie</a></blockquote></div>
-
 </div>
 
 <legend class="col-xs-offset-1 col-md-10 marginTop">
     Liste des derniers articles:
 </legend>
-
 
 <ul class="media-list col-xs-offset-1 col-md-10">
 
@@ -120,9 +111,7 @@
                     {
                         <img src="~/@a.Media" class="media-object miniImgArticles" alt="@a.Titre" />
                     }
-
                 </a>
-
             </div>
 
             <a asp-area="" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@a.Id" class="media-body thumbnail">
@@ -131,24 +120,20 @@
                     @a.Titre
                 </h3>
 
-
                 <p>
                     @if (a.Texte.Length > 150)
                     {
-                        @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br />"))
 
                     }
                     else
                     {
-                        @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br/>"))
+                        @Html.Raw(a.Texte.Replace(Environment.NewLine, "<br />"))
                     }
                 </p>
-
             </a>
-
         </li>
     }
-
 </ul>
 
 <div class="row">
@@ -160,6 +145,3 @@
         }
     </div>
 </div>
-
-
-

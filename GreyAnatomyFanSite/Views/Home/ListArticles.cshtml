@@ -8,16 +8,8 @@
     int Id2 = 0;
 }
 
-
-
-
-
-
-
 <section class="row">
     <section class="col-lg-offset-2 col-lg-7">
-
-
 
         <table class="table table-bordered table-striped">
             <caption>
@@ -53,28 +45,19 @@
 
                             <td>N°: @Id</td>
 
-                      
                             <td><a asp-area="" asp-controller="Home" asp-action="ModifCategory" asp-route-id="@c.Id">@c.TitreCategory</a></td>
-
                         </tr>
                     }
                 </tbody>
             }
-
         </table>
-
 
         <a asp-area="" asp-controller="Home" asp-action="AddCategory">Ajouter une Catégorie</a>
     </section>
-
-
 </section>
-
 
 <section class="row">
     <section class="col-lg-offset-2 col-lg-7">
-
-
 
         <table class="table table-bordered table-striped">
             <caption>
@@ -114,17 +97,12 @@
                             <td>Publié le @a.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
 
                             <td><a asp-area="" asp-controller="Home" asp-action="ModifArticle" asp-route-id="@a.Id">@a.Titre</a></td>
-
                         </tr>
                     }
                 </tbody>
             }
-
         </table>
-
 
         <a asp-area="" asp-controller="Home" asp-action="AddArticle">Ajouter un Article</a>
     </section>
-
-
 </section>

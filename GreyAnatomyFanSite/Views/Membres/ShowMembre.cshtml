@@ -4,25 +4,16 @@
     ViewData["Title"] = @Model.Pseudo;
 }
 
-
-
-
-
-
-
 @if ((ViewBag.ChangeAvatarOk != null))
 {
     <div class="row">
         <div class="col-lg-12 alert alert-success">
-
 
             <div class="row">
                 <div class="col-lg-12">
                     @ViewBag.ChangeAvatarOk
                 </div>
             </div>
-
-
         </div>
     </div>
 }
@@ -32,11 +23,9 @@
         <div class="row">
 
             <img class="AvatarDescription img-circle img-thumbnail" src="~/@Model.Avatar" />
-
         </div>
     </div>
 </div>
-
 
 @if ((ViewBag.Pseudo != null) && (ViewBag.Pseudo == Model.Pseudo))
 {
@@ -57,8 +46,6 @@
 <section class="row">
     <section class="col-lg-offset-1 col-lg-10">
 
-
-
         <table class="table table-bordered table-striped">
             <caption>
                 <h4>Informations</h4>
@@ -68,21 +55,18 @@
 
                 <th class="col-xs-4">Pseudo:</th>
                 <td class="col-xs-4">@Model.Pseudo</td>
-
             </tr>
 
             <tr>
 
                 <th class="col-xs-4">Statut:</th>
                 <td class="col-xs-4">@Model.Statut</td>
-
             </tr>
 
             <tr>
 
                 <th class="col-xs-4">Date d'inscription:</th>
                 <td class="col-xs-4">@Model.DateInscription.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
-
             </tr>
 
             @if (((ViewBag.Pseudo != null) && (ViewBag.Pseudo == Model.Pseudo)) || (ViewBag.Statut == "Administrateur") || (ViewBag.Statut == "Coeur"))
@@ -97,26 +81,8 @@
                     <a asp-area="" asp-controller="Membres" asp-action="ModifMail">Modifier</a>
                 </td>
                     }
-
             </tr>
             }
-
-
-
         </table>
     </section>
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

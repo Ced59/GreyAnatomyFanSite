@@ -14,7 +14,6 @@ namespace GreyAnatomyFanSite.Models.Site
         private DateTime date;
         private CategoryArticle categorie;
         private string typeMedia;
-        
 
         public int Id { get => id; set => id = value; }
         public string Titre { get => titre; set => titre = value; }
@@ -31,7 +30,6 @@ namespace GreyAnatomyFanSite.Models.Site
             return BddSerie.Instance.GetNbreArticles(IdCategory);
         }
 
-
         public Article AddArticle()
         {
             return BddSerie.Instance.AddArticle(this);
@@ -39,7 +37,7 @@ namespace GreyAnatomyFanSite.Models.Site
 
         public List<Article> GetAllArticles(int? pagination, int? category)
         {
-            List<Article> articles = new List<Article>();             
+            List<Article> articles = new List<Article>();
             articles = BddSerie.Instance.GetAllArticles(pagination, category);
 
             foreach (Article a in articles)
@@ -51,8 +49,6 @@ namespace GreyAnatomyFanSite.Models.Site
 
             return articles;
         }
-
-
 
         public Article GetArticle()
         {

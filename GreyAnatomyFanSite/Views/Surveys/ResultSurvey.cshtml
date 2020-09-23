@@ -50,7 +50,6 @@
                 <p class="col-xs-2 pull-right">@a.NbreVote Votes</p>
             }
 
-
             @foreach (Answer a in Model.Survey.Answers)
             {
                 if (a.GoodAnswer)
@@ -59,11 +58,8 @@
                 }
             }
 
-
             <p class="col-md-2 pull-right alert-success marginTop">@Model.Survey.CountVotes  Votes au total.</p>
         </div>
-
-
 
         <div class="row">
             <div class="col-md-offset-9 col-xs-offset-6">
@@ -72,7 +68,6 @@
                 </div>
             </div>
         </div>
-
     </article>
 
     <h2 class="col-xs-offset-1 col-md-10">Voir les autres sondages:</h2>
@@ -90,6 +85,5 @@
                 <br />
             </a>
         }
-
     </div>
 </div>

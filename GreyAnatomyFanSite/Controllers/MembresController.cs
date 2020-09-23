@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GreyAnatomyFanSite.Models;
+using GreyAnatomyFanSite.Tools;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,12 +10,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using GreyAnatomyFanSite.Models;
-using GreyAnatomyFanSite.Tools;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -22,11 +20,8 @@ namespace GreyAnatomyFanSite.Controllers
             return View();
         }
 
-
-
         public IActionResult Register()
         {
-
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             ConsentCookie(ViewBag);
@@ -49,7 +44,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             return View("EditMembre");
         }
-
 
         public IActionResult ModifAvatar()
         {
@@ -81,8 +75,6 @@ namespace GreyAnatomyFanSite.Controllers
                 IdMembre = Convert.ToInt32(HttpContext.Session.GetString("idMembre")),
                 Avatar = HttpContext.Session.GetString("avatar")
             };
-
-
 
             if (image.FileName.Contains(".png") || image.FileName.Contains(".jpg"))
             {
@@ -125,20 +117,12 @@ namespace GreyAnatomyFanSite.Controllers
                     m.UpdateAvatar();
                     HttpContext.Session.SetString("avatar", m.Avatar);
                 }
-
-
-
             }
-
             else
             {
                 ViewBag.errors = "Seuls les fichiers .jpg ou .png sont accceptés";
                 return View("ModifAvatar");
             }
-
-
-
-
 
             UserConnect(ViewBag);
 
@@ -149,7 +133,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ShowMembre");
         }
 
-
         public IActionResult Show(string pseudo)
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -157,10 +140,8 @@ namespace GreyAnatomyFanSite.Controllers
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
 
-
             Membres m = new Membres();
             m = m.GetMembreByPseudo(pseudo);
-            
 
             return View("ShowMembre", m);
         }
@@ -246,9 +227,7 @@ namespace GreyAnatomyFanSite.Controllers
                     ViewBag.errors = errors;
                     return View("Register", m);
                 }
-
             }
-
 
             string NumeroUnique = Guid.NewGuid().ToString("N"); /*Creation d'un ID unique pour le cookie*/
 
@@ -270,11 +249,8 @@ namespace GreyAnatomyFanSite.Controllers
                 Body = "Merci de confirmer votre adresse mail en cliquant sur le lien suivant: <a href = \"http://www.greys-anatomy-fans.com/Membres/Confirm/" + m.NoUnique + "\">Lien</a>"
                 ,
 
-
                 Subject = "Confirmez votre adresse Mail"
             };
-
-
 
             client.Send(message);
 
@@ -291,7 +267,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             return View("SendMailRegistration", m);
         }
-
 
         public IActionResult Confirm(string id)
         {
@@ -324,8 +299,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("InitializeNewPassWord", m);
         }
 
-
-
         [HttpPost]
         public IActionResult InitializeNewPassWordPost(string password, string cPassword)
         {
@@ -349,7 +322,6 @@ namespace GreyAnatomyFanSite.Controllers
             }
             else
             {
-
                 string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W)";
 
                 Regex r = new Regex(pattern);
@@ -367,9 +339,7 @@ namespace GreyAnatomyFanSite.Controllers
                 }
             }
 
-
             string NoUnique = Request.Cookies["User"];
-
 
             string HashPassword = Crypto.HashMdp(password);
 
@@ -384,10 +354,8 @@ namespace GreyAnatomyFanSite.Controllers
             return View("Login", m);
         }
 
-
         public IActionResult Login()
         {
-
             ViewBag.NbreVisitUnique = GetVisitIP();
             ViewBag.NbrePagesVues = GetPageVues();
             ConsentCookie(ViewBag);
@@ -395,7 +363,6 @@ namespace GreyAnatomyFanSite.Controllers
             CookieUserExist(ViewBag);
 
             return View();
-
         }
 
         [HttpPost]
@@ -406,8 +373,6 @@ namespace GreyAnatomyFanSite.Controllers
             ConsentCookie(ViewBag);
 
             List<string> errors = new List<string>();
-
-
 
             if (mail == null)
             {
@@ -477,7 +442,6 @@ namespace GreyAnatomyFanSite.Controllers
 
                     return View("Login");
                 }
-
                 else
                 {
                     HttpContext.Session.SetString("logged", "true");
@@ -494,13 +458,10 @@ namespace GreyAnatomyFanSite.Controllers
                     };
                     Response.Cookies.Append("User", m.NoUnique, option);
 
-
                     if (typePubli == "article")
                     {
                         return RedirectToRoute(new { controller = "Home", action = "ViewArticle", id = idPubli });
                     }
-
-
 
                     return RedirectToRoute(new { controller = "Home", action = "Index" });
                 }
@@ -513,7 +474,6 @@ namespace GreyAnatomyFanSite.Controllers
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
 
-
         public IActionResult ChangePassword()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -522,7 +482,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             return View("ForgotPassword");
         }
-
 
         [HttpPost]
         public IActionResult ChangePasswordPost(string mail)
@@ -565,11 +524,8 @@ namespace GreyAnatomyFanSite.Controllers
                 Body = "Merci de confirmer votre adresse mail en cliquant sur le lien suivant: <a href = \"http://www.greys-anatomy-fans.com/Membres/ReinitializeLostPassWord/" + NoUnique + "\">Lien</a>"
                 ,
 
-
                 Subject = "Réinitialisation du Mot de Passe"
             };
-
-
 
             client.Send(message);
 
@@ -578,15 +534,12 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ForgotPassword");
         }
 
-
-
         private int GetVisitIP()
         {
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);
             return v.GetVisit(v);
         }
-
 
         private void CookieUserExist(dynamic v)
         {
@@ -596,16 +549,13 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres { NoUnique = valCookie };
                 m = m.GetMembreByNoUnique();
                 v.Mail = m.Mail;
-
             }
             else
             {
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
-
             }
         }
-
 
         private void ConsentCookie(dynamic c)
         {
@@ -620,20 +570,17 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";
             }
         }
 
-
         private int GetPageVues()
         {
             Visiteur v = new Visiteur();
             return v.GetNbrePagesVues();
         }
-
 
         private void UserConnect(dynamic v)
         {
@@ -647,7 +594,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -656,9 +602,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;

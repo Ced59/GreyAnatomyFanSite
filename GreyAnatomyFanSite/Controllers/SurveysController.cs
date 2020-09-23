@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using GreyAnatomyFanSite.Models;
+﻿using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Surveys;
 using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -23,7 +23,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("Index", surveys);
         }
 
-
         public IActionResult Admin()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -40,7 +39,6 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
-
 
             Survey s = new Survey();
             List<Survey> surveys = s.GetAllSurveys(null);
@@ -67,8 +65,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddSurvey");
         }
 
-
-
         [HttpPost]
         public IActionResult AddAsk(string ask)
         {
@@ -86,15 +82,12 @@ namespace GreyAnatomyFanSite.Controllers
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
 
-
-
             Survey s = new Survey { Titre = ask, IdCreateur = Convert.ToInt32(ViewBag.Id) };
 
             s = s.AddAsk();
 
             return View("AddSurvey", s);
         }
-
 
         [HttpPost]
         public IActionResult AddAnswer(string answer, string goodanswer, int idSurvey)
@@ -112,7 +105,6 @@ namespace GreyAnatomyFanSite.Controllers
             {
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
-
 
             Answer a = new Answer { IdSurvey = idSurvey, Label = answer };
             if (goodanswer == "good")
@@ -147,7 +139,6 @@ namespace GreyAnatomyFanSite.Controllers
                 return RedirectToRoute(new { controller = "Membres", action = "Login" });
             }
 
-
             Survey s = new Survey { Id = id };
             s = s.GetSurvey();
 
@@ -173,7 +164,6 @@ namespace GreyAnatomyFanSite.Controllers
             Survey s = new Survey { Id = idSurvey };
             s.ValidSurvey();
             s = s.GetSurvey();
-
 
             Membres m = new Membres(); //Récupérer le membre auteur du sondage
             m = m.GetMembreById(s.IdCreateur);
@@ -214,7 +204,6 @@ namespace GreyAnatomyFanSite.Controllers
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
 
-
             Survey s = new Survey { Id = id };
             s = s.GetSurvey();
 
@@ -222,7 +211,6 @@ namespace GreyAnatomyFanSite.Controllers
             m = m.GetMembreById(s.IdCreateur);
 
             SurveyViewModel viewModel = new SurveyViewModel { Survey = s, Membre = m };
-
 
             bool DejaVote; // Vérifier si déjà voté
             if (ViewBag.Logged)
@@ -257,7 +245,6 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     DejaVote = false;
                 }
-                
             }
 
             if (DejaVote)
@@ -270,7 +257,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewSurvey", viewModel);
         }
 
-
         [HttpPost]
         [Route("[Controller]/Result")]
         public IActionResult Vote(int? vote, int idSurvey)
@@ -279,7 +265,6 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             List<string> errors = new List<string>();
 
@@ -316,7 +301,6 @@ namespace GreyAnatomyFanSite.Controllers
                 };
 
                 Response.Cookies.Append("Survey" + idSurvey, Convert.ToString(vote), option);
-
             }
 
             Survey s = new Survey { Id = idSurvey };
@@ -328,7 +312,6 @@ namespace GreyAnatomyFanSite.Controllers
             SurveyResultViewModel result = new SurveyResultViewModel { Survey = s, Surveys = surveys, Membre = m };
             return View("ResultSurvey", result);
         }
-
 
         private int GetVisitIP()
         {
@@ -343,7 +326,6 @@ namespace GreyAnatomyFanSite.Controllers
             return v.GetNbrePagesVues();
         }
 
-
         private void CookieUserExist(dynamic v)
         {
             if (Request.Cookies["User"] != null)
@@ -352,13 +334,11 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres { NoUnique = valCookie };
                 m = m.GetMembreByNoUnique();
                 v.Mail = m.Mail;
-
             }
             else
             {
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
-
             }
         }
 
@@ -374,7 +354,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -383,9 +362,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;
@@ -405,12 +382,10 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";
             }
         }
-
     }
 }

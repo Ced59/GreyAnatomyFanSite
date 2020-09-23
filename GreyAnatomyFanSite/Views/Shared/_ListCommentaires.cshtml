@@ -1,39 +1,36 @@
 ﻿@using GreyAnatomyFanSite.Models.Site;
 @using System.Globalization;
 
-
 <legend>Commentaires:</legend>
-    <div class="row">
+<div class="row">
 
-        @if (ViewData["Commentaires"] == null)
-        {
-            <div class="col-xs-offset-1 col-md-10 thumbnail">
-                <p>Soyez le premier à commenter cette publication!</p>
-            </div>
-        }
-        else
-        {
-            <ul class="thumbnail media-list">
-                @foreach (Commentaire c in ViewData["Commentaires"] as List<Commentaire>)
-                {
-                    <li class="media thumbnail">
-
-                        <a class="pull-left" href="#">
-                            <img class="media-object imgMiniCommentaires img-circle img-thumbnail" src="~/@c.Membre.Avatar" />
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">@c.Titre</h4>
-                            <p class="miniTextItalic">Publié le @c.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par <a asp-area="" asp-controller="Membres" asp-action="Show" asp-route-pseudo="@c.Membre.Pseudo">@c.Membre.Pseudo</a></p>
-                            <p>@Html.Raw(c.Text.Replace(Environment.NewLine, "<br/>"))</p>
-                        </div>
-                    </li>
-                }
-            </ul>
-        }
-
-    </div>
-
-
-    @{
-        await Html.RenderPartialAsync("_RegisterLoginForm", ViewBag.Mail, ViewBag.errors);
+    @if (ViewData["Commentaires"] == null)
+    {
+        <div class="col-xs-offset-1 col-md-10 thumbnail">
+            <p>Soyez le premier à commenter cette publication!</p>
+        </div>
     }
+    else
+    {
+        <ul class="thumbnail media-list">
+            @foreach (Commentaire c in ViewData["Commentaires"] as List<Commentaire>)
+            {
+                <li class="media thumbnail">
+
+                    <a class="pull-left" href="#">
+                        <img class="media-object imgMiniCommentaires img-circle img-thumbnail" src="~/@c.Membre.Avatar" />
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">@c.Titre</h4>
+                        <p class="miniTextItalic">Publié le @c.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR")) par <a asp-area="" asp-controller="Membres" asp-action="Show" asp-route-pseudo="@c.Membre.Pseudo">@c.Membre.Pseudo</a></p>
+                        <p>@Html.Raw(c.Text.Replace(Environment.NewLine, "<br />"))</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@{
+    await Html.RenderPartialAsync("_RegisterLoginForm", ViewBag.Mail, ViewBag.errors);
+}

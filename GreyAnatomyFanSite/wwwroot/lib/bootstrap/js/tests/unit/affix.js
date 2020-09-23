@@ -44,12 +44,12 @@ $(function () {
     var done = assert.async()
 
     var templateHTML = '<div id="affixTarget">'
-        + '<ul>'
-        + '<li>Please affix</li>'
-        + '<li>And unaffix</li>'
-        + '</ul>'
-        + '</div>'
-        + '<div id="affixAfter" style="height: 20000px; display: block;"/>'
+      + '<ul>'
+      + '<li>Please affix</li>'
+      + '<li>And unaffix</li>'
+      + '</ul>'
+      + '</div>'
+      + '<div id="affixAfter" style="height: 20000px; display: block;"/>'
     $(templateHTML).appendTo(document.body)
 
     $('#affixTarget').bootstrapAffix({
@@ -79,11 +79,11 @@ $(function () {
     var done = assert.async()
 
     var templateHTML = '<div id="padding-offset" style="padding-top: 20px;">'
-        + '<div id="affixTopTarget">'
-        + '<p>Testing affix-top class is added</p>'
-        + '</div>'
-        + '<div style="height: 1000px; display: block;"/>'
-        + '</div>'
+      + '<div id="affixTopTarget">'
+      + '<p>Testing affix-top class is added</p>'
+      + '</div>'
+      + '<div style="height: 1000px; display: block;"/>'
+      + '</div>'
     $(templateHTML).appendTo(document.body)
 
     $('#affixTopTarget')

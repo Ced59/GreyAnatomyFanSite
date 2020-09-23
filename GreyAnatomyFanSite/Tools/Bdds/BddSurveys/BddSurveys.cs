@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GreyAnatomyFanSite.Models.Surveys;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using GreyAnatomyFanSite.Models.Surveys;
 
 namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
 {
@@ -26,8 +26,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             }
         }
 
-        
-
         public List<Answer> AddAnswer(Answer answer)
         {
             IDbCommand command = new SqlCommand("INSERT INTO Answers (Label, IdSurvey, GoodAnswer) VALUES (@Label, @IdSurvey, @GoodAnswer)", (SqlConnection)ConnectionSurveys.Instance);
@@ -40,7 +38,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             List<Answer> answers = GetAnswersById(answer.IdSurvey);
             ConnectionSurveys.Instance.Close();
             return answers;
-            
         }
 
         public bool VerifVoteMembre(int idMembre, int idSurvey)
@@ -149,7 +146,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             s.CountVotes = GetCountVoteByIdSurvey(s.Id);
             ConnectionSurveys.Instance.Close();
             return s;
-
         }
 
         public void Validation(Survey survey)
@@ -198,7 +194,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             command.ExecuteNonQuery();
             command.Dispose();
             ConnectionSurveys.Instance.Close();
-
         }
 
         public void SaveVoteIdIp(AnswerByIp answer)
@@ -212,7 +207,6 @@ namespace GreyAnatomyFanSite.Tools.Bdds.BddSurveys
             command.Dispose();
             ConnectionSurveys.Instance.Close();
         }
-
 
         private List<Answer> GetAnswersById(int IdSurvey)
         {

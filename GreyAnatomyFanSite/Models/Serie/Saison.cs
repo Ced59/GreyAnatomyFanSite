@@ -28,7 +28,6 @@ namespace GreyAnatomyFanSite.Models.Serie
         public int IdTMDB { get => idTMDB; set => idTMDB = value; }
         public List<Episode> Episodes { get => episodes; set => episodes = value; }
 
-
         internal Saison updateSaisonWithMovieDB(int i, int idSerie)
         {
             var client = new RestClient(PassConnection.connectionTheMovieDBSeasons(i, idSerie));

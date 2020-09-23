@@ -1,5 +1,4 @@
-﻿
-using GreyAnatomyFanSite.Tools;
+﻿using GreyAnatomyFanSite.Tools;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +6,6 @@ namespace GreyAnatomyFanSite.Models
 {
     public class Membres : Visiteur
     {
-
         private int idMembre;
         private string noUnique;
         private string pseudo;
@@ -22,14 +20,12 @@ namespace GreyAnatomyFanSite.Models
         private DateTime dateInscription;
         private int nbreVisite;
         private int nbrePageViews;
-        
 
         public Membres()
         {
-
         }
 
-        public Membres (string Pseudo, string Avatar, string Statut) 
+        public Membres(string Pseudo, string Avatar, string Statut)
         {
             pseudo = Pseudo;
             avatar = Avatar;

@@ -5,7 +5,6 @@ namespace GreyAnatomyFanSite.Models.Persos
 {
     public class Personnage : Acteur
     {
-
         private int id;
         private string nom;
         private List<PrenomPerso> prenoms;
@@ -20,8 +19,6 @@ namespace GreyAnatomyFanSite.Models.Persos
         private List<Citation> citations;
         private string role;
         private string biographie;
-
-        
 
         public string Nom { get => nom; set => nom = value; }
         public List<Episode> EpisodesApparition { get => episodesApparition; set => episodesApparition = value; }
@@ -108,7 +105,6 @@ namespace GreyAnatomyFanSite.Models.Persos
             BddSerie.Instance.AddNewActor(this);
 
             return BddSerie.Instance.GetPersoByID(this.IdPerso);
-
         }
 
         public Personnage AddPrenomActeur(Acteur a, int idPerso)

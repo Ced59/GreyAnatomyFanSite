@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GreyAnatomyFanSite.Models;
+﻿using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.Tools;
@@ -8,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -33,7 +33,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("Serie");
         }
 
-
         public IActionResult Membres()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -53,7 +52,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AdminMembres", ListMembres);
         }
 
-
         public IActionResult Persos()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -69,7 +67,6 @@ namespace GreyAnatomyFanSite.Controllers
             Personnage p = new Personnage();
 
             List<Personnage> Persos = p.GetAllPersos();
-            
 
             return View("AdminPersos", Persos);
         }
@@ -89,7 +86,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AddPersos");
         }
 
-
         public IActionResult Site()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -102,10 +98,8 @@ namespace GreyAnatomyFanSite.Controllers
                 return View("Login");
             }
 
-
             return View("AdminSite");
         }
-
 
         public IActionResult MajInfoSerieGrey()
         {
@@ -130,7 +124,6 @@ namespace GreyAnatomyFanSite.Controllers
             int idSerie = 2;
             SerieInfo serieInfo = updateSerieWithMovieDB(idSerie);
 
-
             return View("AdminSite", serieInfo);
         }
 
@@ -147,8 +140,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("AdminSite", serieInfo);
         }
 
-        
-
         public IActionResult testAPI()
         {
             ViewBag.NbreVisitUnique = GetVisitIP();
@@ -161,12 +152,10 @@ namespace GreyAnatomyFanSite.Controllers
             request.AddParameter("undefined", "{}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
-
             var response2 = JsonConvert.DeserializeObject<SerieInfo>(response.Content);
 
             return View("AdminSite", response2);
         }
-
 
         private static SerieInfo updateSerieWithMovieDB(int idSerie)
         {
@@ -185,7 +174,6 @@ namespace GreyAnatomyFanSite.Controllers
                 serieInfo = serieInfo.updateStationWithTheMovieDB();
             }
 
-
             if (serieInfo != null)
             {
                 serieInfo.updateSerieInfosInBdd();
@@ -200,7 +188,7 @@ namespace GreyAnatomyFanSite.Controllers
 
                 for (int j = 0; j < saison.Episodes.Count; j++)
                 {
-                     saison.Episodes[j].Photos = saison.Episodes[j].updatePhotosEpisodeWithMovieDB(idSerie);
+                    saison.Episodes[j].Photos = saison.Episodes[j].updatePhotosEpisodeWithMovieDB(idSerie);
                 }
 
                 if (saison != null)
@@ -209,7 +197,6 @@ namespace GreyAnatomyFanSite.Controllers
                 }
             }
 
-
             if (saisons.Count > 0)
             {
                 Saison.updateSeasonsInDatabase(saisons);
@@ -217,7 +204,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             return serieInfo;
         }
-
 
         private int GetVisitIP()
         {
@@ -232,7 +218,6 @@ namespace GreyAnatomyFanSite.Controllers
             return v.GetNbrePagesVues();
         }
 
-
         private void CookieUserExist(dynamic v)
         {
             if (Request.Cookies["User"] != null)
@@ -241,13 +226,11 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres { NoUnique = valCookie };
                 m = m.GetMembreByNoUnique();
                 v.Mail = m.Mail;
-
             }
             else
             {
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
-
             }
         }
 
@@ -263,7 +246,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -272,9 +254,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;
@@ -294,12 +274,10 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";
             }
         }
     }
-
 }

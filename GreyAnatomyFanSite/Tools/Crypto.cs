@@ -1,14 +1,18 @@
-﻿using System.Text;
+﻿using System;
 using System.Security.Cryptography;
-
+using System.Text;
 
 namespace GreyAnatomyFanSite.Tools
 {
     public static class Crypto
     {
-        
         public static string HashMdp(string Password)
         {
+            if (Password == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             byte[] raw = UTF8Encoding.UTF8.GetBytes(Password);
 
             byte[] hash;
@@ -21,9 +25,7 @@ namespace GreyAnatomyFanSite.Tools
             for (int i = 0; i < hash.Length; i++)
                 sBuilder.Append(hash[i].ToString("x2"));
 
-
             return sBuilder.ToString();
         }
-
     }
 }

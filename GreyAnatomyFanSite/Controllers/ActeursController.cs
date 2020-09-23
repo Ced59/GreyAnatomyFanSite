@@ -1,9 +1,9 @@
-﻿using System;
-using GreyAnatomyFanSite.Models;
+﻿using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Persos;
 using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -16,7 +16,6 @@ namespace GreyAnatomyFanSite.Controllers
 
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             return View("ViewActeur");
         }
@@ -39,16 +38,12 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewActeur", model);
         }
 
-
-
-
         private int GetVisitIP()
         {
             string remoteIpAddress = Convert.ToString(Request.HttpContext.Connection.RemoteIpAddress);
             Visiteur v = new Visiteur(remoteIpAddress);
             return v.GetVisit(v);
         }
-
 
         private void CookieUserExist(dynamic v)
         {
@@ -58,13 +53,11 @@ namespace GreyAnatomyFanSite.Controllers
                 Membres m = new Membres { NoUnique = valCookie };
                 m = m.GetMembreByNoUnique();
                 v.Mail = m.Mail;
-
             }
             else
             {
                 Membres m = new Membres();
                 v.Mail = "Votre Adresse Mail";
-
             }
         }
 
@@ -80,7 +73,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -89,9 +81,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;
@@ -117,7 +107,6 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";

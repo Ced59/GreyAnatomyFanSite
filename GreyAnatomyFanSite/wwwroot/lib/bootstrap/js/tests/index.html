@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Bootstrap Plugin Test Suite</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- jQuery -->
     <script src="vendor/jquery.min.js"></script>
-    <script>
-      // Disable jQuery event aliases to ensure we don't accidentally use any of them
+    <script>// Disable jQuery event aliases to ensure we don't accidentally use any of them
       (function () {
         var eventAliases = [
           'blur',
@@ -48,14 +47,12 @@
             throw new Error('Using the ".' + eventAlias + '()" method is not allowed, so that Bootstrap can be compatible with custom jQuery builds which exclude the "event aliases" module that defines said method. See https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md#js')
           }
         }
-      })()
-    </script>
+      })()</script>
 
     <!-- QUnit -->
     <link rel="stylesheet" href="vendor/qunit.css" media="screen">
     <script src="vendor/qunit.js"></script>
-    <script>
-      // See https://github.com/axemclion/grunt-saucelabs#test-result-details-with-qunit
+    <script>// See https://github.com/axemclion/grunt-saucelabs#test-result-details-with-qunit
       var log = []
       // Require assert.expect in each test
       QUnit.config.requireExpects = true
@@ -129,8 +126,7 @@
           var methodName = methodNames[i];
           window[methodName] = undefined;
         }
-      })();
-    </script>
+      })();</script>
 
     <!-- Plugin sources -->
     <script>$.support.transition = false</script>
@@ -158,12 +154,11 @@
     <script src="unit/tooltip.js"></script>
     <script src="unit/popover.js"></script>
     <script src="unit/affix.js"></script>
-
-  </head>
-  <body>
+</head>
+<body>
     <div id="qunit-container">
-      <div id="qunit"></div>
-      <div id="qunit-fixture"></div>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
     </div>
-  </body>
+</body>
 </html>

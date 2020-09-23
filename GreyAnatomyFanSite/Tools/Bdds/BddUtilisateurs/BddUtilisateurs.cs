@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using GreyAnatomyFanSite.Tools;
+using System.Collections.Generic;
 using System.Data;
-
-using GreyAnatomyFanSite.Tools;
+using System.Data.SqlClient;
 
 namespace GreyAnatomyFanSite.Models
 {
@@ -26,7 +25,6 @@ namespace GreyAnatomyFanSite.Models
             }
         }
 
-
         public void UpdateAvatar(Membres m)
         {
             IDbCommand command = new SqlCommand("UPDATE Membres SET Avatar = @Avatar WHERE Id = @Id", (SqlConnection)ConnectionUtilisateurs.Instance);
@@ -37,8 +35,6 @@ namespace GreyAnatomyFanSite.Models
             command.Dispose();
             ConnectionUtilisateurs.Instance.Close();
         }
-
-
 
         public Membres GetMembreByNo(Membres m)
         {
@@ -53,7 +49,6 @@ namespace GreyAnatomyFanSite.Models
                 ConnectionUtilisateurs.Instance.Close();
                 return null;
             }
-
             else
             {
                 m = new Membres { IdMembre = reader.GetInt32(0), Pseudo = reader.GetString(1), Statut = reader.GetString(3), Mail = reader.GetString(2) };
@@ -112,7 +107,6 @@ namespace GreyAnatomyFanSite.Models
             return m;
         }
 
-
         public List<Membres> GetAllMembres()
         {
             List<Membres> membres = new List<Membres>();
@@ -153,8 +147,6 @@ namespace GreyAnatomyFanSite.Models
             return m;
         }
 
-
-
         public string GetNoUniqueMembre(Membres m)
         {
             IDbCommand command = new SqlCommand("SELECT NumeroUnique FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
@@ -169,10 +161,8 @@ namespace GreyAnatomyFanSite.Models
             return NoUnique;
         }
 
-
         public Membres ComparePassword(string mail, string HashPassword)
         {
-
             IDbCommand command = new SqlCommand("SELECT Password FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
             command.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = mail });
             ConnectionUtilisateurs.Instance.Open();
@@ -184,7 +174,6 @@ namespace GreyAnatomyFanSite.Models
             ConnectionUtilisateurs.Instance.Close();
             if (PassWord == HashPassword)
             {
-
                 command = new SqlCommand("SELECT Id, Pseudo, Avatar, Statut, NumeroUnique FROM Membres WHERE Mail = @Mail", (SqlConnection)ConnectionUtilisateurs.Instance);
                 command.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = mail });
                 ConnectionUtilisateurs.Instance.Open();
@@ -202,10 +191,7 @@ namespace GreyAnatomyFanSite.Models
                 Membres m = new Membres { Mail = mail };
                 return m;
             }
-
         }
-
-
 
         public void RegisterMembre(Membres m)
         {
@@ -255,7 +241,6 @@ namespace GreyAnatomyFanSite.Models
             return Exist;
         }
 
-
         public bool MailExist(Membres m)
         {
             bool Exist = false;
@@ -273,14 +258,12 @@ namespace GreyAnatomyFanSite.Models
             return Exist;
         }
 
-
         public int GetNbrePagesViewMembres(Membres m)
         {
             int? IdIp = GetIdIp(m);
 
             if (IdIp != null)
             {
-
                 int nbrePagesView = 0;
 
                 IDbCommand command = new SqlCommand("SELECT NbreVue FROM Visites WHERE IdIP = @IdIP", (SqlConnection)ConnectionUtilisateurs.Instance);
@@ -327,8 +310,6 @@ namespace GreyAnatomyFanSite.Models
             {
                 return 0;
             }
-
-            
         }
 
         private int? GetIdIp(Membres m)
@@ -349,13 +330,10 @@ namespace GreyAnatomyFanSite.Models
             }
             catch
             {
-               
                 ConnectionUtilisateurs.Instance.Close();
                 return null;
             }
-            
         }
-
 
         public int GetNbrePagesVues()
         {
@@ -388,8 +366,6 @@ namespace GreyAnatomyFanSite.Models
             ConnectionUtilisateurs.Instance.Close();
             return IdIp;
         }
-
-
 
         public int GetVisit(Visiteur v)
         {
@@ -428,9 +404,7 @@ namespace GreyAnatomyFanSite.Models
                 command.Parameters.Add(new SqlParameter("@Date", SqlDbType.Date) { Value = v.Date });
                 command.Parameters.Add(new SqlParameter("@NbreVue", SqlDbType.Int) { Value = 1 });
                 command.ExecuteNonQuery();
-
             }
-
             else
             {
                 int NbreVue = (int)reader.GetValue(3);

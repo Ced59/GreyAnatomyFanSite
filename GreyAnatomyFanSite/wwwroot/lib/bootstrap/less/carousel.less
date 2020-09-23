@@ -2,7 +2,6 @@
 // Carousel
 // --------------------------------------------------
 
-
 // Wrapper for the slide container and indicators
 .carousel {
   position: relative;
@@ -17,14 +16,12 @@
     display: none;
     position: relative;
     .transition(.6s ease-in-out left);
-
     // Account for jankitude on images
     > img,
     > a > img {
       &:extend(.img-responsive);
       line-height: 1;
     }
-
     // WebKit CSS3 transforms for supported devices
     @media all and (transform-3d), (-webkit-transform-3d) {
       .transition-transform(~'0.6s ease-in-out');
@@ -36,11 +33,13 @@
         .translate3d(100%, 0, 0);
         left: 0;
       }
+
       &.prev,
       &.active.left {
         .translate3d(-100%, 0, 0);
         left: 0;
       }
+
       &.next.left,
       &.prev.right,
       &.active {
@@ -70,9 +69,11 @@
   > .next {
     left: 100%;
   }
+
   > .prev {
     left: -100%;
   }
+
   > .next.left,
   > .prev.right {
     left: 0;
@@ -81,10 +82,10 @@
   > .active.left {
     left: -100%;
   }
+
   > .active.right {
     left: 100%;
   }
-
 }
 
 // Left/right controls for nav
@@ -104,17 +105,16 @@
   background-color: rgba(0, 0, 0, 0); // Fix IE9 click-thru bug
   // We can't have this transition here because WebKit cancels the carousel
   // animation if you trip this while in the middle of another animation.
-
   // Set gradients for backgrounds
   &.left {
     #gradient > .horizontal(@start-color: rgba(0,0,0,.5); @end-color: rgba(0,0,0,.0001));
   }
+
   &.right {
     left: auto;
     right: 0;
     #gradient > .horizontal(@start-color: rgba(0,0,0,.0001); @end-color: rgba(0,0,0,.5));
   }
-
   // Hover/focus state
   &:hover,
   &:focus {
@@ -123,7 +123,6 @@
     text-decoration: none;
     .opacity(.9);
   }
-
   // Toggles
   .icon-prev,
   .icon-next,
@@ -135,33 +134,36 @@
     z-index: 5;
     display: inline-block;
   }
+
   .icon-prev,
   .glyphicon-chevron-left {
     left: 50%;
     margin-left: -10px;
   }
+
   .icon-next,
   .glyphicon-chevron-right {
     right: 50%;
     margin-right: -10px;
   }
+
   .icon-prev,
   .icon-next {
-    width:  20px;
+    width: 20px;
     height: 20px;
     line-height: 1;
     font-family: serif;
   }
 
-
   .icon-prev {
     &:before {
-      content: '\2039';// SINGLE LEFT-POINTING ANGLE QUOTATION MARK (U+2039)
+      content: '\2039'; // SINGLE LEFT-POINTING ANGLE QUOTATION MARK (U+2039)
     }
   }
+
   .icon-next {
     &:before {
-      content: '\203a';// SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (U+203A)
+      content: '\203a'; // SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (U+203A)
     }
   }
 }
@@ -184,14 +186,13 @@
 
   li {
     display: inline-block;
-    width:  10px;
+    width: 10px;
     height: 10px;
     margin: 1px;
     text-indent: -999px;
     border: 1px solid @carousel-indicator-border-color;
     border-radius: 10px;
     cursor: pointer;
-
     // IE8-9 hack for event handling
     //
     // Internet Explorer 8-9 does not support clicks on elements without a set
@@ -204,9 +205,10 @@
     background-color: #000 \9; // IE8
     background-color: rgba(0,0,0,0); // IE9
   }
+
   .active {
     margin: 0;
-    width:  12px;
+    width: 12px;
     height: 12px;
     background-color: @carousel-indicator-active-bg;
   }
@@ -226,15 +228,14 @@
   color: @carousel-caption-color;
   text-align: center;
   text-shadow: @carousel-text-shadow;
+
   & .btn {
     text-shadow: none; // No shadow for button elements in carousel-caption
   }
 }
 
-
 // Scale up controls for tablets and up
 @media screen and (min-width: @screen-sm-min) {
-
   // Scale up the controls a smidge
   .carousel-control {
     .glyphicon-chevron-left,
@@ -246,10 +247,12 @@
       margin-top: (@carousel-control-font-size / -2);
       font-size: (@carousel-control-font-size * 1.5);
     }
+
     .glyphicon-chevron-left,
     .icon-prev {
       margin-left: (@carousel-control-font-size / -2);
     }
+
     .glyphicon-chevron-right,
     .icon-next {
       margin-right: (@carousel-control-font-size / -2);

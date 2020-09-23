@@ -24,7 +24,6 @@
         }
     }
 
-
     int Age = DateTime.Now.Year - Model.DateNaissance.Year;
     DateTime DateAnniv = new DateTime(DateTime.Now.Year, Model.DateNaissance.Month, Model.DateNaissance.Day);
     if (DateAnniv > DateTime.Now)
@@ -32,19 +31,9 @@
         Age--;
     }
 
-
     ViewData["MetaKeywords"] = Model.Nom + ", " + prenoms + ", " + surnoms;
 
-
 }
-
-
-
-
-
-
-
-
 
 <div class="row">
     <h2 class="col-sm-offset-4 col-sm-4">
@@ -57,7 +46,6 @@
         }
     </h2>
 </div>
-
 
 <div class="row">
 
@@ -79,7 +67,6 @@
                     <tr>
                         <td>
 
-
                             @if (Model.Prenoms.Count == 1)
                             {
                                 <span>Prénom:  </span>
@@ -88,7 +75,6 @@
                             {
                                 <span>Prénoms:  </span>
                             }
-
                         </td>
 
                         <td>
@@ -110,7 +96,6 @@
                             {
                                 <span>Surnoms:  </span>
                             }
-
                         </td>
 
                         <td>
@@ -120,7 +105,6 @@
                                 @s.Surnom; <br>
 
                             }
-
                         </td>
                     </tr>
                     <tr>
@@ -134,7 +118,6 @@
                             {
                                 <span>Décédé</span>
                             }
-
                         </td>
                     </tr>
                     @if (Model.StatutVivant)
@@ -150,11 +133,9 @@
                                 {
                                     <span>Non</span>
                                 }
-
                             </td>
                         </tr>
                     }
-
                 </tbody>
             </table>
         </section>
@@ -179,7 +160,6 @@
                             {
                                 <span>Prénoms:  </span>
                             }
-
                         </td>
 
                         <td>
@@ -189,7 +169,6 @@
                                 @p.Prenom; <br>
 
                             }
-
                         </td>
                     </tr>
                     <tr>
@@ -203,12 +182,7 @@
             </table>
         </section>
     </section>
-
-
-
-
 </div>
-
 
 <section class="row">
     <section class="col-xs-offset-1 col-xs-10">
@@ -227,12 +201,10 @@
                     <td>En construction  </td>
                     <td>En construction</td>
                 </tr>
-
             </tbody>
         </table>
     </section>
 </section>
-
 
 <section class="row">
     <div class="col-xs-offset-3 col-xs-7">
@@ -244,6 +216,4 @@
             <li>Et bien d'autres surprises...</li>
         </ul>
     </div>
-
 </section>
-

@@ -4,7 +4,6 @@
     ViewData["Title"] = Model.Original_name;
 }
 
-
 <div class="col-xs-offset-1 col-xs-10 row thumbnail borderArticle">
 
     <h1 class="marginTop">@Model.Original_name</h1>
@@ -26,7 +25,6 @@
             Nombre d'épisodes : @Model.Number_of_episodes
         </p>
 
-
         @if (Model.In_production)
         {
             <p class="marginTop2">
@@ -43,9 +41,7 @@
         <p class="marginTop2">
             Site officiel : <a href="@Model.Homepage">@Model.Homepage</a>
         </p>
-
     </div>
-
 </div>
 
 <legend class="col-xs-offset-1 col-md-10 marginTop">
@@ -62,9 +58,7 @@
                 <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number">
 
                     <img src="@s.Poster_path" class="media-object miniImgArticles" alt="@s.Name" />
-
                 </a>
-
             </div>
 
             <a asp-area="" asp-controller="Serie" asp-action="ViewSeason" asp-route-idSerie="@Model.Id" asp-route-saison="@s.Season_number" class="media-body thumbnail">
@@ -73,7 +67,6 @@
                     @s.Name
                 </h3>
 
-
                 <p class="marginTop">
                     Date de diffusion : @String.Format("{0:dd/MM/yyyy}", s.Air_date)
                 </p>
@@ -81,10 +74,7 @@
                 <p class="marginTop">
                     Nombre d'épisodes : @s.Episodes.Count()
                 </p>
-
             </a>
-
         </li>
     }
-
 </ul>

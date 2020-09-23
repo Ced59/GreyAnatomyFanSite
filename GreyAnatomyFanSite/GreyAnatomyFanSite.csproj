@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="wwwroot\images\MediasArticles\" />
     <Folder Include="wwwroot\images\PhotosPersos\" />
     <Folder Include="wwwroot\images\SiteImg\" />

@@ -17,7 +17,6 @@ namespace GreyAnatomyFanSite.Models.Surveys
         private DateTime dateCreation;
         private int countVotes;
 
-
         public int Id { get => id; set => id = value; }
 
         public string Titre { get => titre; set => titre = value; }

@@ -8,13 +8,11 @@ namespace GreyAnatomyFanSite.Models.Surveys
         private int idMembre;
         private int idSurvey;
         private int idAnswer;
-        
 
         public int Id { get => id; set => id = value; }
         public int IdMembre { get => idMembre; set => idMembre = value; }
         public int IdSurvey { get => idSurvey; set => idSurvey = value; }
         public int IdAnswer { get => idAnswer; set => idAnswer = value; }
-       
 
         public void SaveVoteMembre()
         {

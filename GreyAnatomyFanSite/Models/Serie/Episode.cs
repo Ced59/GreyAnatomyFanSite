@@ -48,7 +48,7 @@ namespace GreyAnatomyFanSite.Models.Serie
         internal EpisodeImages updatePhotosEpisodeWithMovieDB(int idSerie)
         {
             EpisodeImages episodeImages = new EpisodeImages();
-            
+
             var client = new RestClient(PassConnection.connectionTheMovieDBPhotosEpisodes(idSerie, this));
             var request = new RestRequest(Method.GET);
             request.AddParameter("undefined", "{}", ParameterType.RequestBody);

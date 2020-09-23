@@ -1,9 +1,9 @@
-﻿using System;
-using GreyAnatomyFanSite.Models;
+﻿using GreyAnatomyFanSite.Models;
 using GreyAnatomyFanSite.Models.Serie;
 using GreyAnatomyFanSite.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace GreyAnatomyFanSite.Controllers
 {
@@ -15,7 +15,6 @@ namespace GreyAnatomyFanSite.Controllers
             ViewBag.NbrePagesVues = GetPageVues();
             UserConnect(ViewBag);
             ConsentCookie(ViewBag);
-
 
             SerieInfo serie = new SerieInfo();
 
@@ -55,7 +54,6 @@ namespace GreyAnatomyFanSite.Controllers
             return View("ViewEpisode", model);
         }
 
-
         private void UserConnect(dynamic v)
         {
             bool? logged = Convert.ToBoolean(HttpContext.Session.GetString("logged"));
@@ -67,7 +65,6 @@ namespace GreyAnatomyFanSite.Controllers
                 v.Avatar = HttpContext.Session.GetString("avatar");
                 v.Statut = HttpContext.Session.GetString("statut");
 
-
                 if (HttpContext.Session.GetString("statut") == "Coeur")
                 {
                     v.MessageBonjour = "mon Coeur";
@@ -76,9 +73,7 @@ namespace GreyAnatomyFanSite.Controllers
                 {
                     v.MessageBonjour = HttpContext.Session.GetString("pseudo");
                 }
-
             }
-
             else
             {
                 v.Logged = false;
@@ -98,13 +93,11 @@ namespace GreyAnatomyFanSite.Controllers
 
                 c.ConsentCookies = "non";
             }
-
             else
             {
                 c.ConsentCookies = "ok";
             }
         }
-
 
         private int GetPageVues()
         {

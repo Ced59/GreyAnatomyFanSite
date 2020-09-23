@@ -1,5 +1,4 @@
 ﻿using GreyAnatomyFanSite.Tools;
-using System;
 using Xunit;
 
 namespace GreyAnatomyFansSite.Tests.Tools
@@ -61,6 +60,5 @@ namespace GreyAnatomyFansSite.Tests.Tools
             //Assert
             Assert.Equal(expectedValue, actualValue);
         }
-
     }
 }
