@@ -2,18 +2,19 @@ using GreyAnatomyFanSite.Application.Common.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GreyAnatomyFanSite.Application;
-
-public static class DependencyInjection
+namespace GreyAnatomyFanSite.Application
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static class DependencyInjection
     {
-        services.AddMediatR(configuration =>
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
-            configuration.AddOpenBehavior(typeof(RequestLoggingBehavior<,>));
-        });
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+                configuration.AddOpenBehavior(typeof(RequestLoggingBehavior<,>));
+            });
 
-        return services;
+            return services;
+        }
     }
 }

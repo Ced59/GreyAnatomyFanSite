@@ -4,57 +4,58 @@ using GreyAnatomyFanSite.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace GreyAnatomyFanSite.Application.Comments.Commands.AddArticleComment;
-
-public sealed record AddArticleCommentCommand(
-    int ArticleId,
-    string Title,
-    string Text) : IRequest<IdentityOperationResult>;
-
-public sealed class AddArticleCommentCommandHandler : IRequestHandler<AddArticleCommentCommand, IdentityOperationResult>
+namespace GreyAnatomyFanSite.Application.Comments.Commands.AddArticleComment
 {
-    private readonly IApplicationDbContext dbContext;
-    private readonly ICurrentUser currentUser;
+    public sealed record AddArticleCommentCommand(
+        int ArticleId,
+        string Title,
+        string Text) : IRequest<IdentityOperationResult>;
 
-    public AddArticleCommentCommandHandler(IApplicationDbContext dbContext, ICurrentUser currentUser)
+    public sealed class AddArticleCommentCommandHandler : IRequestHandler<AddArticleCommentCommand, IdentityOperationResult>
     {
-        this.dbContext = dbContext;
-        this.currentUser = currentUser;
-    }
+        private readonly IApplicationDbContext dbContext;
+        private readonly ICurrentUser currentUser;
 
-    public async Task<IdentityOperationResult> Handle(AddArticleCommentCommand request, CancellationToken cancellationToken)
-    {
-        if (!currentUser.IsAuthenticated || currentUser.UserId is null)
+        public AddArticleCommentCommandHandler(IApplicationDbContext dbContext, ICurrentUser currentUser)
         {
-            return IdentityOperationResult.Failure("Vous devez être connecté pour poster un commentaire.");
+            this.dbContext = dbContext;
+            this.currentUser = currentUser;
         }
 
-        if (string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Text))
+        public async Task<IdentityOperationResult> Handle(AddArticleCommentCommand request, CancellationToken cancellationToken)
         {
-            return IdentityOperationResult.Failure("Le titre et le texte du commentaire sont obligatoires.");
+            if (!currentUser.IsAuthenticated || currentUser.UserId is null)
+            {
+                return IdentityOperationResult.Failure("Vous devez être connecté pour poster un commentaire.");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Text))
+            {
+                return IdentityOperationResult.Failure("Le titre et le texte du commentaire sont obligatoires.");
+            }
+
+            bool articleExists = await dbContext.Articles
+                .AsNoTracking()
+                .AnyAsync(article => article.Id == request.ArticleId, cancellationToken);
+
+            if (!articleExists)
+            {
+                return IdentityOperationResult.Failure("L'article demandé est introuvable.");
+            }
+
+            ArticleComment comment = new ArticleComment
+            {
+                ArticleId = request.ArticleId,
+                AuthorMemberProfileId = currentUser.UserId.Value,
+                Title = request.Title.Trim(),
+                Content = request.Text.Trim(),
+                CreatedAtUtc = DateTime.UtcNow
+            };
+
+            await dbContext.ArticleComments.AddAsync(comment, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return IdentityOperationResult.Success();
         }
-
-        bool articleExists = await dbContext.Articles
-            .AsNoTracking()
-            .AnyAsync(article => article.Id == request.ArticleId, cancellationToken);
-
-        if (!articleExists)
-        {
-            return IdentityOperationResult.Failure("L'article demandé est introuvable.");
-        }
-
-        ArticleComment comment = new ArticleComment
-        {
-            ArticleId = request.ArticleId,
-            AuthorMemberProfileId = currentUser.UserId.Value,
-            Title = request.Title.Trim(),
-            Content = request.Text.Trim(),
-            CreatedAtUtc = DateTime.UtcNow
-        };
-
-        await dbContext.ArticleComments.AddAsync(comment, cancellationToken);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return IdentityOperationResult.Success();
     }
 }

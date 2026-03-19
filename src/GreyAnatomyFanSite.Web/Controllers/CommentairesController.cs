@@ -5,44 +5,45 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreyAnatomyFanSite.Web.Controllers;
-
-public sealed class CommentairesController : AppControllerBase
+namespace GreyAnatomyFanSite.Web.Controllers
 {
-    private readonly ISender sender;
-
-    public CommentairesController(
-        IIdentityService identityService,
-        ISender sender)
-        : base(identityService)
+    public sealed class CommentairesController : AppControllerBase
     {
-        this.sender = sender;
-    }
+        private readonly ISender sender;
 
-    [Authorize]
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddComment(
-        string titre,
-        string text,
-        string typePubli,
-        int idPubli,
-        CancellationToken cancellationToken = default)
-    {
-        if (!string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase))
+        public CommentairesController(
+            IIdentityService identityService,
+            ISender sender)
+            : base(identityService)
         {
-            return RedirectToAction("Index", "Home");
+            this.sender = sender;
         }
 
-        IdentityOperationResult result = await sender.Send(
-            new AddArticleCommentCommand(idPubli, titre, text),
-            cancellationToken);
-
-        if (!result.Succeeded)
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(
+            string titre,
+            string text,
+            string typePubli,
+            int idPubli,
+            CancellationToken cancellationToken = default)
         {
-            TempData["CommentErrors"] = string.Join("||", result.Errors);
-        }
+            if (!string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-        return RedirectToAction("ViewArticle", "Home", new { id = idPubli });
+            IdentityOperationResult result = await sender.Send(
+                new AddArticleCommentCommand(idPubli, titre, text),
+                cancellationToken);
+
+            if (!result.Succeeded)
+            {
+                TempData["CommentErrors"] = string.Join("||", result.Errors);
+            }
+
+            return RedirectToAction("ViewArticle", "Home", new { id = idPubli });
+        }
     }
 }

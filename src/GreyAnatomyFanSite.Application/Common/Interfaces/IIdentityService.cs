@@ -1,14 +1,15 @@
 using GreyAnatomyFanSite.Application.Common.Models;
 
-namespace GreyAnatomyFanSite.Application.Common.Interfaces;
-
-public interface IIdentityService
+namespace GreyAnatomyFanSite.Application.Common.Interfaces
 {
-    Task<IdentityOperationResult> RegisterAsync(RegisterMemberRequest request, CancellationToken cancellationToken);
+    public interface IIdentityService
+    {
+        Task<IdentityOperationResult> RegisterAsync(RegisterMemberRequest request, CancellationToken cancellationToken);
 
-    Task<IdentityOperationResult> PasswordSignInAsync(string email, string password, bool isPersistent, CancellationToken cancellationToken);
+        Task<IdentityOperationResult> PasswordSignInAsync(string email, string password, bool isPersistent, CancellationToken cancellationToken);
 
-    Task SignOutAsync();
+        Task SignOutAsync();
 
-    Task<CurrentMemberSummary?> GetCurrentMemberAsync(CancellationToken cancellationToken);
+        Task<CurrentMemberSummary?> GetCurrentMemberAsync(CancellationToken cancellationToken);
+    }
 }

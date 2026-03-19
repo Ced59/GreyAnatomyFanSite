@@ -9,48 +9,49 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GreyAnatomyFanSite.Infrastructure;
-
-public static class DependencyInjection
+namespace GreyAnatomyFanSite.Infrastructure
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static class DependencyInjection
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("La chaîne de connexion 'DefaultConnection' est introuvable.");
-
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-        services.AddDbContext<ApplicationDbContext>(options =>
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            options.UseNpgsql(connectionString);
-        });
+            string connectionString = configuration.GetConnectionString("DefaultConnection")
+                                      ?? throw new InvalidOperationException("La chaîne de connexion 'DefaultConnection' est introuvable.");
 
-        services
-            .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 8;
+                options.UseNpgsql(connectionString);
+            });
 
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            services
+                .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequiredLength = 8;
 
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.LoginPath = "/Membres/Login";
-            options.LogoutPath = "/Membres/LogOut";
-            options.AccessDeniedPath = "/Membres/Login";
-        });
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-        services.AddScoped<ICurrentUser, CurrentUser>();
-        services.AddScoped<IIdentityService, IdentityService>();
-        services.AddScoped<ApplicationDbInitializer>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Membres/Login";
+                options.LogoutPath = "/Membres/LogOut";
+                options.AccessDeniedPath = "/Membres/Login";
+            });
 
-        return services;
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<ICurrentUser, CurrentUser>();
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<ApplicationDbInitializer>();
+
+            return services;
+        }
     }
 }

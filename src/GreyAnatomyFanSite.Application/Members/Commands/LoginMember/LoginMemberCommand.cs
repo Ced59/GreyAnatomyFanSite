@@ -2,30 +2,31 @@ using GreyAnatomyFanSite.Application.Common.Interfaces;
 using GreyAnatomyFanSite.Application.Common.Models;
 using MediatR;
 
-namespace GreyAnatomyFanSite.Application.Members.Commands.LoginMember;
-
-public sealed record LoginMemberCommand(string Email, string Password) : IRequest<IdentityOperationResult>;
-
-public sealed class LoginMemberCommandHandler : IRequestHandler<LoginMemberCommand, IdentityOperationResult>
+namespace GreyAnatomyFanSite.Application.Members.Commands.LoginMember
 {
-    private readonly IIdentityService identityService;
+    public sealed record LoginMemberCommand(string Email, string Password) : IRequest<IdentityOperationResult>;
 
-    public LoginMemberCommandHandler(IIdentityService identityService)
+    public sealed class LoginMemberCommandHandler : IRequestHandler<LoginMemberCommand, IdentityOperationResult>
     {
-        this.identityService = identityService;
-    }
+        private readonly IIdentityService identityService;
 
-    public async Task<IdentityOperationResult> Handle(LoginMemberCommand request, CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+        public LoginMemberCommandHandler(IIdentityService identityService)
         {
-            return IdentityOperationResult.Failure("Veuillez renseigner votre email et votre mot de passe.");
+            this.identityService = identityService;
         }
 
-        return await identityService.PasswordSignInAsync(
-            request.Email.Trim(),
-            request.Password,
-            false,
-            cancellationToken);
+        public async Task<IdentityOperationResult> Handle(LoginMemberCommand request, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+            {
+                return IdentityOperationResult.Failure("Veuillez renseigner votre email et votre mot de passe.");
+            }
+
+            return await identityService.PasswordSignInAsync(
+                request.Email.Trim(),
+                request.Password,
+                false,
+                cancellationToken);
+        }
     }
 }

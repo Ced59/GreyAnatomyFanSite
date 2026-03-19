@@ -8,144 +8,145 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreyAnatomyFanSite.Web.Controllers;
-
-public sealed class MembresController : AppControllerBase
+namespace GreyAnatomyFanSite.Web.Controllers
 {
-    private readonly IIdentityService identityService;
-    private readonly ISender sender;
-
-    public MembresController(
-        IIdentityService identityService,
-        ISender sender)
-        : base(identityService)
+    public sealed class MembresController : AppControllerBase
     {
-        this.identityService = identityService;
-        this.sender = sender;
-    }
+        private readonly IIdentityService identityService;
+        private readonly ISender sender;
 
-    [HttpGet]
-    public async Task<IActionResult> Register(CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        RegisterPageViewModel viewModel = new RegisterPageViewModel();
-        return View("Register", viewModel);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegisterPost(
-        string pseudo,
-        string mail,
-        string password,
-        string cPassword,
-        CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        IdentityOperationResult result = await sender.Send(
-            new RegisterMemberCommand(pseudo, mail, password, cPassword),
-            cancellationToken);
-
-        if (!result.Succeeded)
+        public MembresController(
+            IIdentityService identityService,
+            ISender sender)
+            : base(identityService)
         {
-            RegisterPageViewModel errorViewModel = new RegisterPageViewModel
-            {
-                Pseudo = pseudo,
-                Mail = mail,
-                Errors = result.Errors
-            };
-
-            return View("Register", errorViewModel);
+            this.identityService = identityService;
+            this.sender = sender;
         }
 
-        return RedirectToAction("Index", "Home");
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Login(string? typePubli = null, int? idPubli = null, CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        LoginPageViewModel viewModel = new LoginPageViewModel
+        [HttpGet]
+        public async Task<IActionResult> Register(CancellationToken cancellationToken = default)
         {
-            TypePubli = typePubli,
-            IdPubli = idPubli
-        };
+            await PopulateLayoutAsync(cancellationToken);
 
-        return View("Login", viewModel);
-    }
+            RegisterPageViewModel viewModel = new RegisterPageViewModel();
+            return View("Register", viewModel);
+        }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> LoginPost(
-        string mail,
-        string password,
-        string? typePubli = null,
-        int? idPubli = null,
-        CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        IdentityOperationResult result = await sender.Send(
-            new LoginMemberCommand(mail, password),
-            cancellationToken);
-
-        if (!result.Succeeded)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterPost(
+            string pseudo,
+            string mail,
+            string password,
+            string cPassword,
+            CancellationToken cancellationToken = default)
         {
-            LoginPageViewModel errorViewModel = new LoginPageViewModel
+            await PopulateLayoutAsync(cancellationToken);
+
+            IdentityOperationResult result = await sender.Send(
+                new RegisterMemberCommand(pseudo, mail, password, cPassword),
+                cancellationToken);
+
+            if (!result.Succeeded)
             {
-                Mail = mail,
-                Errors = result.Errors,
+                RegisterPageViewModel errorViewModel = new RegisterPageViewModel
+                {
+                    Pseudo = pseudo,
+                    Mail = mail,
+                    Errors = result.Errors
+                };
+
+                return View("Register", errorViewModel);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login(string? typePubli = null, int? idPubli = null, CancellationToken cancellationToken = default)
+        {
+            await PopulateLayoutAsync(cancellationToken);
+
+            LoginPageViewModel viewModel = new LoginPageViewModel
+            {
                 TypePubli = typePubli,
                 IdPubli = idPubli
             };
 
-            return View("Login", errorViewModel);
+            return View("Login", viewModel);
         }
 
-        if (string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase) && idPubli.HasValue)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginPost(
+            string mail,
+            string password,
+            string? typePubli = null,
+            int? idPubli = null,
+            CancellationToken cancellationToken = default)
         {
-            return RedirectToAction("ViewArticle", "Home", new { id = idPubli.Value });
+            await PopulateLayoutAsync(cancellationToken);
+
+            IdentityOperationResult result = await sender.Send(
+                new LoginMemberCommand(mail, password),
+                cancellationToken);
+
+            if (!result.Succeeded)
+            {
+                LoginPageViewModel errorViewModel = new LoginPageViewModel
+                {
+                    Mail = mail,
+                    Errors = result.Errors,
+                    TypePubli = typePubli,
+                    IdPubli = idPubli
+                };
+
+                return View("Login", errorViewModel);
+            }
+
+            if (string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase) && idPubli.HasValue)
+            {
+                return RedirectToAction("ViewArticle", "Home", new { id = idPubli.Value });
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
-        return RedirectToAction("Index", "Home");
-    }
-
-    [Authorize]
-    public async Task<IActionResult> LogOut(CancellationToken cancellationToken = default)
-    {
-        await identityService.SignOutAsync();
-        await PopulateLayoutAsync(cancellationToken);
-
-        return RedirectToAction("Index", "Home");
-    }
-
-    [Authorize]
-    public async Task<IActionResult> Show(string pseudo, CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        FeatureNotReadyViewModel viewModel = new FeatureNotReadyViewModel
+        [Authorize]
+        public async Task<IActionResult> LogOut(CancellationToken cancellationToken = default)
         {
-            Title = $"Profil de {pseudo}",
-            Message = "La page de profil membre sera migrée dans un lot dédié à la gestion du compte et des avatars."
-        };
+            await identityService.SignOutAsync();
+            await PopulateLayoutAsync(cancellationToken);
 
-        return View("~/Views/Shared/FeatureNotYetMigrated.cshtml", viewModel);
-    }
+            return RedirectToAction("Index", "Home");
+        }
 
-    public async Task<IActionResult> ChangePassword(CancellationToken cancellationToken = default)
-    {
-        await PopulateLayoutAsync(cancellationToken);
-
-        FeatureNotReadyViewModel viewModel = new FeatureNotReadyViewModel
+        [Authorize]
+        public async Task<IActionResult> Show(string pseudo, CancellationToken cancellationToken = default)
         {
-            Title = "Mot de passe oublié",
-            Message = "Le parcours de réinitialisation du mot de passe sera raccordé à Identity dans un prochain lot."
-        };
+            await PopulateLayoutAsync(cancellationToken);
 
-        return View("~/Views/Shared/FeatureNotYetMigrated.cshtml", viewModel);
+            FeatureNotReadyViewModel viewModel = new FeatureNotReadyViewModel
+            {
+                Title = $"Profil de {pseudo}",
+                Message = "La page de profil membre sera migrée dans un lot dédié à la gestion du compte et des avatars."
+            };
+
+            return View("~/Views/Shared/FeatureNotYetMigrated.cshtml", viewModel);
+        }
+
+        public async Task<IActionResult> ChangePassword(CancellationToken cancellationToken = default)
+        {
+            await PopulateLayoutAsync(cancellationToken);
+
+            FeatureNotReadyViewModel viewModel = new FeatureNotReadyViewModel
+            {
+                Title = "Mot de passe oublié",
+                Message = "Le parcours de réinitialisation du mot de passe sera raccordé à Identity dans un prochain lot."
+            };
+
+            return View("~/Views/Shared/FeatureNotYetMigrated.cshtml", viewModel);
+        }
     }
 }

@@ -1,17 +1,18 @@
 using System.Net;
 
-namespace GreyAnatomyFanSite.Web.Infrastructure;
-
-public static class TextFormatting
+namespace GreyAnatomyFanSite.Web.Infrastructure
 {
-    public static string ToSafeHtml(string? text)
+    public static class TextFormatting
     {
-        if (string.IsNullOrWhiteSpace(text))
+        public static string ToSafeHtml(string? text)
         {
-            return string.Empty;
-        }
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return string.Empty;
+            }
 
-        string encoded = WebUtility.HtmlEncode(text);
-        return encoded.Replace(Environment.NewLine, "<br/>");
+            string encoded = WebUtility.HtmlEncode(text);
+            return encoded.Replace(Environment.NewLine, "<br/>");
+        }
     }
 }

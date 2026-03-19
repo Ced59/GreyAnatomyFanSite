@@ -1,12 +1,13 @@
 using Xunit;
 
-namespace GreyAnatomyFanSite.Tests.Integration;
-
-public sealed class ApplicationSmokeTests
+namespace GreyAnatomyFanSite.Tests.Integration
 {
-    [Fact(Skip = "À activer une fois le SDK .NET et PostgreSQL disponibles localement.")]
-    public void Placeholder()
+    public sealed class ApplicationSmokeTests
     {
-        Assert.True(true);
+        [Fact(Skip = "À activer une fois le SDK .NET et PostgreSQL disponibles localement.")]
+        public void Placeholder()
+        {
+            Assert.True(true);
+        }
     }
 }

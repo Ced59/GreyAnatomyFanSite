@@ -1,25 +1,26 @@
-namespace GreyAnatomyFanSite.Application.Common.Models;
-
-public sealed class IdentityOperationResult
+namespace GreyAnatomyFanSite.Application.Common.Models
 {
-    public static IdentityOperationResult Success()
+    public sealed class IdentityOperationResult
     {
-        return new IdentityOperationResult
+        public static IdentityOperationResult Success()
         {
-            Succeeded = true
-        };
-    }
+            return new IdentityOperationResult
+            {
+                Succeeded = true
+            };
+        }
 
-    public static IdentityOperationResult Failure(params string[] errors)
-    {
-        return new IdentityOperationResult
+        public static IdentityOperationResult Failure(params string[] errors)
         {
-            Succeeded = false,
-            Errors = errors
-        };
+            return new IdentityOperationResult
+            {
+                Succeeded = false,
+                Errors = errors
+            };
+        }
+
+        public bool Succeeded { get; init; }
+
+        public IReadOnlyCollection<string> Errors { get; init; } = Array.Empty<string>();
     }
-
-    public bool Succeeded { get; init; }
-
-    public IReadOnlyCollection<string> Errors { get; init; } = Array.Empty<string>();
 }

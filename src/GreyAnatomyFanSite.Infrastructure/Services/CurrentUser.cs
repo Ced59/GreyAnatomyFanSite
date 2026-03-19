@@ -2,59 +2,60 @@ using System.Security.Claims;
 using GreyAnatomyFanSite.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace GreyAnatomyFanSite.Infrastructure.Services;
-
-public sealed class CurrentUser : ICurrentUser
+namespace GreyAnatomyFanSite.Infrastructure.Services
 {
-    private readonly IHttpContextAccessor httpContextAccessor;
-
-    public CurrentUser(IHttpContextAccessor httpContextAccessor)
+    public sealed class CurrentUser : ICurrentUser
     {
-        this.httpContextAccessor = httpContextAccessor;
-    }
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-    public Guid? UserId
-    {
-        get
+        public CurrentUser(IHttpContextAccessor httpContextAccessor)
         {
-            ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
-            string? value = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (Guid.TryParse(value, out Guid userId))
-            {
-                return userId;
-            }
-
-            return null;
+            this.httpContextAccessor = httpContextAccessor;
         }
-    }
 
-    public bool IsAuthenticated
-    {
-        get
+        public Guid? UserId
         {
-            ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
-            return principal?.Identity?.IsAuthenticated == true;
-        }
-    }
-
-    public IReadOnlyCollection<string> Roles
-    {
-        get
-        {
-            ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
-
-            if (principal is null)
+            get
             {
-                return Array.Empty<string>();
+                ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
+                string? value = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (Guid.TryParse(value, out Guid userId))
+                {
+                    return userId;
+                }
+
+                return null;
             }
+        }
 
-            List<string> roles = principal.Claims
-                .Where(claim => claim.Type == ClaimTypes.Role)
-                .Select(claim => claim.Value)
-                .ToList();
+        public bool IsAuthenticated
+        {
+            get
+            {
+                ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
+                return principal?.Identity?.IsAuthenticated == true;
+            }
+        }
 
-            return roles;
+        public IReadOnlyCollection<string> Roles
+        {
+            get
+            {
+                ClaimsPrincipal? principal = httpContextAccessor.HttpContext?.User;
+
+                if (principal is null)
+                {
+                    return Array.Empty<string>();
+                }
+
+                List<string> roles = principal.Claims
+                    .Where(claim => claim.Type == ClaimTypes.Role)
+                    .Select(claim => claim.Value)
+                    .ToList();
+
+                return roles;
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
-namespace GreyAnatomyFanSite.Web.ViewModels.Membres;
-
-public sealed class RegisterPageViewModel
+namespace GreyAnatomyFanSite.Web.ViewModels.Membres
 {
-    public string? Pseudo { get; init; }
+    public sealed class RegisterPageViewModel
+    {
+        public string? Pseudo { get; init; }
 
-    public string? Mail { get; init; }
+        public string? Mail { get; init; }
 
-    public IReadOnlyCollection<string> Errors { get; init; } = Array.Empty<string>();
+        public IReadOnlyCollection<string> Errors { get; init; } = Array.Empty<string>();
+    }
 }
