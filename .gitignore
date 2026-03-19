@@ -7,4 +7,3 @@ obj/
 TestResults/
 .coverage
 coverage/
-*.props

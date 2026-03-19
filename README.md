@@ -100,16 +100,14 @@ dotnet run --project src/GreyAnatomyFanSite.Web
 
 ## Important sur la base
 
-Dans ce starter, l'initialisation passe par `Database.EnsureCreatedAsync()` pour faciliter le tout premier démarrage sans générer de migration ici.
+L'initialisation passe désormais par `Database.MigrateAsync()` afin de rester compatible avec les migrations EF Core dès le début du projet.
 
-Pour une suite propre, je te conseille rapidement de passer ensuite à :
+Les commandes usuelles sont :
 
 ```bash
-dotnet ef migrations add InitialCreate --project src/GreyAnatomyFanSite.Infrastructure --startup-project src/GreyAnatomyFanSite.Web
+dotnet ef migrations add NomDeLaMigration --project src/GreyAnatomyFanSite.Infrastructure --startup-project src/GreyAnatomyFanSite.Web
 dotnet ef database update --project src/GreyAnatomyFanSite.Infrastructure --startup-project src/GreyAnatomyFanSite.Web
 ```
-
-Puis de remplacer `EnsureCreatedAsync()` par `MigrateAsync()`.
 
 ## Pourquoi MediatR est là
 
@@ -127,7 +125,9 @@ Tu voulais l'ajouter dans un but éducatif. Le starter montre déjà :
 ## Suite logique que je recommande
 
 ### Lot 2
-- migration complète du module **membres**
+- finaliser les écrans membres encore morts/incomplets du legacy
+- migrer l'administration des membres
+- continuer sur les modules série / personnages / acteurs
 - profil
 - avatar
 - changement de mot de passe

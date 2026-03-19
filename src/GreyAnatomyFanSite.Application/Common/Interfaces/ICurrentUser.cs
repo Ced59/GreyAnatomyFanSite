@@ -1,11 +1,10 @@
-namespace GreyAnatomyFanSite.Application.Common.Interfaces
+namespace GreyAnatomyFanSite.Application.Common.Interfaces;
+
+public interface ICurrentUser
 {
-    public interface ICurrentUser
-    {
-        Guid? UserId { get; }
+    Guid? UserId { get; }
 
-        bool IsAuthenticated { get; }
+    bool IsAuthenticated { get; }
 
-        IReadOnlyCollection<string> Roles { get; }
-    }
+    IReadOnlyCollection<string> Roles { get; }
 }

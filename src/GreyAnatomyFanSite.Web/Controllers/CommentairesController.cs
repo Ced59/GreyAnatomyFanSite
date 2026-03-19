@@ -5,45 +5,44 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreyAnatomyFanSite.Web.Controllers
+namespace GreyAnatomyFanSite.Web.Controllers;
+
+public sealed class CommentairesController : AppControllerBase
 {
-    public sealed class CommentairesController : AppControllerBase
+    private readonly ISender sender;
+
+    public CommentairesController(
+        IIdentityService identityService,
+        ISender sender)
+        : base(identityService)
     {
-        private readonly ISender sender;
+        this.sender = sender;
+    }
 
-        public CommentairesController(
-            IIdentityService identityService,
-            ISender sender)
-            : base(identityService)
+    [Authorize]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddComment(
+        string titre,
+        string text,
+        string typePubli,
+        int idPubli,
+        CancellationToken cancellationToken = default)
+    {
+        if (!string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase))
         {
-            this.sender = sender;
+            return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(
-            string titre,
-            string text,
-            string typePubli,
-            int idPubli,
-            CancellationToken cancellationToken = default)
+        IdentityOperationResult result = await sender.Send(
+            new AddArticleCommentCommand(idPubli, titre, text),
+            cancellationToken);
+
+        if (!result.Succeeded)
         {
-            if (!string.Equals(typePubli, "article", StringComparison.OrdinalIgnoreCase))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            IdentityOperationResult result = await sender.Send(
-                new AddArticleCommentCommand(idPubli, titre, text),
-                cancellationToken);
-
-            if (!result.Succeeded)
-            {
-                TempData["CommentErrors"] = string.Join("||", result.Errors);
-            }
-
-            return RedirectToAction("ViewArticle", "Home", new { id = idPubli });
+            TempData["CommentErrors"] = string.Join("||", result.Errors);
         }
+
+        return RedirectToAction("ViewArticle", "Home", new { id = idPubli });
     }
 }

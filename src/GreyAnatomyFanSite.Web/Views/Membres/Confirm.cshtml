@@ -1,0 +1,36 @@
+@model GreyAnatomyFanSite.Web.ViewModels.Membres.ConfirmMemberViewModel
+
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<div class="row">
+    <div class="col-lg-3"></div>
+
+    @if (!Model.Succeeded)
+    {
+        <div class="col-lg-6">
+            <div class="alert-danger">
+                <h2 class="MailSend">@Model.Message</h2>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-6">
+            <div class="alert-success">
+                <h2 class="MailSend">@Model.Message</h2>
+                <p class="MailSend">Tu peux maintenant t'identifier et ainsi vivre ta passion de Grey's Anatomy parmi notre communauté.</p>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-5"></div>
+    <div class="col-lg-3">
+        <div class="GoToLogin">
+            <a asp-controller="Membres" asp-action="Login"><img class="GoToLogin" src="~/images/Tools/login-logo.png" asp-append-version="true"></a>
+        </div>
+    </div>
+</div>

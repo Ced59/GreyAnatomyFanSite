@@ -1,9 +1,8 @@
-namespace GreyAnatomyFanSite.Domain.Common
-{
-    public abstract class BaseAuditableEntity
-    {
-        public DateTime CreatedAtUtc { get; set; }
+namespace GreyAnatomyFanSite.Domain.Common;
 
-        public DateTime? LastModifiedAtUtc { get; set; }
-    }
+public abstract class BaseAuditableEntity
+{
+    public DateTime CreatedAtUtc { get; set; }
+
+    public DateTime? LastModifiedAtUtc { get; set; }
 }

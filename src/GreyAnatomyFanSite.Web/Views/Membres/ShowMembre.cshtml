@@ -1,0 +1,74 @@
+@model GreyAnatomyFanSite.Web.ViewModels.Membres.ShowMemberViewModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = Model.Pseudo;
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+{
+    <div class="row">
+        <div class="col-lg-12 alert alert-success">
+            <div class="row">
+                <div class="col-lg-12">@Model.SuccessMessage</div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-offset-5 col-md-2 col-xs-offset-1 col-xs-10">
+        <div class="row">
+            <img class="AvatarDescription img-circle img-thumbnail" src="~/@Model.AvatarPath" asp-append-version="true" />
+        </div>
+    </div>
+</div>
+
+@if (Model.IsCurrentMember)
+{
+    <div class="row">
+        <div class="col-xs-offset-4 col-xs-4">
+            <div class="LiensModif">
+                <a asp-controller="Membres" asp-action="ModifAvatar">Modifier votre image de profil</a>
+            </div>
+        </div>
+        <div class="col-xs-offset-4 col-xs-4">
+            <div class="LiensModif">
+                <a asp-controller="Membres" asp-action="ChangePassword">Modifier votre mot de passe</a>
+            </div>
+        </div>
+    </div>
+}
+
+<section class="row">
+    <section class="col-lg-offset-1 col-lg-10">
+        <table class="table table-bordered table-striped">
+            <caption>
+                <h4>Informations</h4>
+            </caption>
+
+            <tr>
+                <th class="col-xs-4">Pseudo:</th>
+                <td class="col-xs-4">@Model.Pseudo</td>
+            </tr>
+
+            <tr>
+                <th class="col-xs-4">Statut:</th>
+                <td class="col-xs-4">@Model.Status</td>
+            </tr>
+
+            <tr>
+                <th class="col-xs-4">Date d'inscription:</th>
+                <td class="col-xs-4">@Model.RegisteredAtUtc.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+            </tr>
+
+            @if (Model.CanSeePrivateInformation && !string.IsNullOrWhiteSpace(Model.Email))
+            {
+                <tr>
+                    <th class="col-xs-4">Adresse Mail:</th>
+                    <td class="col-xs-4">@Model.Email</td>
+                </tr>
+            }
+        </table>
+    </section>
+</section>
