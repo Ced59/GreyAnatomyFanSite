@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    @{
+        string title = Convert.ToString(ViewData["Title"]) ?? "Grey's Anatomy Fans";
+        string metaKeywords = Convert.ToString(ViewData["MetaKeywords"]) ?? "Grey's Anatomy";
+        string metaDescription = Convert.ToString(ViewData["MetaDescription"]) ?? "Grey's Anatomy Fans";
+        string metaFacebookUrl = Convert.ToString(ViewData["MetaFacebookUrl"]) ?? string.Empty;
+        string metaFacebookType = Convert.ToString(ViewData["MetaFacebookType"]) ?? string.Empty;
+        string metaFacebookTitle = Convert.ToString(ViewData["MetaFacebookTitle"]) ?? string.Empty;
+        string metaFacebookDescription = Convert.ToString(ViewData["MetaFacebookDescription"]) ?? string.Empty;
+        string metaFacebookMedia = Convert.ToString(ViewData["MetaFacebookMedia"]) ?? string.Empty;
+    }
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@title</title>
+    <meta name="keywords" content="Greys, Anatomy, Série, Fans, TF1, @metaKeywords" />
+    <meta name="description" content="@(metaDescription.Length > 150 ? metaDescription.Substring(0, 150) : metaDescription)" />
+    <meta property="fb:app_id" content="374777036701707" />
+
+    @if (!string.IsNullOrWhiteSpace(metaFacebookUrl))
+    {
+        @Html.Raw(metaFacebookUrl)
+        @Html.Raw(metaFacebookType)
+        @Html.Raw(metaFacebookTitle)
+        @Html.Raw(metaFacebookDescription)
+        @Html.Raw(metaFacebookMedia)
+    }
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">Grey's Anatomy Fans</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-controller="Home" asp-action="Index">Les Actus</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Les Séries<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Serie" asp-action="Index" asp-route-idSerie="1">Grey's Anatomy</a></li>
+                                <li><a asp-controller="Serie" asp-action="Index" asp-route-idSerie="2">Private Practice</a></li>
+                                <li><a asp-controller="Serie" asp-action="Index" asp-route-idSerie="3">Station 19</a></li>
+                                <li><a asp-controller="Personnages" asp-action="Index">Les Personnages</a></li>
+                                <li><a asp-controller="Acteurs" asp-action="Index">Les Acteurs</a></li>
+                                <li><a asp-controller="Relations" asp-action="Index">Les Relations</a></li>
+                                <li><a asp-controller="Patients" asp-action="Index">Les Patients</a></li>
+                            </ul>
+                        </li>
+                        <li><a asp-controller="Surveys" asp-action="Index">Les Sondages</a></li>
+                        <li><a asp-controller="Photos" asp-action="Index">Les Photos</a></li>
+                        <li><a asp-controller="Videos" asp-action="Index">Les Vidéos</a></li>
+
+                        @if ((ViewBag.Statut == "Coeur") || (ViewBag.Statut == "Administrateur"))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-controller="Administration" asp-action="Membres">Administration Membres</a></li>
+                                    <li><a asp-controller="Administration" asp-action="Site">Administration Site</a></li>
+                                    <li><a asp-controller="Personnages" asp-action="Index">Administration Persos</a></li>
+                                    <li><a asp-controller="Administration" asp-action="Serie">Administration Série</a></li>
+                                    <li><a asp-controller="Home" asp-action="Articles">Articles</a></li>
+                                    <li><a asp-controller="Surveys" asp-action="Admin">Sondages</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (ViewBag.Logged == true)
+                        {
+                            <li><a asp-controller="Membres" asp-action="Show" asp-route-pseudo="@ViewBag.Pseudo">Bonjour @ViewBag.MessageBonjour</a></li>
+                            <li><a asp-controller="Membres" asp-action="LogOut"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Membres" asp-action="Register"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
+                            <li><a asp-controller="Membres" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row marginTopBan">
+            <div class="col-lg-12">
+                <a asp-controller="Home" asp-action="Index">
+                    <img class="img-responsive center-block borderArticle" src="~/images/SiteImg/bannieregreysanatomy.jpg" alt="Bannière" />
+                </a>
+            </div>
+        </div>
+
+        @if (ViewBag.ConsentCookies != "ok")
+        {
+            <div class="container">
+                <br />
+                <div class="alert alert-dismissable alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <p>Nous utilisons des cookies techniques afin de conserver le comportement historique du site pendant la refonte.</p>
+                    <a class="marginTop" href="~/LearnMoreCookies.html">En savoir plus</a>
+                    <p><button id="myButton" type="button" class="btn btn-primary marginTop">Fermer</button></p>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="pub_entete"></div>
+        </div>
+
+        @RenderBody()
+
+        <footer class="panel-footer col-xs-12 borderArticle text-center">
+            Nombre de visiteurs uniques = @ViewBag.NbreVisitUnique<br>
+            <div class="marginTop2">Nombre total de pages vues = @ViewBag.NbrePagesVues</div><br>
+            <a asp-controller="Update" asp-action="Index" class="marginTop2">Updates du site</a><br>
+            <a class="marginTop2" href="~/LearnMoreCookies.html">Politique sur la confidentialité et les cookies</a><br>
+            <div class="marginTop2">Ce site ne contient aucun lien de streaming ou de direct download pointant vers les épisodes de Grey's Anatomy.</div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        $('#myButton').click(function () {
+            $('.alert').alert('close');
+        });
+
+        function OpenPopup(page, nom, option) {
+            window.open(page, nom, option);
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,162 @@
+@model GreyAnatomyFanSite.Web.ViewModels.Home.HomeIndexPageViewModel
+
+@{
+    ViewData["Title"] = "Grey's Anatomy";
+}
+
+@if (Model.BirthDatesActeurs.Count != 0)
+{
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 thumbnail">
+            @foreach (GreyAnatomyFanSite.Web.ViewModels.Home.BirthdayActorViewModel birthday in Model.BirthDatesActeurs)
+            {
+                <img src="~/images/Emoticones/gateauAnniversaire.png" />
+                <span class="CentreTableau">
+                    Aujourd'hui nous fêtons les @(DateTime.Now.Year - birthday.DateNaissance.Year) ans de @birthday.ActorFirstName @birthday.ActorLastName incarnant @birthday.CharacterFirstName @birthday.CharacterLastName.
+                </span>
+                <br>
+            }
+        </div>
+    </div>
+}
+
+<div class="col-xs-offset-1 col-md-10 articles">
+    <div class="col-md-4 category">
+        <h1 class="titrearticles">Actualités:</h1>
+        <form asp-controller="Home" asp-action="Index" method="get">
+            <label for="category">Trier les articles par catégorie :</label>
+            <select name="category" class="form-control-sm">
+                @if (Model.ActiveCategory == 0)
+                {
+                    <option value="0" selected>Toutes</option>
+                }
+                else
+                {
+                    <option value="0">Toutes</option>
+                }
+
+                @foreach (GreyAnatomyFanSite.Web.ViewModels.Home.ArticleCategoryOptionViewModel category in Model.CategoryArticles)
+                {
+                    @if (Model.ActiveCategory == category.Id)
+                    {
+                        <option value="@category.Id" selected>@category.TitreCategory</option>
+                    }
+                    else
+                    {
+                        <option value="@category.Id">@category.TitreCategory</option>
+                    }
+                }
+            </select>
+            <button class="form-control-sm btn btn-default" type="submit">Trier</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        @foreach (GreyAnatomyFanSite.Web.ViewModels.Home.HomeArticleSummaryViewModel article in Model.Articles)
+        {
+            <div class="row annonce thumbnail borderArticle">
+                <div class="col-md-2">
+                    <div class="imgArticle">
+                        @if (article.TypeMedia == "video")
+                        {
+                            <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">
+                                <img src="~/images/Tools/videosImg.jpg" alt="@article.Titre" />
+                            </a>
+                        }
+                        else if (!string.IsNullOrWhiteSpace(article.Media))
+                        {
+                            <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">
+                                <img src="~/@article.Media" alt="@article.Titre" />
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-lg-12 titreArticle">
+                            <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">@article.Titre</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @if (article.Texte.Length > 400)
+                            {
+                                @Html.Raw(article.Texte.Substring(0, 400).Replace(Environment.NewLine, "<br/>"))
+                                <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">(...) Voir la suite</a>
+                            }
+                            else
+                            {
+                                @Html.Raw(article.Texte.Replace(Environment.NewLine, "<br/>"))
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-default btn-articles" asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">Detail</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 DateListeArticles">
+                            Posté le @article.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-md-12 DateListeArticles">
+                            Categorie: @article.Categorie.TitreCategory
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-md-12 DateListeArticles">
+                            @article.CommentairesCount Commentaires
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="container">
+        <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8">
+            <ul class="pagination">
+                @if (Model.PagePagination > 1)
+                {
+                    <li><a asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination - 1)" asp-route-category="@Model.ActiveCategory">&laquo;</a></li>
+                }
+
+                @if (Model.NbrePagePagination < 6)
+                {
+                    @for (int index = 1; index <= Model.NbrePagePagination; index++)
+                    {
+                        <li><a asp-controller="Home" asp-action="Index" asp-route-pagination="@index" asp-route-category="@Model.ActiveCategory">@index</a></li>
+                    }
+                }
+                else
+                {
+                    @if (Model.PagePagination < (Model.NbrePagePagination - 5))
+                    {
+                        @for (int index = Model.PagePagination; index <= (Model.PagePagination + 5); index++)
+                        {
+                            <li><a asp-controller="Home" asp-action="Index" asp-route-pagination="@index" asp-route-category="@Model.ActiveCategory">@index</a></li>
+                        }
+                    }
+                    else
+                    {
+                        @for (int index = (Model.NbrePagePagination - 5); index <= Model.NbrePagePagination; index++)
+                        {
+                            <li><a asp-controller="Home" asp-action="Index" asp-route-pagination="@index" asp-route-category="@Model.ActiveCategory">@index</a></li>
+                        }
+                    }
+                }
+
+                @if (Model.PagePagination < Model.NbrePagePagination)
+                {
+                    <li><a asp-controller="Home" asp-action="Index" asp-route-pagination="@(Model.PagePagination + 1)" asp-route-category="@Model.ActiveCategory">&raquo;</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

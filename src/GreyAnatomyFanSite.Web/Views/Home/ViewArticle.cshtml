@@ -1,0 +1,92 @@
+@model GreyAnatomyFanSite.Web.ViewModels.Home.ArticleDetailsPageViewModel
+
+@{
+    ViewData["Title"] = Model.Article.Titre;
+}
+
+<div class="row">
+    <article class="col-xs-offset-1 col-md-8 thumbnail borderArticle">
+        <div class="col-md-4">
+            <div>
+                @if (Model.Article.TypeMedia == "video" && !string.IsNullOrWhiteSpace(Model.Article.Media))
+                {
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="~/@Model.Article.Media"></iframe>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(Model.Article.Media))
+                {
+                    <img class="center-block img-responsive" src="~/@Model.Article.Media" alt="@Model.Article.Titre" />
+                }
+
+                <div class="row">
+                    <p class="col-xs-12 DateListeArticles">
+                        Posté le @Model.Article.Date.ToString("F", CultureInfo.CreateSpecificCulture("fr-FR"))
+                        <br>
+                        par <a asp-controller="Membres" asp-action="Show" asp-route-pseudo="@Model.Article.AuteurPseudo">@Model.Article.AuteurPseudo</a>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-xs-12 DateListeArticles">
+                        Categorie: @Model.Article.CategoryTitle
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h1>@Model.Article.Titre</h1>
+            <p>@Html.Raw(Model.Article.Texte)</p>
+        </div>
+    </article>
+
+    <div class="fb-page col-md-3 borderArticle">
+        <blockquote class="fb-xfbml-parse-ignore">
+            <p>Le bloc Facebook legacy peut être recâblé plus tard si tu veux le conserver tel quel.</p>
+        </blockquote>
+    </div>
+</div>
+
+<legend class="col-xs-offset-1 col-md-10 marginTop">
+    Liste des derniers articles:
+</legend>
+
+<ul class="media-list col-xs-offset-1 col-md-10">
+    @foreach (GreyAnatomyFanSite.Web.ViewModels.Home.RelatedArticleViewModel article in Model.Articles)
+    {
+        <li class="media borderArticle">
+            <div class="media-left table-bordered">
+                <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id">
+                    @if (article.TypeMedia == "video")
+                    {
+                        <img src="~/images/Tools/videosImg.jpg" class="media-object miniImgArticles" alt="@article.Titre" />
+                    }
+                    else if (!string.IsNullOrWhiteSpace(article.Media))
+                    {
+                        <img src="~/@article.Media" class="media-object miniImgArticles" alt="@article.Titre" />
+                    }
+                </a>
+            </div>
+
+            <a asp-controller="Home" asp-action="ViewArticle" asp-route-id="@article.Id" class="media-body thumbnail">
+                <h3 class="media-heading">@article.Titre</h3>
+                <p>
+                    @if (article.Texte.Length > 150)
+                    {
+                        @Html.Raw(article.Texte.Substring(0, 150).Replace(Environment.NewLine, "<br/>"))
+                    }
+                    else
+                    {
+                        @Html.Raw(article.Texte.Replace(Environment.NewLine, "<br/>"))
+                    }
+                </p>
+            </a>
+        </li>
+    }
+</ul>
+
+<div class="row">
+    <div class="col-xs-offset-1 col-md-10">
+        @await Html.PartialAsync("~/Views/Shared/_ListCommentaires.cshtml", Model)
+    </div>
+</div>

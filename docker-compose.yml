@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  greys-postgres:
+    image: postgres:17-alpine
+    container_name: greys-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: greys_anatomy_fansite
+      POSTGRES_USER: greys_user
+      POSTGRES_PASSWORD: ChangeMe_StrongPassword_2026
+    ports:
+      - "55432:5432"
+    volumes:
+      - greys-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U greys_user -d greys_anatomy_fansite"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  greys-postgres-data:

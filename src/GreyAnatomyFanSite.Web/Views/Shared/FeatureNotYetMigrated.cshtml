@@ -1,0 +1,16 @@
+@model GreyAnatomyFanSite.Web.ViewModels.Shared.FeatureNotReadyViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["MetaKeywords"] = Model.Title;
+    ViewData["MetaDescription"] = Model.Message;
+}
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 thumbnail borderArticle">
+        <h1>@Model.Title</h1>
+        <p>@Model.Message</p>
+        <p>Le socle de refonte est prêt, mais ce module n'a pas encore été migré dans ce premier lot.</p>
+        <p><a asp-controller="Home" asp-action="Index" class="btn btn-default">Retour à l'accueil</a></p>
+    </div>
+</div>
